@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/taipanwall" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:background="#88FFFFFF"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/lbAscentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ascent_name" />
+
+        <EditText
+            android:id="@+id/EditAscentName"
+            android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/optional_name_of_the_boulder_route"
+            android:ems="10"
+            android:inputType="text"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/lbLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="@string/location" />
+
+        <EditText
+            android:id="@+id/EditLocation"
+            android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/optional_location_of_the_boulder_route"
+            android:ems="10"
+            android:inputType="text"
+            android:maxLines="1" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/go_shoot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/linearLayout1"
+        android:layout_alignRight="@+id/linearLayout1"
+        android:layout_centerVertical="true"
+        android:background="#77FFFF00"
+        android:onClick="GoShoot"
+        android:text="@string/next_" />
+
+</RelativeLayout>

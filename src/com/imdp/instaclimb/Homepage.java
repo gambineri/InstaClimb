@@ -24,8 +24,10 @@ public class Homepage extends Activity {
 				public void onClick(View v) {
 					 Intent intent = new Intent(Homepage.this, CameraActivity.class);
 					 Bundle b = new Bundle();
-					 b.putString("AscentName", ((EditText)findViewById(R.id.EditAscentName)).getText().toString());
-					 b.putString("Location", ((EditText)findViewById(R.id.EditLocation)).getText().toString());
+           EditText aux = (EditText)findViewById(R.id.EditAscentName);
+					 b.putString("AscentName", (aux == null ? "" : (aux.getText() == null ? "" : aux.getText()).toString()));
+           aux = (EditText)findViewById(R.id.EditLocation);
+					 b.putString("Location", (aux == null ? "" : (aux.getText() == null ? "" : aux.getText()).toString()));
 					 intent.putExtras(b);
 					 startActivityForResult(intent, 0);
 				}

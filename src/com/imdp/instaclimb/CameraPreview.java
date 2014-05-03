@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 
 import java.io.IOException;
 
+
 /** A basic Camera preview class */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
   private SurfaceHolder m_Holder;
@@ -36,7 +37,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
       m_Camera.setPreviewDisplay(holder);
       m_Camera.startPreview();
     } catch (IOException e) {
-	    Log.d(Static.Const.DBGTAG, "Error setting camera preview: " + e.getMessage());
+	    Log.d(Helpers.Const.DBGTAG, "Error setting camera preview: " + e.getMessage());
 		}
   }
 
@@ -68,7 +69,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
       m_Camera.setPreviewDisplay(m_Holder);
       m_Camera.startPreview();
     } catch (Exception e){
-      Log.d(Static.Const.DBGTAG, "Error starting camera preview: " + e.getMessage());
+      Log.d(Helpers.Const.DBGTAG, "Error starting camera preview: " + e.getMessage());
     }
   }
 
@@ -85,7 +86,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     setMeasuredDimension(parentWidth, parentWidth);
 
-//    Static.Do.MsgBox(m_Activity, this.getWidth() + "");
+//    Helpers.Do.MsgBox(m_Activity, this.getWidth() + "");
     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
   }
 }

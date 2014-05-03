@@ -28,7 +28,6 @@ public class CameraActivity extends Activity {
 	private Camera m_Camera = null;
 	private CameraPreview m_Preview = null;
 
-  /*=======================================================================================*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,7 +38,7 @@ public class CameraActivity extends Activity {
 				this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 				try {
-          Log.v(Static.Const.DBGTAG, getCurrentCameraInfo());
+          Log.v(Helpers.Const.DBGTAG, getCurrentCameraInfo());
           Parameters pars = m_Camera.getParameters();
 
 //          pars.setPictureFormat(ImageFormat.JPEG);
@@ -48,7 +47,7 @@ public class CameraActivity extends Activity {
           m_Camera.setParameters(pars);
 				} 
 				catch(RuntimeException re) {
-					Log.e(Static.Const.DBGTAG, re.getMessage());
+					Log.e(Helpers.Const.DBGTAG, re.getMessage());
 				}
 				
 	      // Create our Preview view and set it as the content of our activity.
@@ -73,25 +72,22 @@ public class CameraActivity extends Activity {
 	    	); 
 			}
 		} else {
-			Static.Do.MsgBox(this, "No camera available :-/ don't be _SO_ lousy, buy yourself a better device...");
+			Helpers.Do.MsgBox(this, "No camera available :-/ don't be _SO_ lousy, buy yourself a better device...");
 		}
 	}
 
-  /*=======================================================================================*/
 	@Override
   protected void onPause() {
     super.onPause();
     releaseCamera();              // release the camera immediately on pause event
   }
 
-  /*=======================================================================================*/
   @Override
   protected void onResume() {
     super.onResume();
     //TBD Bisogna re-open the camera.....
   }
 
-  /*=======================================================================================*/
   private void releaseCamera(){
 		if (m_Camera != null){
     	m_Camera.stopPreview();
@@ -100,15 +96,14 @@ public class CameraActivity extends Activity {
 		}
   }
   
-  /*=======================================================================================*/
 	private PictureCallback m_Picture = new PictureCallback() {
 	  @Override
 	  public void onPictureTaken(byte[] data, Camera camera) {
 	  	
-      File pictureFile = Static.Do.getOutputMediaFile(Static.Const.MEDIA_TYPE_IMAGE, 
+      File pictureFile = Helpers.Do.getOutputMediaFile(Helpers.Const.MEDIA_TYPE_IMAGE,
       																								getResources().getString(R.string.app_name));
       if (pictureFile == null){
-				Log.d(Static.Const.DBGTAG, "Error creating media file, check storage permissions");
+				Log.d(Helpers.Const.DBGTAG, "Error creating media file, check storage permissions");
 				return;
       }
 
@@ -117,14 +112,13 @@ public class CameraActivity extends Activity {
         fos.write(data);
         fos.close();
       } catch (FileNotFoundException e) {
-        Log.d(Static.Const.DBGTAG, "File not found: " + e.getMessage());
+        Log.d(Helpers.Const.DBGTAG, "File not found: " + e.getMessage());
       } catch (IOException e) {
-        Log.d(Static.Const.DBGTAG, "Error accessing file: " + e.getMessage());
+        Log.d(Helpers.Const.DBGTAG, "Error accessing file: " + e.getMessage());
       }
      }
 	};
 
-  /*=======================================================================================*/
   private void cropImage(Uri imageCaptureUri) {
     Intent intent = new Intent("com.android.camera.action.CROP");
     intent.setClassName("com.android.camera", "com.android.camera.CropImage");
@@ -140,13 +134,11 @@ public class CameraActivity extends Activity {
     startActivityForResult(intent, 123);
   }
 
-  /*=======================================================================================*/
 	/** Check if this device has a camera */
 	private boolean checkCameraHardware(Context context) {
     return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
 	}	
 	
-  /*=======================================================================================*/
 	/** A safe way to get an instance of the Camera object. */
 	public static Camera getCameraInstance(){
     Camera c = null;
@@ -155,12 +147,11 @@ public class CameraActivity extends Activity {
     }
     catch (Exception e){
       // Camera is not available (in use or does not exist)
-    	Log.e(Static.Const.DBGTAG, "Exception in getCameraInstance - sanne scassat' tutte ccos'\n" + e.getMessage());
+    	Log.e(Helpers.Const.DBGTAG, "Exception in getCameraInstance - sanne scassat' tutte ccos'\n" + e.getMessage());
     }
     return c; // returns null if camera is unavailable
 	}
 	
-  /*=======================================================================================*/
 	/** Camera info */
 	private String getCurrentCameraInfo() {
 		String ret = "";

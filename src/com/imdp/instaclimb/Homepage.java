@@ -10,7 +10,6 @@ import android.widget.EditText;
 
 public class Homepage extends Activity {
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

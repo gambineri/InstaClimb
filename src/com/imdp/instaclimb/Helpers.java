@@ -9,7 +9,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public final class Static {
+public final class Helpers {
   
 	public final static class Const {
 		public static final String DBGTAG = "IMDP";
@@ -17,7 +17,7 @@ public final class Static {
 	}
 	
 	public final static class Do {
-		public final static void MsgBox(Activity activity, String msg) {
+		public static void MsgBox(Activity activity, String msg) {
 			// 1. Instantiate an AlertDialog.Builder with its constructor
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
@@ -34,7 +34,7 @@ public final class Static {
 		}
 	
 		/** Create a File for saving an image or video */
-		public final static File getOutputMediaFile(int type, String appname){
+		public static File getOutputMediaFile(int type, String appname){
 	    // To be safe, you should check that the SDCard is mounted
 	    // using Environment.getExternalStorageState() before doing this.
 
@@ -54,7 +54,7 @@ public final class Static {
 	    // Create a media file name
 	    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 	    File mediaFile;
-	    if (type == Static.Const.MEDIA_TYPE_IMAGE)
+	    if (type == Helpers.Const.MEDIA_TYPE_IMAGE)
 	      mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
 	    else 
 	      return null;

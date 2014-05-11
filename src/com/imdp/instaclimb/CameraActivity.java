@@ -72,7 +72,7 @@ public class CameraActivity extends Activity {
 	    	); 
 			}
 		} else {
-			Helpers.Do.MsgBox(this, "No camera available :-/ don't be _SO_ lousy, buy yourself a better device...");
+			Helpers.Do.MsgBox(this, "No camera available :-/ don't be *SO* lousy, buy yourself a better device...");
 		}
 	}
 

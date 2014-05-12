@@ -136,7 +136,11 @@ public class CameraActivity extends Activity {
 
 	/** Check if this device has a camera */
 	private boolean checkCameraHardware(Context context) {
-    return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+    if (context != null) {
+      PackageManager pm = context.getPackageManager();
+      return (pm != null && pm.hasSystemFeature(PackageManager.FEATURE_CAMERA));
+    }
+    return false;
 	}	
 	
 	/** A safe way to get an instance of the Camera object. */
@@ -162,24 +166,26 @@ public class CameraActivity extends Activity {
 		Parameters pars = m_Camera.getParameters();
 		
 		ret += "Supported Picture Sizes:\n";
-		sizes = pars.getSupportedPictureSizes();
-		li = sizes.listIterator();
-		while (li.hasNext()) {
-			tmp = li.next();
-			ret += tmp.width + "x" + tmp.height + "\n";
-		}
-		
+    if ((sizes = pars.getSupportedPictureSizes()) != null) {
+      li = sizes.listIterator();
+      while (li.hasNext()) {
+        tmp = li.next();
+        ret += tmp.width + "x" + tmp.height + "\n";
+      }
+    }
+
 		ret += "\nSupported Preview Sizes:\n";
-		sizes = pars.getSupportedPreviewSizes();
-		li = sizes.listIterator();
-		while (li.hasNext()) {
-			tmp = li.next();
-			ret += tmp.width + "x" + tmp.height + "\n";
-		}
-		
+    if ((sizes = pars.getSupportedPreviewSizes()) != null) {
+      li = sizes.listIterator();
+      while (li.hasNext()) {
+        tmp = li.next();
+        ret += tmp.width + "x" + tmp.height + "\n";
+      }
+    }
+
 		ret += "\nCurrent Picture Format and Size:\n";
-		ret += "Format: " + m_Camera.getParameters().getPictureFormat() + "; Size: " + 
-					 m_Camera.getParameters().getPictureSize().width + "x" + m_Camera.getParameters().getPictureSize().height + "\n";
+    ret += "Format: " + m_Camera.getParameters().getPictureFormat() + "; Size: " +
+      m_Camera.getParameters().getPictureSize().width + "x" + m_Camera.getParameters().getPictureSize().height + "\n";
 		
 		ret += "\nCurrent Preview Format and Size:\n";
 		ret += "Format: " + m_Camera.getParameters().getPreviewFormat() + "; Size: " + 

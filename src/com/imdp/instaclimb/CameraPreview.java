@@ -30,9 +30,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
       m_Holder.addCallback(this);
       // deprecated setting, but required on Android versions prior to 3.0
       m_Holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-    } else {
-      throw new AssertionError();
-    }
+    } else throw new AssertionError("m_Holder is null in CameraPreview(Context context, Camera camera)");
   }
 
   public void surfaceCreated(SurfaceHolder holder) {

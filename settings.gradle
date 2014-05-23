@@ -1,0 +1,5 @@
+rootProject.name = 'instaclimb'
+
+include ':cropimage'
+project(':cropimage').projectDir = new File( rootDir, '../cropimage/cropimage' )
+

@@ -36,50 +36,51 @@ public class CameraActivity extends Activity {
 		super.onCreate(savedInstanceState);
     setContentView(R.layout.camera_activity);
 
-		if (checkCameraHardware(this)) {
-			if ((m_Camera = getCameraInstance()) != null) {
-				this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		if (!checkCameraHardware(this)) {
+      Helpers.Do.MsgBox(this, "No camera available -00- Don't be SO lousy, buy yourself a better device...");
+      return;
+    }
 
-				try {
-          Log.v(Helpers.Const.DBGTAG, getCurrentCameraInfo());
-          Parameters pars = m_Camera.getParameters();
+    if ((m_Camera = getCameraInstance()) != null) {
+      this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-          pars.setPictureFormat(ImageFormat.JPEG);
-          pars.setPictureSize(960, 720);
-//          pars.setRotation(90);
-          m_Camera.setParameters(pars);
-				} 
-				catch(RuntimeException re) {
-					Log.e(Helpers.Const.DBGTAG, re.getMessage());
-				}
+      try {
+        Log.v(Helpers.Const.DBGTAG, getCurrentCameraInfo());
+        Parameters pars = m_Camera.getParameters();
 
-        //Create image wrapper obj for this session
-        m_SessionImg = new SessionImage(getResources().getString(R.string.app_name));
+        pars.setPictureFormat(ImageFormat.JPEG);
+        pars.setPictureSize(960, 720);
+//        pars.setRotation(90);
+        m_Camera.setParameters(pars);
+      }
+      catch(RuntimeException re) {
+        Log.e(Helpers.Const.DBGTAG, re.getMessage());
+      }
 
-	      // Create our Preview view and set it as the content of our activity.
-	      m_Preview = new CameraPreview(this, m_Camera);
-	      FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-	      preview.addView(m_Preview);
+      //Create image wrapper obj for this session
+      m_SessionImg = new SessionImage(getResources().getString(R.string.app_name));
 
-        LinearLayout ll = (LinearLayout)findViewById(R.id.top_frame);
-        preview.removeView(ll);
-        preview.addView(ll);
+      // Create our Preview view and set it as the content of our activity.
+      m_Preview = new CameraPreview(this, m_Camera);
+      FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+      preview.addView(m_Preview);
 
-        //Add a listener to the Capture button
-	    	Button captureButton = (Button) findViewById(R.id.button_capture);
-	    	captureButton.setOnClickListener(
-	    	  new View.OnClickListener() {
-	          @Override
-	          public void onClick(View v) {
-	            // get an image from the camera
-	            m_Camera.takePicture(null, null, m_Picture);
-	          }
-	    	  }
-	    	); 
-			}
-		} else {
-			Helpers.Do.MsgBox(this, "No camera available :-/ don't be *SO* lousy, buy yourself a better device...");
-		}
+      LinearLayout ll = (LinearLayout)findViewById(R.id.top_frame);
+      preview.removeView(ll);
+      preview.addView(ll);
+
+      //Add a listener to the Capture button
+      Button captureButton = (Button) findViewById(R.id.button_capture);
+      captureButton.setOnClickListener(
+        new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            // get an image from the camera
+            m_Camera.takePicture(null, null, m_Picture);
+          }
+        }
+      );
+    }
 	}
 
 	@Override
@@ -90,8 +91,8 @@ public class CameraActivity extends Activity {
 
   @Override
   protected void onResume() {
+    //TODO Bisogna re-open the camera.....
     super.onResume();
-    //TBD Bisogna re-open the camera.....
   }
 
   private void releaseCamera(){
@@ -105,24 +106,17 @@ public class CameraActivity extends Activity {
 	private PictureCallback m_Picture = new PictureCallback() {
 	  @Override
 	  public void onPictureTaken(byte[] data, Camera camera) {
-/*
-      File pictureFile = Helpers.Do.getOutputMediaFile(Helpers.Const.MEDIA_TYPE_IMAGE, getResources().getString(R.string.app_name));
-      if (pictureFile == null){
-				Log.d(Helpers.Const.DBGTAG, "Error creating media file, check storage permissions");
-				return;
-      }
-*/
+
       try {
         FileOutputStream fos = new FileOutputStream(m_SessionImg.getImageFile());
         fos.write(data);
         fos.close();
+        cropImage();
       } catch (FileNotFoundException e) {
         Log.d(Helpers.Const.DBGTAG, "File not found: " + e.getMessage());
       } catch (IOException e) {
         Log.d(Helpers.Const.DBGTAG, "Error accessing file: " + e.getMessage());
       }
-
-      cropImage();
      }
 	};
 
@@ -149,11 +143,14 @@ public class CameraActivity extends Activity {
     intent.putExtra(CropImage.IMAGE_PATH, m_SessionImg.getImageFilePathName());
 
     // allow CropImage activity to rescale image
-    intent.putExtra(CropImage.SCALE, true);
+    intent.putExtra(CropImage.SCALE, false);
 
     // if the aspect ratio is fixed to ratio 3/2
-    intent.putExtra(CropImage.ASPECT_X, 3);
-    intent.putExtra(CropImage.ASPECT_Y, 2);
+    intent.putExtra(CropImage.ASPECT_X, 1);
+    intent.putExtra(CropImage.ASPECT_Y, 1);
+
+//    intent.putExtra(CropImage.OUTPUT_X, 300);
+//    intent.putExtra(CropImage.OUTPUT_Y, 300);
 
     // start activity CropImage with certain request code and listen for result
     startActivityForResult(intent, Helpers.Const.CROP_IMAGE_REQUEST_CODE);

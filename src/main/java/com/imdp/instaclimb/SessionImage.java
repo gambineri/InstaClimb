@@ -17,7 +17,7 @@ public class SessionImage {
   private File m_MediaStorageDir = null;
 
   public SessionImage(String appname) {
-    // To be safe, you should check that the SDCard is mounted
+    //TODO: To be safe, you should check that the SDCard is mounted
     // using Environment.getExternalStorageState() before doing this.
 
     m_MediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), appname);

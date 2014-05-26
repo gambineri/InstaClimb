@@ -13,8 +13,9 @@ public final class Helpers {
   
 	public final static class Const {
 		public static final String DBGTAG = "IMDP";
-		public static final int MEDIA_TYPE_IMAGE = 1;		
-	}
+		public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int CROP_IMAGE_REQUEST_CODE = 321;
+  }
 	
 	public final static class Do {
 		public static void MsgBox(Activity activity, String msg) {
@@ -46,7 +47,7 @@ public final class Helpers {
 	    // Create the storage directory if it does not exist
 	    if (! mediaStorageDir.exists()){
 	      if (! mediaStorageDir.mkdirs()){
-	        Log.d("MyCameraApp", "failed to create directory");
+	        Log.d(appname, "failed to create directory");
 	        return null;
 	      }
 	    }

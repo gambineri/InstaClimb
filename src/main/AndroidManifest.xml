@@ -5,7 +5,7 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="18" />
+    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="17" />
     
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -33,7 +33,11 @@
             android:label="@string/app_name" > 
 <!--           android:screenOrientation="landscape" > -->
         </activity>
-        
+
+      <activity
+          android:name="eu.janmuller.android.simplecropimage.CropImage"
+          android:theme="@style/CropImageTheme" />
+
     </application>
 
 </manifest>

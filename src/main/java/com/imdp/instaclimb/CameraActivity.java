@@ -5,28 +5,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import eu.janmuller.android.simplecropimage.CropImage;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.ListIterator;
 
+//cropimage lib
+
 public class CameraActivity extends Activity {
 
 	private Camera m_Camera = null;
 	private CameraPreview m_Preview = null;
+  private SessionImage m_SessionImg = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +44,18 @@ public class CameraActivity extends Activity {
           Log.v(Helpers.Const.DBGTAG, getCurrentCameraInfo());
           Parameters pars = m_Camera.getParameters();
 
-//          pars.setPictureFormat(ImageFormat.JPEG);
+          pars.setPictureFormat(ImageFormat.JPEG);
           pars.setPictureSize(960, 720);
-          pars.setRotation(90);
+//          pars.setRotation(90);
           m_Camera.setParameters(pars);
 				} 
 				catch(RuntimeException re) {
 					Log.e(Helpers.Const.DBGTAG, re.getMessage());
 				}
-				
+
+        //Create image wrapper obj for this session
+        m_SessionImg = new SessionImage(getResources().getString(R.string.app_name));
+
 	      // Create our Preview view and set it as the content of our activity.
 	      m_Preview = new CameraPreview(this, m_Camera);
 	      FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
@@ -99,16 +105,15 @@ public class CameraActivity extends Activity {
 	private PictureCallback m_Picture = new PictureCallback() {
 	  @Override
 	  public void onPictureTaken(byte[] data, Camera camera) {
-	  	
-      File pictureFile = Helpers.Do.getOutputMediaFile(Helpers.Const.MEDIA_TYPE_IMAGE,
-      																								getResources().getString(R.string.app_name));
+/*
+      File pictureFile = Helpers.Do.getOutputMediaFile(Helpers.Const.MEDIA_TYPE_IMAGE, getResources().getString(R.string.app_name));
       if (pictureFile == null){
 				Log.d(Helpers.Const.DBGTAG, "Error creating media file, check storage permissions");
 				return;
       }
-
+*/
       try {
-        FileOutputStream fos = new FileOutputStream(pictureFile);
+        FileOutputStream fos = new FileOutputStream(m_SessionImg.getImageFile());
         fos.write(data);
         fos.close();
       } catch (FileNotFoundException e) {
@@ -116,10 +121,13 @@ public class CameraActivity extends Activity {
       } catch (IOException e) {
         Log.d(Helpers.Const.DBGTAG, "Error accessing file: " + e.getMessage());
       }
+
+      cropImage();
      }
 	};
 
-  private void cropImage(Uri imageCaptureUri) {
+  private void cropImage() {
+/*
     Intent intent = new Intent("com.android.camera.action.CROP");
     intent.setClassName("com.android.camera", "com.android.camera.CropImage");
 
@@ -132,6 +140,50 @@ public class CameraActivity extends Activity {
 //    intent.putExtra("return-data", true);
 //    intent.putExtra("output", Uri.parse("file:/" +  mFile.getAbsolutePath()));
     startActivityForResult(intent, 123);
+*/
+
+    // create explicit intent
+    Intent intent = new Intent(this, CropImage.class);
+
+    // tell CropImage activity to look for image to crop
+    intent.putExtra(CropImage.IMAGE_PATH, m_SessionImg.getImageFilePathName());
+
+    // allow CropImage activity to rescale image
+    intent.putExtra(CropImage.SCALE, true);
+
+    // if the aspect ratio is fixed to ratio 3/2
+    intent.putExtra(CropImage.ASPECT_X, 3);
+    intent.putExtra(CropImage.ASPECT_Y, 2);
+
+    // start activity CropImage with certain request code and listen for result
+    startActivityForResult(intent, Helpers.Const.CROP_IMAGE_REQUEST_CODE);
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+    if (resultCode != RESULT_OK) {
+      return;
+    }
+
+    switch (requestCode) {
+      case Helpers.Const.CROP_IMAGE_REQUEST_CODE:
+
+        String path = data.getStringExtra(CropImage.IMAGE_PATH);
+        // if nothing received
+        if (path == null) {
+          return;
+        }
+
+        Helpers.Do.MsgBox(this, "CropImage.IMAGE_PATH: " + CropImage.IMAGE_PATH);
+
+        // cropped bitmap
+//        Bitmap bitmap = BitmapFactory.decodeFile(mFileTemp.getPath());
+
+        break;
+    }
+    super.onActivityResult(requestCode, resultCode, data);
   }
 
 	/** Check if this device has a camera */
@@ -151,7 +203,7 @@ public class CameraActivity extends Activity {
     }
     catch (Exception e){
       // Camera is not available (in use or does not exist)
-    	Log.e(Helpers.Const.DBGTAG, "Exception in getCameraInstance - sanne scassat' tutte ccos'\n" + e.getMessage());
+    	Log.e(Helpers.Const.DBGTAG, "Exception in getCameraInstance - sanne scassate tutt'eccos'\n" + e.getMessage());
     }
     return c; // returns null if camera is unavailable
 	}

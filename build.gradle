@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'android'
 
 dependencies {
-    //    compile project(':cropimage')
+    compile project(':cropimage')
 }
 
 android {
@@ -31,7 +31,16 @@ task launchDefaultActivity(type:Exec){
     commandLine '/home/massimo/android-sdks/platform-tools/adb', 'shell', 'am', 'start', '-c', 'android.intent.category.LAUNCHER', '-n', 'com.imdp.instaclimb/.Homepage'
 }
 
+/*
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
+
+/*
 task appo {
   println rootDir
   println rootProject.projectDir
 }
+*/

@@ -27,16 +27,16 @@ import java.util.ListIterator;
 
 public class CameraActivity extends Activity {
 
-	private Camera m_Camera = null;
-	private CameraPreview m_Preview = null;
+  private Camera m_Camera = null;
+  private CameraPreview m_Preview = null;
   private SessionImage m_SessionImg = null;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
     setContentView(R.layout.camera_activity);
 
-		if (!checkCameraHardware(this)) {
+    if (!checkCameraHardware(this)) {
       Helpers.Do.MsgBox(this, "No camera available -00- Don't be SO lousy, buy yourself a better device...");
       return;
     }
@@ -52,8 +52,7 @@ public class CameraActivity extends Activity {
         pars.setPictureSize(960, 720);
 //        pars.setRotation(90);
         m_Camera.setParameters(pars);
-      }
-      catch(RuntimeException re) {
+      } catch (RuntimeException re) {
         Log.e(Helpers.Const.DBGTAG, re.getMessage());
       }
 
@@ -65,25 +64,24 @@ public class CameraActivity extends Activity {
       FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
       preview.addView(m_Preview);
 
-      LinearLayout ll = (LinearLayout)findViewById(R.id.top_frame);
+      LinearLayout ll = (LinearLayout) findViewById(R.id.top_frame);
       preview.removeView(ll);
       preview.addView(ll);
 
       //Add a listener to the Capture button
       Button captureButton = (Button) findViewById(R.id.button_capture);
-      captureButton.setOnClickListener(
-        new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            // get an image from the camera
-            m_Camera.takePicture(null, null, m_Picture);
+      captureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              // get an image from the camera
+              m_Camera.takePicture(null, null, m_Picture);
+            }
           }
-        }
       );
     }
-	}
+  }
 
-	@Override
+  @Override
   protected void onPause() {
     super.onPause();
     releaseCamera();              // release the camera immediately on pause event
@@ -95,17 +93,17 @@ public class CameraActivity extends Activity {
     super.onResume();
   }
 
-  private void releaseCamera(){
-		if (m_Camera != null){
-    	m_Camera.stopPreview();
-	    m_Camera.release();        // release the camera for other applications
-	    m_Camera = null;
-		}
+  private void releaseCamera() {
+    if (m_Camera != null) {
+      m_Camera.stopPreview();
+      m_Camera.release();        // release the camera for other applications
+      m_Camera = null;
+    }
   }
-  
-	private PictureCallback m_Picture = new PictureCallback() {
-	  @Override
-	  public void onPictureTaken(byte[] data, Camera camera) {
+
+  private PictureCallback m_Picture = new PictureCallback() {
+    @Override
+    public void onPictureTaken(byte[] data, Camera camera) {
 
       try {
         FileOutputStream fos = new FileOutputStream(m_SessionImg.getImageFile());
@@ -117,8 +115,8 @@ public class CameraActivity extends Activity {
       } catch (IOException e) {
         Log.d(Helpers.Const.DBGTAG, "Error accessing file: " + e.getMessage());
       }
-     }
-	};
+    }
+  };
 
   private void cropImage() {
 /*
@@ -183,38 +181,43 @@ public class CameraActivity extends Activity {
     super.onActivityResult(requestCode, resultCode, data);
   }
 
-	/** Check if this device has a camera */
-	private boolean checkCameraHardware(Context context) {
+  /**
+   * Check if this device has a camera
+   */
+  private boolean checkCameraHardware(Context context) {
     if (context != null) {
       PackageManager pm = context.getPackageManager();
       return (pm != null && pm.hasSystemFeature(PackageManager.FEATURE_CAMERA));
     }
     return false;
-	}	
-	
-	/** A safe way to get an instance of the Camera object. */
-	public static Camera getCameraInstance(){
+  }
+
+  /**
+   * A safe way to get an instance of the Camera object.
+   */
+  public static Camera getCameraInstance() {
     Camera c = null;
     try {
-    	c = Camera.open(); // attempt to get a Camera instance
-    }
-    catch (Exception e){
+      c = Camera.open(); // attempt to get a Camera instance
+    } catch (Exception e) {
       // Camera is not available (in use or does not exist)
-    	Log.e(Helpers.Const.DBGTAG, "Exception in getCameraInstance - sanne scassate tutt'eccos'\n" + e.getMessage());
+      Log.e(Helpers.Const.DBGTAG, "Exception in getCameraInstance - sanne scassate tutt'eccos'\n" + e.getMessage());
     }
     return c; // returns null if camera is unavailable
-	}
-	
-	/** Camera info */
-	private String getCurrentCameraInfo() {
-		String ret = "";
-		List<Camera.Size> sizes;
-		ListIterator<Camera.Size> li;
-		Camera.Size tmp;
-		
-		Parameters pars = m_Camera.getParameters();
-		
-		ret += "Supported Picture Sizes:\n";
+  }
+
+  /**
+   * Camera info
+   */
+  private String getCurrentCameraInfo() {
+    String ret = "";
+    List<Camera.Size> sizes;
+    ListIterator<Camera.Size> li;
+    Camera.Size tmp;
+
+    Parameters pars = m_Camera.getParameters();
+
+    ret += "Supported Picture Sizes:\n";
     if ((sizes = pars.getSupportedPictureSizes()) != null) {
       li = sizes.listIterator();
       while (li.hasNext()) {
@@ -223,7 +226,7 @@ public class CameraActivity extends Activity {
       }
     }
 
-		ret += "\nSupported Preview Sizes:\n";
+    ret += "\nSupported Preview Sizes:\n";
     if ((sizes = pars.getSupportedPreviewSizes()) != null) {
       li = sizes.listIterator();
       while (li.hasNext()) {
@@ -232,15 +235,15 @@ public class CameraActivity extends Activity {
       }
     }
 
-		ret += "\nCurrent Picture Format and Size:\n";
+    ret += "\nCurrent Picture Format and Size:\n";
     ret += "Format: " + m_Camera.getParameters().getPictureFormat() + "; Size: " +
-      m_Camera.getParameters().getPictureSize().width + "x" + m_Camera.getParameters().getPictureSize().height + "\n";
-		
-		ret += "\nCurrent Preview Format and Size:\n";
-		ret += "Format: " + m_Camera.getParameters().getPreviewFormat() + "; Size: " + 
-					 m_Camera.getParameters().getPreviewSize().width + "x" + m_Camera.getParameters().getPreviewSize().height + "\n";
-		
-		return ret;
-	}
-	
+        m_Camera.getParameters().getPictureSize().width + "x" + m_Camera.getParameters().getPictureSize().height + "\n";
+
+    ret += "\nCurrent Preview Format and Size:\n";
+    ret += "Format: " + m_Camera.getParameters().getPreviewFormat() + "; Size: " +
+        m_Camera.getParameters().getPreviewSize().width + "x" + m_Camera.getParameters().getPreviewSize().height + "\n";
+
+    return ret;
+  }
+
 }

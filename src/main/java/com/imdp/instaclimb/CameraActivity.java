@@ -134,6 +134,8 @@ public class CameraActivity extends Activity {
     startActivityForResult(intent, 123);
 */
 
+//    CropImageIntentBuilder intentBuilder = new CropImageIntentBuilder()
+
     // create explicit intent
     Intent intent = new Intent(this, CropImage.class);
 

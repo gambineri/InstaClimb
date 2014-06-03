@@ -9,14 +9,16 @@ import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import eu.janmuller.android.simplecropimage.CropImage;
+import com.android.camera.CropImageIntentBuilder;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -119,61 +121,30 @@ public class CameraActivity extends Activity {
   };
 
   private void cropImage() {
-/*
-    Intent intent = new Intent("com.android.camera.action.CROP");
-    intent.setClassName("com.android.camera", "com.android.camera.CropImage");
 
-    intent.setData(imageCaptureUri);
-    intent.putExtra("outputX", 720);
-    intent.putExtra("outputY", 720);
-    intent.putExtra("aspectX", 1);
-    intent.putExtra("aspectY", 1);
-    intent.putExtra("scale", true);
-//    intent.putExtra("return-data", true);
-//    intent.putExtra("output", Uri.parse("file:/" +  mFile.getAbsolutePath()));
-    startActivityForResult(intent, 123);
-*/
+    Uri srcUri = Uri.fromFile(new File(m_SessionImg.getImageFilePathName()));
+    Uri dstUri = Uri.fromFile(new File(m_SessionImg.getImageFilePathName() + ".jpg"));
 
-//    CropImageIntentBuilder intentBuilder = new CropImageIntentBuilder()
-
-    // create explicit intent
-    Intent intent = new Intent(this, CropImage.class);
-
-    // tell CropImage activity to look for image to crop
-    intent.putExtra(CropImage.IMAGE_PATH, m_SessionImg.getImageFilePathName());
-
-    // allow CropImage activity to rescale image
-    intent.putExtra(CropImage.SCALE, false);
-
-    // if the aspect ratio is fixed to ratio 3/2
-    intent.putExtra(CropImage.ASPECT_X, 1);
-    intent.putExtra(CropImage.ASPECT_Y, 1);
-
-//    intent.putExtra(CropImage.OUTPUT_X, 300);
-//    intent.putExtra(CropImage.OUTPUT_Y, 300);
+    CropImageIntentBuilder cropImage = new CropImageIntentBuilder(1, 1, 600, 600, dstUri);
+    cropImage.setSourceImage(srcUri);
+    cropImage.setScaleUpIfNeeded(true);
+    cropImage.setDoFaceDetection(false);
 
     // start activity CropImage with certain request code and listen for result
-    startActivityForResult(intent, Helpers.Const.CROP_IMAGE_REQUEST_CODE);
+//    startActivity(cropImage.getIntent(this));
+    startActivityForResult(cropImage.getIntent(this), Helpers.Const.CROP_IMAGE_REQUEST_CODE);
   }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-
-    if (resultCode != RESULT_OK) {
+    if (resultCode != RESULT_OK)
       return;
-    }
 
     switch (requestCode) {
       case Helpers.Const.CROP_IMAGE_REQUEST_CODE:
 
-        String path = data.getStringExtra(CropImage.IMAGE_PATH);
-        // if nothing received
-        if (path == null) {
-          return;
-        }
 
-        Helpers.Do.MsgBox(this, "CropImage.IMAGE_PATH: " + CropImage.IMAGE_PATH);
+        Helpers.Do.MsgBox(this, "Fatto!");
 
         // cropped bitmap
 //        Bitmap bitmap = BitmapFactory.decodeFile(mFileTemp.getPath());

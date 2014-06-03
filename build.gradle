@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'android'
 
 dependencies {
-    compile project(':cropimage')
+    compile project(':CropImage')
 }
 
 android {

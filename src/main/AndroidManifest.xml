@@ -5,13 +5,13 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="17" />
+    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="16" />
     
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera" />
-    
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -34,9 +34,12 @@
 <!--           android:screenOrientation="landscape" > -->
         </activity>
 
-      <activity
-          android:name="eu.janmuller.android.simplecropimage.CropImage"
-          android:theme="@style/CropImageTheme" />
+      <!-- Declare the bundled CropImage Activity -->
+      <activity android:name="com.android.camera.CropImage"/>
+
+      <!--<activity-->
+          <!--android:name="eu.janmuller.android.simplecropimage.CropImage"-->
+          <!--android:theme="@style/CropImageTheme" />-->
 
     </application>
 

@@ -32,6 +32,7 @@ public class Homepage extends Activity {
 				}
   	  }
   	);
+    goShootButton.requestFocus();
 	}
 	
 	@Override

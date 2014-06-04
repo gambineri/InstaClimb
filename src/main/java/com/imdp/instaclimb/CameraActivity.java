@@ -80,6 +80,7 @@ public class CameraActivity extends Activity {
             }
           }
       );
+      captureButton.requestFocus();
     }
   }
 

@@ -55,6 +55,6 @@
         android:layout_alignRight="@+id/linearLayout1"
         android:layout_centerVertical="true"
         android:background="#77FFFF00"
-        android:text="@string/next_" />
+        android:text="@string/next_" android:focusable="true" android:focusableInTouchMode="true"/>
 
 </RelativeLayout>

@@ -14,13 +14,19 @@ import java.io.IOException;
 
 /** A basic Camera preview class */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-  private SurfaceHolder m_Holder;
-  private Camera m_Camera;
-  protected Activity m_Activity;
+
+  private   SurfaceHolder m_Holder = null;
+  private   Camera        m_Camera = null;
+  protected Activity      m_Activity = null;
 
   public CameraPreview(Context context, Camera camera) {
-    super(context);
+    this(context);
     m_Camera = camera;
+  }
+
+  public CameraPreview(Context context) {
+    super(context);
+
     m_Activity = (Activity)context;
 
     // Install a SurfaceHolder.Callback so we get notified when the
@@ -31,6 +37,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
       // deprecated setting, but required on Android versions prior to 3.0
       m_Holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     } else throw new AssertionError("m_Holder is null in CameraPreview(Context context, Camera camera)");
+  }
+
+  public void setCamera(Camera camera) {
+    this.m_Camera = camera;
   }
 
   public void surfaceCreated(SurfaceHolder holder) {
@@ -51,10 +61,11 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     // If your preview can change or rotate, take care of those events here.
     // Make sure to stop the preview before resizing or reformatting it.
 
-    if (m_Holder.getSurface() == null){
-      // preview surface does not exist
+    if (m_Holder.getSurface() == null)
+      return; // preview surface does not exist
+
+    if (m_Camera == null)
       return;
-    }
 
     // stop preview before making changes
     try {
@@ -64,12 +75,11 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     // set preview size and make any resize, rotate or reformatting changes here
-
-    // start preview with new settings
+    // and start preview with new settings
     try {
-      m_Camera.setDisplayOrientation(90);
-      m_Camera.setPreviewDisplay(m_Holder);
-      m_Camera.startPreview();
+//        m_Camera.setDisplayOrientation(90);
+        m_Camera.setPreviewDisplay(m_Holder);
+        m_Camera.startPreview();
     } catch (Exception e){
       Log.d(Helpers.Const.DBGTAG, "Error starting camera preview: " + e.getMessage());
     }

@@ -27,21 +27,21 @@ import java.util.ListIterator;
 
 //cropimage lib
 
+
 public class CameraActivity extends Activity {
 
   private Camera m_Camera = null;
   private CameraPreview m_Preview = null;
   private SessionImage m_SessionImg = null;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.camera_activity);
-
+  private void setUpCamera() {
     if (!checkCameraHardware(this)) {
       Helpers.Do.MsgBox(this, "No camera available -00- Don't be SO lousy, buy yourself a better device...");
       return;
     }
+
+    if (m_Camera != null)
+      releaseCamera();
 
     if ((m_Camera = getCameraInstance()) != null) {
       this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -61,27 +61,37 @@ public class CameraActivity extends Activity {
       //Create image wrapper obj for this session
       m_SessionImg = new SessionImage(getResources().getString(R.string.app_name));
 
-      // Create our Preview view and set it as the content of our activity.
-      m_Preview = new CameraPreview(this, m_Camera);
-      FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-      preview.addView(m_Preview);
-
-      LinearLayout ll = (LinearLayout) findViewById(R.id.top_frame);
-      preview.removeView(ll);
-      preview.addView(ll);
-
-      //Add a listener to the Capture button
-      Button captureButton = (Button) findViewById(R.id.button_capture);
-      captureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              // get an image from the camera
-              m_Camera.takePicture(null, null, m_Picture);
-            }
-          }
-      );
-      captureButton.requestFocus();
+      // Set the camera in CameraPreview view
+      m_Preview.setCamera(m_Camera);
     }
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    setContentView(R.layout.camera_activity);
+
+    // Create our Preview view and set it as the content of our activity.
+    m_Preview = new CameraPreview(this);
+    FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+    preview.addView(m_Preview);
+
+    LinearLayout ll = (LinearLayout) findViewById(R.id.top_frame);
+    preview.removeView(ll);
+    preview.addView(ll);
+
+    //Add a listener to the Capture button
+    Button captureButton = (Button) findViewById(R.id.button_capture);
+    captureButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        // get an image from the camera
+        m_Camera.takePicture(null, null, m_Picture);
+      }
+      }
+    );
+    captureButton.requestFocus();
   }
 
   @Override
@@ -92,8 +102,8 @@ public class CameraActivity extends Activity {
 
   @Override
   protected void onResume() {
-    //TODO Bisogna re-open the camera.....
     super.onResume();
+    setUpCamera();
   }
 
   private void releaseCamera() {
@@ -220,4 +230,4 @@ public class CameraActivity extends Activity {
     return ret;
   }
 
-}
+} // class CameraActivity

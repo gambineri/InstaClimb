@@ -19,9 +19,9 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.imdp.instaclimb.Homepage"
-            android:label="@string/app_name" > 
-<!--           android:screenOrientation="landscape" >-->
-            
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,17 +30,11 @@
         
         <activity
             android:name="com.imdp.instaclimb.CameraActivity"
-            android:label="@string/app_name" > 
-<!--           android:screenOrientation="landscape" > -->
+            android:label="@string/app_name">
         </activity>
 
       <!-- Declare the bundled CropImage Activity -->
       <activity android:name="com.android.camera.CropImage"/>
-
-      <!--<activity-->
-          <!--android:name="eu.janmuller.android.simplecropimage.CropImage"-->
-          <!--android:theme="@style/CropImageTheme" />-->
-
     </application>
 
 </manifest>

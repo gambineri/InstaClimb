@@ -119,7 +119,7 @@ public class CameraActivity extends Activity {
     public void onPictureTaken(byte[] data, Camera camera) {
 
       try {
-        FileOutputStream fos = new FileOutputStream(m_SessionImg.getImageFile());
+        FileOutputStream fos = new FileOutputStream(m_SessionImg.getCapturedImageFile());
         fos.write(data);
         fos.close();
         cropImage();
@@ -133,8 +133,8 @@ public class CameraActivity extends Activity {
 
   private void cropImage() {
 
-    Uri srcUri = Uri.fromFile(new File(m_SessionImg.getImageFilePathName()));
-    Uri dstUri = Uri.fromFile(new File(m_SessionImg.getImageFilePathName() + ".jpg"));
+    Uri srcUri = Uri.fromFile(new File(m_SessionImg.getCapturedImageFilePathName()));
+    Uri dstUri = Uri.fromFile(new File(m_SessionImg.getCroppedImageFilePathName()));
 
     CropImageIntentBuilder cropImage = new CropImageIntentBuilder(1, 1, 600, 600, dstUri);
     cropImage.setSourceImage(srcUri);
@@ -155,7 +155,7 @@ public class CameraActivity extends Activity {
       case Helpers.Const.CROP_IMAGE_REQUEST_CODE:
 
 
-        Helpers.Do.MsgBox(this, "Fatto!");
+        Helpers.Do.MsgBox(this, "Fatto! TBD Delete captured image!!!");
 
         // cropped bitmap
 //        Bitmap bitmap = BitmapFactory.decodeFile(mFileTemp.getPath());

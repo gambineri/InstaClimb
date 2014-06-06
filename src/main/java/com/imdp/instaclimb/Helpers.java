@@ -6,7 +6,8 @@ import android.app.AlertDialog;
 public final class Helpers {
   
 	public final static class Const {
-		public static final String DBGTAG = "IMDP";
+    public static final String DBGTAG = "IMDP";
+		public static final String GRABBED_IMG_PREFIX = "GRABBEDIMG";
 		public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int CROP_IMAGE_REQUEST_CODE = 321;
   }

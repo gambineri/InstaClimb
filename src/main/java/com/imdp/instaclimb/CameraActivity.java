@@ -3,7 +3,6 @@ package com.imdp.instaclimb;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
@@ -25,14 +24,17 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ListIterator;
 
-//cropimage lib
-
-
 public class CameraActivity extends Activity {
 
-  private Camera m_Camera = null;
-  private CameraPreview m_Preview = null;
-  private SessionImage m_SessionImg = null;
+  private Camera        m_Camera      = null;
+
+  public int getM_CameraId() {
+    return m_CameraId;
+  }
+
+  private int           m_CameraId    = -1;
+  private CameraPreview m_Preview     = null;
+  private SessionImage  m_SessionImg  = null;
 
   private void setUpCamera() {
     if (!checkCameraHardware(this)) {
@@ -44,8 +46,6 @@ public class CameraActivity extends Activity {
       releaseCamera();
 
     if ((m_Camera = getCameraInstance()) != null) {
-      this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
       try {
         Log.v(Helpers.Const.DBGTAG, getCurrentCameraInfo());
         Parameters pars = m_Camera.getParameters();
@@ -179,10 +179,22 @@ public class CameraActivity extends Activity {
   /**
    * A safe way to get an instance of the Camera object.
    */
-  public static Camera getCameraInstance() {
+  private Camera getCameraInstance() {
     Camera c = null;
     try {
-      c = Camera.open(); // attempt to get a Camera instance
+      //Find backward camera
+      m_CameraId = 0;
+      boolean found = false;
+      while(m_CameraId<Camera.getNumberOfCameras() && !found) {
+        Camera.CameraInfo ci = new Camera.CameraInfo();
+        Camera.getCameraInfo(m_CameraId, ci);
+        if (ci.facing == Camera.CameraInfo.CAMERA_FACING_BACK)
+          found = true;
+        else
+          m_CameraId++;
+      }
+
+      c = Camera.open(m_CameraId); // attempt to get a Camera instance
     } catch (Exception e) {
       // Camera is not available (in use or does not exist)
       Log.e(Helpers.Const.DBGTAG, "Exception in getCameraInstance - sanne scassate tutt'eccos'\n" + e.getMessage());
@@ -229,5 +241,4 @@ public class CameraActivity extends Activity {
 
     return ret;
   }
-
 } // class CameraActivity

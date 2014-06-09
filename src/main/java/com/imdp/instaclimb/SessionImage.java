@@ -57,7 +57,7 @@ public class SessionImage {
     // Create a media file name
     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
     m_CapturedImgFilePathName = m_MediaStorageDir.getPath() + File.separator +
-        Helpers.Const.GRABBED_IMG_PREFIX + timeStamp + ".jpg";
+        Helpers.Const.CAPTURED_IMG_PREFIX + timeStamp + ".jpg";
 
     //create output file
     m_CapturedImgFile = new File(m_CapturedImgFilePathName);

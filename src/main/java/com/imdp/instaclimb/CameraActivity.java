@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
@@ -119,9 +122,18 @@ public class CameraActivity extends Activity {
     public void onPictureTaken(byte[] data, Camera camera) {
 
       try {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+        Bitmap bmpRotated = rotBMP(bitmap);
+
         FileOutputStream fos = new FileOutputStream(m_SessionImg.getCapturedImageFile());
-        fos.write(data);
+
+        bmpRotated.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+
+//        fos.write(data);
         fos.close();
+
+
         cropImage();
       } catch (FileNotFoundException e) {
         Log.d(Helpers.Const.DBGTAG, "File not found: " + e.getMessage());
@@ -130,6 +142,13 @@ public class CameraActivity extends Activity {
       }
     }
   };
+
+  private Bitmap rotBMP(Bitmap srcBmp) {
+    int degrees = Helpers.Do.getRotationRelativeToNaturalOrientaton(this, m_CameraId, m_Camera);
+    Matrix matrix = new Matrix();
+    matrix.setRotate(degrees);
+    return Bitmap.createBitmap(srcBmp, 0, 0, srcBmp.getWidth(), srcBmp.getHeight(), matrix, false);
+  }
 
   private void cropImage() {
 
@@ -154,7 +173,7 @@ public class CameraActivity extends Activity {
     switch (requestCode) {
       case Helpers.Const.CROP_IMAGE_REQUEST_CODE:
 
-
+//TODO delete temp image
         Helpers.Do.MsgBox(this, "Fatto! TBD Delete captured image!!!");
 
         // cropped bitmap

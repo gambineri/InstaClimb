@@ -120,22 +120,17 @@ public class CameraActivity extends Activity {
   private PictureCallback m_Picture = new PictureCallback() {
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
-
       try {
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-
         Bitmap bmpRotated = rotBMP(bitmap);
-
+        bitmap.recycle();
         FileOutputStream fos = new FileOutputStream(m_SessionImg.getCapturedImageFile());
-
         bmpRotated.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-
-//        fos.write(data);
+        bmpRotated.recycle();
         fos.close();
-
-
         cropImage();
-      } catch (FileNotFoundException e) {
+      }
+      catch (FileNotFoundException e) {
         Log.d(Helpers.Const.DBGTAG, "File not found: " + e.getMessage());
       } catch (IOException e) {
         Log.d(Helpers.Const.DBGTAG, "Error accessing file: " + e.getMessage());
@@ -159,6 +154,9 @@ public class CameraActivity extends Activity {
     cropImage.setSourceImage(srcUri);
     cropImage.setScaleUpIfNeeded(true);
     cropImage.setDoFaceDetection(false);
+
+//    CropImage ci = new CropImage();
+//    ci.doCrop();
 
     // start activity CropImage with certain request code and listen for result
 //    startActivity(cropImage.getIntent(this));

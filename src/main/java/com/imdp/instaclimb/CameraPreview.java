@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import java.io.IOException;
 
@@ -60,7 +59,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
   public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
     // If your preview can change or rotate, take care of those events here.
     // Make sure to stop the preview before resizing or reformatting it.
-
     if (m_Holder.getSurface() == null)
       return; // preview surface does not exist
 
@@ -94,14 +92,20 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     int parentWidth = View.MeasureSpec.getSize(widthMeasureSpec);
     int parentHeight = View.MeasureSpec.getSize(heightMeasureSpec);
 
-    int top = (parentHeight-parentWidth)/2;
-    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(parentWidth, parentWidth);
-    layoutParams.setMargins(0, top, parentWidth, parentWidth);
-    setLayoutParams(layoutParams);
+//    int top = (parentHeight-parentWidth)/2;
+//    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(parentWidth, parentWidth);
+//    layoutParams.setMargins(0, top, parentWidth, parentWidth);
+//    setLayoutParams(layoutParams);
 
-    setMeasuredDimension(parentWidth, parentWidth);
+    setMeasuredDimension(parentWidth, parentHeight);
 
-//    Helpers.Do.MsgBox(m_Activity, this.getWidth() + "");
-    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//    View bf = findViewById(R.id.bottom_frame);
+//    if (bf!=null) {
+//      Helpers.Do.msgBox(m_Activity, parentHeight  + "-" + bf.getHeight());
+//      bf.setTop(parentHeight - bf.getHeight());
+//    }
+
+//    Helpers.Do.msgBox(m_Activity, this.getWidth() + "");
+//    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
   }
 }

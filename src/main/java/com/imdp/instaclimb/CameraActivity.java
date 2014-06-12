@@ -15,9 +15,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import com.android.camera.CropImageIntentBuilder;
 
 import java.io.File;
@@ -41,7 +41,7 @@ public class CameraActivity extends Activity {
 
   private void setUpCamera() {
     if (!checkCameraHardware(this)) {
-      Helpers.Do.MsgBox(this, "No camera available -00- Don't be SO lousy, buy yourself a better device...");
+      Helpers.Do.msgBox(this, "No camera available -00- Don't be SO lousy, buy yourself a better device...");
       return;
     }
 
@@ -54,7 +54,10 @@ public class CameraActivity extends Activity {
         Parameters pars = m_Camera.getParameters();
 
         pars.setPictureFormat(ImageFormat.JPEG);
-        pars.setPictureSize(960, 720);
+//        pars.setPictureSize(960, 720);
+        pars.setPictureSize(2048, 1536);
+//        pars.setPreviewSize(1280, 720);
+
 //        pars.setRotation(90);
         m_Camera.setParameters(pars);
       } catch (RuntimeException re) {
@@ -80,9 +83,15 @@ public class CameraActivity extends Activity {
     FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
     preview.addView(m_Preview);
 
-    LinearLayout ll = (LinearLayout) findViewById(R.id.top_frame);
-    preview.removeView(ll);
-    preview.addView(ll);
+    //Inflate the top camera overlay
+    View topOverlay = getLayoutInflater().inflate(R.layout.camera_overlay_top, preview, false);
+    preview.addView(topOverlay);
+
+    //Inflate the top camera overlay
+    View bottomOverlay = getLayoutInflater().inflate(R.layout.camera_overlay_bottom, preview, false);
+    ViewGroup.LayoutParams params = bottomOverlay.getLayoutParams();
+    bottomOverlay.setLayoutParams(params);
+    preview.addView(bottomOverlay);
 
     //Add a listener to the Capture button
     Button captureButton = (Button) findViewById(R.id.button_capture);
@@ -172,7 +181,7 @@ public class CameraActivity extends Activity {
       case Helpers.Const.CROP_IMAGE_REQUEST_CODE:
 
 //TODO delete temp image
-        Helpers.Do.MsgBox(this, "Fatto! TBD Delete captured image!!!");
+        Helpers.Do.msgBox(this, "Fatto! TBD Delete captured image!!!");
 
         // cropped bitmap
 //        Bitmap bitmap = BitmapFactory.decodeFile(mFileTemp.getPath());

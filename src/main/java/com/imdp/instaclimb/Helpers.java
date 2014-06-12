@@ -16,7 +16,7 @@ public final class Helpers {
   }
 	
 	public final static class Do {
-		public static void MsgBox(Activity activity, String msg) {
+		public static void msgBox(Activity activity, String msg) {
 			// 1. Instantiate an AlertDialog.Builder with its constructor
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
@@ -32,7 +32,7 @@ public final class Helpers {
 			dialog.show();
 		}
 
-    public static void Toast(Activity activity, String msg) {
+    public static void toast(Activity activity, String msg) {
       Toast.makeText(activity, msg, Toast.LENGTH_LONG).show();
     }
 

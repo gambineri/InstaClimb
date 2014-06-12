@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:layout_gravity="center_horizontal|top" android:background="#FFDDEEFF"
+    android:id="@+id/top_frame" android:visibility="visible" android:alpha="0.5">
+
+  <EditText android:id="@+id/EditAscentName" android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/optional_name_of_the_boulder_route" android:ems="10"
+            android:inputType="text" android:maxLines="1" android:layout_gravity="center"/>
+
+  <EditText android:id="@+id/EditLocation" android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/optional_location_of_the_boulder_route" android:ems="10"
+            android:inputType="text" android:maxLines="1" android:layout_gravity="center"/>
+
+</LinearLayout>

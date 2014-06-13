@@ -3,8 +3,8 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content"
-  android:layout_gravity="center" android:background="#FFDDEEFF"
-  android:id="@+id/bottom_frame" android:visibility="visible" android:alpha="0.5">
+  android:layout_gravity="bottom" android:background="#FFDDEEFF"
+  android:id="@+id/bottom_frame" android:visibility="visible" android:alpha="0.5" >
 
   <Button
       android:id="@+id/button_capture"

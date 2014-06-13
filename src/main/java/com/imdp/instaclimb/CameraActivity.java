@@ -74,15 +74,22 @@ public class CameraActivity extends Activity {
     // Create our Preview view and set it as the content of our activity.
     m_Preview = new CameraPreview(this);
     FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-    preview.addView(m_Preview);
+    preview.addView(m_Preview); //adds SurfaceView on top of everything
 
-    //Inflate the top camera overlay
+    /* Inflate the top and bottom camera overlays:
+       it must be done here and cannot be merged into the main camera_activity.xml because of
+       previous line of code, **preview.addView(m_Preview);** which would add the SurfaceView
+       (the camera preview container) on top of everything, thus hiding the overlays. */
+
+    //** Inflate the top camera overlay
     final View topOverlay = getLayoutInflater().inflate(R.layout.camera_overlay_top, preview, false);
-    preview.addView(topOverlay);
+    if (topOverlay != null)
+      preview.addView(topOverlay);
 
-    //Inflate the top camera overlay
+    //** Inflate the bottom camera overlay
     View bottomOverlay = getLayoutInflater().inflate(R.layout.camera_overlay_bottom, preview, false);
-    preview.addView(bottomOverlay);
+    if (bottomOverlay != null)
+      preview.addView(bottomOverlay);
 
     ViewTreeObserver vto = preview.getViewTreeObserver();
     if (vto != null) {

@@ -17,7 +17,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import com.android.camera.CropImageIntentBuilder;
@@ -31,10 +31,10 @@ import java.util.ListIterator;
 
 public class CameraActivity extends Activity {
 
-  private Camera        m_Camera      = null;
-  private int           m_CameraId    = -1;
-  private CameraPreview m_Preview     = null;
-  private SessionImage  m_SessionImg  = null;
+  private Camera        m_Camera        = null;
+  private int           m_CameraId      = -1;
+  private CameraPreview m_Preview       = null;
+  private SessionImage  m_SessionImg    = null;
 
   private void setUpCamera() {
     if (!checkCameraHardware(this)) {
@@ -55,7 +55,6 @@ public class CameraActivity extends Activity {
         pars.setPictureSize(2048, 1536);
 //        pars.setPreviewSize(1280, 720);
 
-//        pars.setRotation(90);
         m_Camera.setParameters(pars);
       } catch (RuntimeException re) {
         Log.e(Helpers.Const.DBGTAG, re.getMessage());
@@ -78,14 +77,29 @@ public class CameraActivity extends Activity {
     preview.addView(m_Preview);
 
     //Inflate the top camera overlay
-    View topOverlay = getLayoutInflater().inflate(R.layout.camera_overlay_top, preview, false);
+    final View topOverlay = getLayoutInflater().inflate(R.layout.camera_overlay_top, preview, false);
     preview.addView(topOverlay);
 
     //Inflate the top camera overlay
     View bottomOverlay = getLayoutInflater().inflate(R.layout.camera_overlay_bottom, preview, false);
-    ViewGroup.LayoutParams params = bottomOverlay.getLayoutParams();
-    bottomOverlay.setLayoutParams(params);
     preview.addView(bottomOverlay);
+
+    ViewTreeObserver vto = preview.getViewTreeObserver();
+    if (vto != null) {
+      vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+          //At this point the layout is complete and the
+          //dimensions of myView and any child views are known.
+          FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+          View bf = findViewById(R.id.bottom_frame);
+          View tf = findViewById(R.id.top_frame);
+          if (preview != null && bf != null && tf != null) {
+            bf.setTop(preview.getWidth() + tf.getHeight());
+          }
+        }
+      });
+    }
 
     //Add a listener to the Capture button
     Button captureButton = (Button) findViewById(R.id.button_capture);
@@ -95,8 +109,7 @@ public class CameraActivity extends Activity {
         // get an image from the camera
         m_Camera.takePicture(null, null, m_Picture);
       }
-      }
-    );
+    });
     captureButton.requestFocus();
   }
 
@@ -326,30 +339,5 @@ public class CameraActivity extends Activity {
         Log.d(Helpers.Const.DBGTAG, "Error starting camera preview: " + e.getMessage());
       }
     }
-
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
-      int parentWidth = View.MeasureSpec.getSize(widthMeasureSpec);
-      int parentHeight = View.MeasureSpec.getSize(heightMeasureSpec);
-
-//    int top = (parentHeight-parentWidth)/2;
-//    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(parentWidth, parentWidth);
-//    layoutParams.setMargins(0, top, parentWidth, parentWidth);
-//    setLayoutParams(layoutParams);
-
-      setMeasuredDimension(parentWidth, parentHeight);
-
-//    View bf = findViewById(R.id.bottom_frame);
-//    if (bf!=null) {
-//      Helpers.Do.msgBox(m_Activity, parentHeight  + "-" + bf.getHeight());
-//      bf.setTop(parentHeight - bf.getHeight());
-//    }
-
-//    Helpers.Do.msgBox(m_Activity, this.getWidth() + "");
-//    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
   } // *** class CameraPreview
-
 } // *** class CameraActivity

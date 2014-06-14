@@ -43,7 +43,7 @@ public class CameraActivity extends Activity {
 
     if ((m_Camera = getCameraInstance()) != null) {
       try {
-//todo Log calls to be removed when publishing with ProGuard
+//todo Log calls to be removed with ProGuard when publishing
         Log.v(Helpers.Const.DBGTAG, getCurrentCameraInfo());
         Parameters pars = m_Camera.getParameters();
 
@@ -148,7 +148,7 @@ public class CameraActivity extends Activity {
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
         Bitmap bmpRotated = rotBMP(bitmap);
         bitmap.recycle();
-        Bitmap croppedImage = cropImage(bmpRotated, new Rect(0, topCrop, cropWidth, cropWidth), true);
+        Bitmap croppedImage = cropImage(bmpRotated, new Rect(0, topCrop, cropWidth, topCrop + cropWidth), true);
         bmpRotated.recycle();
         FileOutputStream fos = new FileOutputStream(m_SessionImg.getCroppedImageFilePathName());
         croppedImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);

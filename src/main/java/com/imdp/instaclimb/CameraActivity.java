@@ -38,7 +38,7 @@ public class CameraActivity extends Activity {
 
   private void setUpCamera() {
     if (!checkCameraHardware(this)) {
-      Helpers.Do.msgBox(this, "No camera available -00- Don't be SO lousy, buy yourself a better device...");
+      Helpers.Do.msgBox(this, "Wow, no camera available -00-. Don't be SO lousy, buy yourself a better device...");
       return;
     }
 
@@ -47,11 +47,12 @@ public class CameraActivity extends Activity {
 
     if ((m_Camera = getCameraInstance()) != null) {
       try {
+//todo Log calls to be removed when publishing with ProGuard
         Log.v(Helpers.Const.DBGTAG, getCurrentCameraInfo());
         Parameters pars = m_Camera.getParameters();
 
         pars.setPictureFormat(ImageFormat.JPEG);
-//        pars.setPictureSize(960, 720);
+//todo dinamically calculate max res
         pars.setPictureSize(2048, 1536);
 //        pars.setPreviewSize(1280, 720);
 

@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
-import android.graphics.Matrix;
+import android.graphics.*;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
@@ -20,7 +17,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import com.android.camera.CropImageIntentBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -145,14 +141,19 @@ public class CameraActivity extends Activity {
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
       try {
+        View tf = findViewById(R.id.top_frame);
+        int topCrop = tf.getHeight()*2048/m_Preview.getHeight();
+        int cropWidth = 1536;
+
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
         Bitmap bmpRotated = rotBMP(bitmap);
         bitmap.recycle();
-        FileOutputStream fos = new FileOutputStream(m_SessionImg.getCapturedImageFile());
-        bmpRotated.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+        Bitmap croppedImage = cropImage(bmpRotated, new Rect(0, topCrop, cropWidth, cropWidth), true);
         bmpRotated.recycle();
+        FileOutputStream fos = new FileOutputStream(m_SessionImg.getCroppedImageFilePathName());
+        croppedImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+        croppedImage.recycle();
         fos.close();
-        cropImage();
       }
       catch (FileNotFoundException e) {
         Log.d(Helpers.Const.DBGTAG, "File not found: " + e.getMessage());
@@ -169,22 +170,32 @@ public class CameraActivity extends Activity {
     return Bitmap.createBitmap(srcBmp, 0, 0, srcBmp.getWidth(), srcBmp.getHeight(), matrix, false);
   }
 
-  private void cropImage() {
+  private Bitmap cropImage(Bitmap srcBitmap, Rect srcRect, boolean scaleUpIfNeeded) {
 
-    Uri srcUri = Uri.fromFile(new File(m_SessionImg.getCapturedImageFilePathName()));
+    int srcW = srcRect.width();
+    int srcH = srcRect.height();
+
     Uri dstUri = Uri.fromFile(new File(m_SessionImg.getCroppedImageFilePathName()));
+    Bitmap croppedImage = null;
 
-    CropImageIntentBuilder cropImage = new CropImageIntentBuilder(1, 1, 600, 600, dstUri);
-    cropImage.setSourceImage(srcUri);
-    cropImage.setScaleUpIfNeeded(true);
-    cropImage.setDoFaceDetection(false);
+    // If the output is required to a specific size, create an new image
+    // with the cropped image in the center and the extra space filled.
+    if (srcW != 0 && srcH != 0 && scaleUpIfNeeded) {
 
-//    CropImage ci = new CropImage();
-//    ci.doCrop();
+      // Don't scale the image but instead fill it so it's the required dimension
+      croppedImage = Bitmap.createBitmap(srcW, srcH, Bitmap.Config.RGB_565);
+      Canvas canvas = new Canvas(croppedImage);
 
-    // start activity CropImage with certain request code and listen for result
-//    startActivity(cropImage.getIntent(this));
-    startActivityForResult(cropImage.getIntent(this), Helpers.Const.CROP_IMAGE_REQUEST_CODE);
+      Rect dstRect = new Rect(0, 0,srcW, srcH);
+
+      // Draw the cropped bitmap in the center
+      canvas.drawBitmap(srcBitmap, srcRect, dstRect, null);
+
+      // Release bitmap memory as soon as possible
+      srcBitmap.recycle();
+    }
+
+    return croppedImage;
   }
 
   @Override

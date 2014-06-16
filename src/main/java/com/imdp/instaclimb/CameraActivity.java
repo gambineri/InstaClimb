@@ -33,6 +33,7 @@ public class CameraActivity extends Activity {
   private SessionImage  m_SessionImg      = null;
   private Camera.Size   m_BestRes         = null;
   private int           m_DevRotation     = 0;
+  private boolean       m_ImgDimInverted  = false;
 
   private void setUpCamera() {
     if (!checkCameraHardware(this)) {
@@ -45,8 +46,13 @@ public class CameraActivity extends Activity {
 
     if ((m_Camera = getCameraInstance()) != null) {
       try {
-        //Because we want a portrait app, calculate rotation respect to natural device orientation
+        // Because we want a portrait app, calculate rotation respect to natural device orientation
         m_DevRotation = Helpers.Do.getRotationRelativeToNaturalOrientaton(this, m_CameraId, m_Camera);
+
+        // In case the device natural orientation is not portrait (or multiple thereof)
+        // let's save the bool to know if picture dimensions need to be considered as inverted
+        // (W in place of H and viceversa)
+        m_ImgDimInverted = (m_DevRotation == 90 || m_DevRotation == 270 ? true : false);
 
 //todo Log calls to be removed with ProGuard when publishing
         Log.v(Helpers.Const.DBGTAG, getCurrentCameraInfo());
@@ -147,8 +153,8 @@ public class CameraActivity extends Activity {
     public void onPictureTaken(byte[] data, Camera camera) {
       try {
         View tf = findViewById(R.id.top_frame);
-        int topCrop = tf.getHeight()*2048/m_Preview.getHeight();
-        int cropWidth = 1536;
+        int topCrop = tf.getHeight()*(m_ImgDimInverted ? m_BestRes.width : m_BestRes.height)/m_Preview.getHeight();
+        int cropWidth = (m_ImgDimInverted ? m_BestRes.height : m_BestRes.width);
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
         Bitmap bmpRotated = rotBMP(bitmap);

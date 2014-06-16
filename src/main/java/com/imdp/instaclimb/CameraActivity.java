@@ -27,10 +27,12 @@ import java.util.ListIterator;
 
 public class CameraActivity extends Activity {
 
-  private Camera        m_Camera        = null;
-  private int           m_CameraId      = -1;
-  private CameraPreview m_Preview       = null;
-  private SessionImage  m_SessionImg    = null;
+  private Camera        m_Camera          = null;
+  private int           m_CameraId        = -1;
+  private CameraPreview m_Preview         = null;
+  private SessionImage  m_SessionImg      = null;
+  private Camera.Size   m_BestRes         = null;
+  private int           m_DevRotation     = 0;
 
   private void setUpCamera() {
     if (!checkCameraHardware(this)) {
@@ -43,13 +45,16 @@ public class CameraActivity extends Activity {
 
     if ((m_Camera = getCameraInstance()) != null) {
       try {
+        //Because we want a portrait app, calculate rotation respect to natural device orientation
+        m_DevRotation = Helpers.Do.getRotationRelativeToNaturalOrientaton(this, m_CameraId, m_Camera);
+
 //todo Log calls to be removed with ProGuard when publishing
         Log.v(Helpers.Const.DBGTAG, getCurrentCameraInfo());
         Parameters pars = m_Camera.getParameters();
 
         pars.setPictureFormat(ImageFormat.JPEG);
-//todo dinamically calculate max res
-        pars.setPictureSize(2048, 1536);
+        findBestCameraResolution();
+        pars.setPictureSize(m_BestRes.width, m_BestRes.height);
 //        pars.setPreviewSize(1280, 720);
 
         m_Camera.setParameters(pars);
@@ -164,9 +169,8 @@ public class CameraActivity extends Activity {
   };
 
   private Bitmap rotBMP(Bitmap srcBmp) {
-    int degrees = Helpers.Do.getRotationRelativeToNaturalOrientaton(this, m_CameraId, m_Camera);
     Matrix matrix = new Matrix();
-    matrix.setRotate(degrees);
+    matrix.setRotate(m_DevRotation);
     return Bitmap.createBitmap(srcBmp, 0, 0, srcBmp.getWidth(), srcBmp.getHeight(), matrix, false);
   }
 
@@ -294,6 +298,29 @@ public class CameraActivity extends Activity {
     return ret;
   }
 
+  private void findBestCameraResolution() {
+    if (m_Camera == null)
+      return;
+
+    m_BestRes = m_Camera.new Size(0, 0);
+
+    List<Camera.Size> sizes;
+    ListIterator<Camera.Size> li;
+    Camera.Size tmp;
+
+    Parameters pars = m_Camera.getParameters();
+
+    if ((sizes = pars.getSupportedPictureSizes()) != null) {
+      li = sizes.listIterator();
+      while (li.hasNext()) {
+        tmp = li.next();
+        if (tmp.width > m_BestRes.width || tmp.height > m_BestRes.height)
+          m_BestRes = tmp;
+      }
+    }
+
+  }
+
   /**
    * The Camera Preview class
    * */
@@ -350,8 +377,7 @@ public class CameraActivity extends Activity {
       // set preview size and make any resize, rotate or reformatting changes here
       // and start preview with new settings
       try {
-        m_Camera.setDisplayOrientation(
-            Helpers.Do.getRotationRelativeToNaturalOrientaton(m_Activity, m_CameraId, m_Camera));
+        m_Camera.setDisplayOrientation(m_DevRotation);
         m_Camera.setPreviewDisplay(m_Holder);
         m_Camera.startPreview();
       } catch (Exception e){

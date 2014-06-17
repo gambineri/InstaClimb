@@ -61,7 +61,7 @@ public class CameraActivity extends Activity {
         // In case the device natural orientation is not portrait (or multiple thereof)
         // let's save the bool to know if picture dimensions need to be considered as inverted
         // (W in place of H and viceversa)
-        m_ImgDimInverted = (m_DevRotation == 90 || m_DevRotation == 270 ? true : false);
+        m_ImgDimInverted = (m_DevRotation == 90 || m_DevRotation == 270);
 
 //todo Log calls to be removed with ProGuard when publishing
         Log.v(Helpers.Const.DBGTAG, getCurrentCameraInfo());

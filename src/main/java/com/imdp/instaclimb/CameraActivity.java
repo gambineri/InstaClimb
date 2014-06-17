@@ -8,7 +8,6 @@ import android.graphics.*;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -18,7 +17,6 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,6 +32,9 @@ public class CameraActivity extends Activity {
   private Camera.Size   m_BestRes         = null;
   private int           m_DevRotation     = 0;
   private boolean       m_ImgDimInverted  = false;
+
+  // coordinates of capture area with respect to a cartesian system with origin in top, left of the portrait mode
+  private Rect          m_CaptureRect     = new Rect(0, 0, 0, 0);
 
   private void setUpCamera() {
     if (!checkCameraHardware(this)) {
@@ -111,6 +112,12 @@ public class CameraActivity extends Activity {
           View tf = findViewById(R.id.top_frame);
           if (preview != null && bf != null && tf != null) {
             bf.setTop(preview.getWidth() + tf.getHeight());
+
+            //calculate coordinates of capture rect as if (0, 0) is in the top-left corner (portrait mode)
+            m_CaptureRect.left = 0;
+            m_CaptureRect.top = tf.getHeight()*(m_ImgDimInverted ? m_BestRes.width : m_BestRes.height)/m_Preview.getHeight();
+            m_CaptureRect.right = (m_ImgDimInverted ? m_BestRes.height : m_BestRes.width);
+            m_CaptureRect.bottom = m_CaptureRect.top +m_CaptureRect.right;
           }
         }
       });
@@ -152,14 +159,10 @@ public class CameraActivity extends Activity {
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
       try {
-        View tf = findViewById(R.id.top_frame);
-        int topCrop = tf.getHeight()*(m_ImgDimInverted ? m_BestRes.width : m_BestRes.height)/m_Preview.getHeight();
-        int cropWidth = (m_ImgDimInverted ? m_BestRes.height : m_BestRes.width);
-
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
         Bitmap bmpRotated = rotBMP(bitmap);
         bitmap.recycle();
-        Bitmap croppedImage = cropImage(bmpRotated, new Rect(0, topCrop, cropWidth, topCrop + cropWidth), true);
+        Bitmap croppedImage = cropImage(bmpRotated, m_CaptureRect, true);
         bmpRotated.recycle();
         FileOutputStream fos = new FileOutputStream(m_SessionImg.getCroppedImageFilePathName());
         croppedImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);
@@ -185,7 +188,6 @@ public class CameraActivity extends Activity {
     int srcW = srcRect.width();
     int srcH = srcRect.height();
 
-    Uri dstUri = Uri.fromFile(new File(m_SessionImg.getCroppedImageFilePathName()));
     Bitmap croppedImage = null;
 
     // If the output is required to a specific size, create an new image

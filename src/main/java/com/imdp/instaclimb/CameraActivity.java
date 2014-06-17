@@ -2,7 +2,6 @@ package com.imdp.instaclimb;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.*;
 import android.hardware.Camera;
@@ -29,11 +28,20 @@ public class CameraActivity extends Activity {
   private int           m_CameraId        = -1;
   private CameraPreview m_Preview         = null;
   private SessionImage  m_SessionImg      = null;
+
+  // Best resolution for the camera hardware on the current device
   private Camera.Size   m_BestRes         = null;
+
+  // Degrees of rotation if the portrait mode is rotated (90 or 270)
+  // with respect to the natural orientation of the device
   private int           m_DevRotation     = 0;
+
+  // True if the portrait mode is rotated (90 or 270) with respect
+  // to the natural orientation of the device
   private boolean       m_ImgDimInverted  = false;
 
-  // coordinates of capture area with respect to a cartesian system with origin in top, left of the portrait mode
+  // Coordinates of capture area with respect to a cartesian system
+  // with origin in top, left of the portrait mode
   private Rect          m_CaptureRect     = new Rect(0, 0, 0, 0);
 
   private void setUpCamera() {
@@ -210,25 +218,6 @@ public class CameraActivity extends Activity {
     return croppedImage;
   }
 
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (resultCode != RESULT_OK)
-      return;
-
-    switch (requestCode) {
-      case Helpers.Const.CROP_IMAGE_REQUEST_CODE:
-
-//TODO delete temp image
-        Helpers.Do.msgBox(this, "Fatto! TBD Delete captured image!!!");
-
-        // cropped bitmap
-//        Bitmap bitmap = BitmapFactory.decodeFile(mFileTemp.getPath());
-
-        break;
-    }
-    super.onActivityResult(requestCode, resultCode, data);
-  }
-
   /**
    * Check if this device has a camera
    */
@@ -295,13 +284,19 @@ public class CameraActivity extends Activity {
       }
     }
 
-    ret += "\nCurrent Picture Format and Size:\n";
-    ret += "Format: " + m_Camera.getParameters().getPictureFormat() + "; Size: " +
-        m_Camera.getParameters().getPictureSize().width + "x" + m_Camera.getParameters().getPictureSize().height + "\n";
+    Camera.Size cs = pars.getPictureSize();
+    if (cs != null) {
+      ret += "\nCurrent Picture Format and Size:\n";
+      ret += "Format: " + m_Camera.getParameters().getPictureFormat() + "; Size: " +
+          cs.width + "x" + cs.height + "\n";
+    }
 
-    ret += "\nCurrent Preview Format and Size:\n";
-    ret += "Format: " + m_Camera.getParameters().getPreviewFormat() + "; Size: " +
-        m_Camera.getParameters().getPreviewSize().width + "x" + m_Camera.getParameters().getPreviewSize().height + "\n";
+    Camera.Size ps = pars.getPreviewSize();
+    if (ps != null) {
+      ret += "\nCurrent Preview Format and Size:\n";
+      ret += "Format: " + m_Camera.getParameters().getPreviewFormat() + "; Size: " +
+          ps.width + "x" + ps.height + "\n";
+    }
 
     return ret;
   }

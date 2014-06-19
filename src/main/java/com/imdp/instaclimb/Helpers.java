@@ -13,6 +13,9 @@ public final class Helpers {
 		public static final String CAPTURED_IMG_PREFIX = "CAPTUREDIMG_";
 		public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int CROP_IMAGE_REQUEST_CODE = 321;
+
+    //Bundles extras
+    public static final String EXTRA_CAPTURED_IMG_PATH  = "capturedImgPath";
   }
 	
 	public final static class Do {

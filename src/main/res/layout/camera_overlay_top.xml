@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:layout_gravity="center_horizontal|top" android:background="#FFDDEEFF"
+    android:layout_height="100dp" android:layout_gravity="center_horizontal|top" android:background="@color/overlay_bg"
     android:id="@+id/top_frame" android:visibility="visible" android:alpha="0.5">
 
   <EditText android:id="@+id/EditAscentName" android:layout_width="255dp"

@@ -10,5 +10,8 @@
     <string name="optional_name_of_the_boulder_route">Optional name of the boulder/route</string>
     <string name="optional_location_of_the_boulder_route">Optional location of the boulder/route</string>
     <string name="next_">Next >></string>
-    
+    <string name="title_activity_show_capture">ShowCapture</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>

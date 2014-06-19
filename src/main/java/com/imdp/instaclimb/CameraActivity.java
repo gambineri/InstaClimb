@@ -2,6 +2,7 @@ package com.imdp.instaclimb;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.*;
 import android.hardware.Camera;
@@ -40,7 +41,7 @@ public class CameraActivity extends Activity {
   // to the natural orientation of the device
   private boolean       m_ImgDimInverted  = false;
 
-  // Coordinates of capture area with respect to a cartesian system
+  // Coordinates of crop area (crop rect) with respect to a cartesian system
   // with origin in top, left of the portrait mode
   private Rect          m_CaptureRect     = new Rect(0, 0, 0, 0);
 
@@ -176,6 +177,11 @@ public class CameraActivity extends Activity {
         croppedImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);
         croppedImage.recycle();
         fos.close();
+
+        Intent i = new Intent(CameraActivity.this, ShowCapture.class);
+        i.putExtra(Helpers.Const.EXTRA_CAPTURED_IMG_PATH, m_SessionImg.getCroppedImageFilePathName());
+        View tf = findViewById(R.id.top_frame);
+        CameraActivity.this.startActivity(i);
       }
       catch (FileNotFoundException e) {
         Log.d(Helpers.Const.DBGTAG, "File not found: " + e.getMessage());

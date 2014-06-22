@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -28,10 +29,15 @@ public class ShowCapture extends Activity {
           View tf               = findViewById(R.id.sc_top_frame);
           ImageView iv          = (ImageView)findViewById(R.id.sc_img_view);
           View bf               = findViewById(R.id.sc_bottom_frame);
+          int topFrameW         = 50;
 
           if (rootView != null && bf != null && tf != null && iv != null) {
             Bundle bundle = getIntent().getExtras();
-            int topFrameW  = bundle.getInt(Helpers.Const.EXTRA_TOP_FRAME_W);
+            if (bundle != null)
+              topFrameW  = bundle.getInt(Helpers.Const.EXTRA_TOP_FRAME_W);
+            else
+              Log.w(Helpers.Const.DBGTAG, "The Bundle in ShowCapture is null. Top frame is cluelessly assigned height 50.");
+
             int squareside = rootView.getWidth();
 
             tf.setTop(0);

@@ -12,7 +12,7 @@
   <LinearLayout
       android:orientation="horizontal"
       android:layout_width="match_parent"
-      android:layout_height="100dp" android:background="@color/overlay_bg" android:id="@+id/sc_top_frame">
+      android:layout_height="200dp" android:background="@color/overlay_bg" android:id="@+id/sc_top_frame">
   </LinearLayout>
   <ImageView
       android:layout_width="match_parent"

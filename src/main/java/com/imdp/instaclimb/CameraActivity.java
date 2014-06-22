@@ -42,7 +42,7 @@ public class CameraActivity extends Activity {
   private boolean       m_ImgDimInverted  = false;
 
   // Coordinates of crop area (crop rect) with respect to a cartesian system
-  // with origin in top, left of the portrait mode
+  // having the origin in the top-left corner of the (portrait) screen
   private Rect          m_CaptureRect     = new Rect(0, 0, 0, 0);
 
   private void setUpCamera() {
@@ -181,6 +181,7 @@ public class CameraActivity extends Activity {
         Intent i = new Intent(CameraActivity.this, ShowCapture.class);
         i.putExtra(Helpers.Const.EXTRA_CAPTURED_IMG_PATH, m_SessionImg.getCroppedImageFilePathName());
         View tf = findViewById(R.id.top_frame);
+        i.putExtra(Helpers.Const.EXTRA_TOP_FRAME_W, tf.getHeight());
         CameraActivity.this.startActivity(i);
       }
       catch (FileNotFoundException e) {

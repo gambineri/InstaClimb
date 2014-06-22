@@ -16,6 +16,7 @@ public final class Helpers {
 
     //Bundles extras
     public static final String EXTRA_CAPTURED_IMG_PATH  = "capturedImgPath";
+    public static final String EXTRA_TOP_FRAME_W        = "topFrameWidth";
   }
 	
 	public final static class Do {

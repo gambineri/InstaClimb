@@ -31,7 +31,7 @@ public class ShowCapture extends Activity {
 
           if (rootView != null && bf != null && tf != null && iv != null) {
             Bundle bundle = getIntent().getExtras();
-            int topFrameW  = tf.getHeight();
+            int topFrameW  = bundle.getInt(Helpers.Const.EXTRA_TOP_FRAME_W);
             int squareside = rootView.getWidth();
 
             tf.setTop(0);

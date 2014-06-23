@@ -3,5 +3,5 @@ rootProject.name = 'instaclimb'
 //include ':cropimage'
 //project(':cropimage').projectDir = new File( rootDir, '../cropimage/cropimage' )
 
-include ':CropImage'
-project(':CropImage').projectDir = new File( rootDir, '../android-cropimage/CropImage' )
+//include ':CropImage'
+//project(':CropImage').projectDir = new File( rootDir, '../android-cropimage/CropImage' )

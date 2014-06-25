@@ -29,6 +29,7 @@ public class CameraActivity extends Activity {
   private int           m_CameraId        = -1;
   private CameraPreview m_Preview         = null;
   private SessionImage  m_SessionImg      = null;
+  ClimbInfoView         m_iv              = null;
 
   // Best resolution for the camera hardware on the current device
   private Camera.Size   m_BestRes         = null;
@@ -109,6 +110,8 @@ public class CameraActivity extends Activity {
     if (bottomOverlay != null)
       preview.addView(bottomOverlay);
 
+    m_iv = new ClimbInfoView(this);
+
     ViewTreeObserver vto = preview.getViewTreeObserver();
     if (vto != null) {
       vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -127,6 +130,17 @@ public class CameraActivity extends Activity {
             m_CaptureRect.top = tf.getHeight()*(m_ImgDimInverted ? m_BestRes.width : m_BestRes.height)/m_Preview.getHeight();
             m_CaptureRect.right = (m_ImgDimInverted ? m_BestRes.height : m_BestRes.width);
             m_CaptureRect.bottom = m_CaptureRect.top +m_CaptureRect.right;
+
+            m_iv.setLeft(0);
+            m_iv.setRight(preview.getWidth());
+            m_iv.setTop(tf.getHeight());
+            m_iv.setBottom(preview.getWidth() + tf.getHeight());
+//            m_iv.setBackgroundColor(Color.RED);
+//            m_iv.setAlpha(0.5F);
+
+
+            preview.removeView(m_iv);
+            preview.addView(m_iv);
           }
         }
       });

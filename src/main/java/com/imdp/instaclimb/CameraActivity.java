@@ -10,12 +10,11 @@ import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.*;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,7 +28,8 @@ public class CameraActivity extends Activity {
   private int           m_CameraId        = -1;
   private CameraPreview m_Preview         = null;
   private SessionImage  m_SessionImg      = null;
-  ClimbInfoView         m_iv              = null;
+  ClimbInfoView         m_ClimbInfoView   = null;
+  private boolean       m_AscNameTouched  = false;
 
   // Best resolution for the camera hardware on the current device
   private Camera.Size   m_BestRes         = null;
@@ -110,7 +110,34 @@ public class CameraActivity extends Activity {
     if (bottomOverlay != null)
       preview.addView(bottomOverlay);
 
-    m_iv = new ClimbInfoView(this);
+    TextView ascentname =(TextView)findViewById(R.id.EditAscentName);
+    ascentname.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+      @Override
+      public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+          if (m_ClimbInfoView != null) {
+            m_ClimbInfoView.setAscentName((String) v.getText());
+            m_ClimbInfoView.postInvalidate();
+          }
+          return true;
+        }
+        return false;
+      }
+    });
+
+    ascentname.setOnTouchListener(new TextView.OnTouchListener() {
+      @Override
+      public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (!m_AscNameTouched) {
+          m_AscNameTouched = true;
+          ((TextView)view).setText("");
+        }
+        return false;
+      }
+    });
+
+    m_ClimbInfoView = new ClimbInfoView(this);
 
     ViewTreeObserver vto = preview.getViewTreeObserver();
     if (vto != null) {
@@ -131,16 +158,18 @@ public class CameraActivity extends Activity {
             m_CaptureRect.right = (m_ImgDimInverted ? m_BestRes.height : m_BestRes.width);
             m_CaptureRect.bottom = m_CaptureRect.top +m_CaptureRect.right;
 
-            m_iv.setLeft(0);
-            m_iv.setRight(preview.getWidth());
-            m_iv.setTop(tf.getHeight());
-            m_iv.setBottom(preview.getWidth() + tf.getHeight());
-//            m_iv.setBackgroundColor(Color.RED);
-//            m_iv.setAlpha(0.5F);
+            m_ClimbInfoView.setLeft(0);
+            m_ClimbInfoView.setRight(preview.getWidth());
+            m_ClimbInfoView.setTop(tf.getHeight());
+            m_ClimbInfoView.setBottom(preview.getWidth() + tf.getHeight());
 
+            m_ClimbInfoView.setSquareSide(preview.getWidth());
 
-            preview.removeView(m_iv);
-            preview.addView(m_iv);
+//            m_ClimbInfoView.setBackgroundColor(Color.RED);
+//            m_ClimbInfoView.setAlpha(0.5F);
+
+            preview.removeView(m_ClimbInfoView);
+            preview.addView(m_ClimbInfoView);
           }
         }
       });

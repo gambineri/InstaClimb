@@ -70,7 +70,7 @@ public class ClimbInfoView extends ImageView {
     m_Paint.setShadowLayer(5f, 5f, 5f, Color.BLACK);
 
     canvas.drawText(m_AscentName, 100, 100, m_Paint);
-    canvas.drawText("Feels like 7b+", m_FeelsLikeRect.left + 10, m_FeelsLikeRect.top + 10, m_Paint);
+    canvas.drawText("Feels like 7b+", m_FeelsLikeRect.left + 10, m_FeelsLikeRect.top + 100, m_Paint);
   }
 
 }

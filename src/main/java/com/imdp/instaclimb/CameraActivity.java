@@ -138,6 +138,7 @@ public class CameraActivity extends Activity {
     });
 
     m_ClimbInfoView = new ClimbInfoView(this);
+    m_ClimbInfoView.setDrawingCacheEnabled(true);
 
     ViewTreeObserver vto = preview.getViewTreeObserver();
     if (vto != null) {
@@ -164,9 +165,6 @@ public class CameraActivity extends Activity {
             m_ClimbInfoView.setBottom(preview.getWidth() + tf.getHeight());
 
             m_ClimbInfoView.setSquareSide(preview.getWidth());
-
-//            m_ClimbInfoView.setBackgroundColor(Color.RED);
-//            m_ClimbInfoView.setAlpha(0.5F);
 
             preview.removeView(m_ClimbInfoView);
             preview.addView(m_ClimbInfoView);
@@ -216,9 +214,31 @@ public class CameraActivity extends Activity {
         bitmap.recycle();
         Bitmap croppedImage = cropImage(bmpRotated, m_CaptureRect, true);
         bmpRotated.recycle();
+
+        // Merge with ClimbInfoView bitmap
+//        Bitmap bmpClimbInfo = ((BitmapDrawable)m_ClimbInfoView.getDrawable()).getBitmap();
+
+//        m_ClimbInfoView.setDrawingCacheEnabled(true);
+//        m_ClimbInfoView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+//                                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+//        m_ClimbInfoView.layout(0, 0, m_ClimbInfoView.getMeasuredWidth(), m_ClimbInfoView.getMeasuredHeight());
+//        m_ClimbInfoView.buildDrawingCache(true);
+        Bitmap bmpClimbInfo = Bitmap.createBitmap(m_ClimbInfoView.getDrawingCache());
+//        m_ClimbInfoView.setDrawingCacheEnabled(false);
+//        m_ClimbInfoView.destroyDrawingCache();
+
+        Bitmap cs = Bitmap.createBitmap(croppedImage.getWidth(), croppedImage.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas comboImage = new Canvas(cs);
+        comboImage.drawBitmap(croppedImage, 0f, 0f, null);
+        comboImage.drawBitmap(bmpClimbInfo, 0f, 0f, null);
+
         FileOutputStream fos = new FileOutputStream(m_SessionImg.getCroppedImageFilePathName());
-        croppedImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-        croppedImage.recycle();
+
+//        croppedImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+//        croppedImage.recycle();
+        cs.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+        cs.recycle();
+
         fos.close();
 
         Intent i = new Intent(CameraActivity.this, ShowCapture.class);

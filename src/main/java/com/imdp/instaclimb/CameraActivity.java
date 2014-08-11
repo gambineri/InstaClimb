@@ -216,31 +216,34 @@ public class CameraActivity extends Activity {
         bmpRotated.recycle();
 
         // Merge with ClimbInfoView bitmap
-//        Bitmap bmpClimbInfo = ((BitmapDrawable)m_ClimbInfoView.getDrawable()).getBitmap();
+        int ssClimbInfoImageView = m_ClimbInfoView.getSquareSide();
+        int ssRealImage = croppedImage.getWidth();//m_CaptureRect.height();
 
-//        m_ClimbInfoView.setDrawingCacheEnabled(true);
-//        m_ClimbInfoView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-//                                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-//        m_ClimbInfoView.layout(0, 0, m_ClimbInfoView.getMeasuredWidth(), m_ClimbInfoView.getMeasuredHeight());
-//        m_ClimbInfoView.buildDrawingCache(true);
         Bitmap bmpClimbInfo = Bitmap.createBitmap(m_ClimbInfoView.getDrawingCache());
-//        m_ClimbInfoView.setDrawingCacheEnabled(false);
-//        m_ClimbInfoView.destroyDrawingCache();
-
-        Bitmap cs = Bitmap.createBitmap(croppedImage.getWidth(), croppedImage.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap cs = Bitmap.createBitmap(ssRealImage, ssRealImage, Bitmap.Config.ARGB_8888);
         Canvas comboImage = new Canvas(cs);
+
+        // Draw picture shot layer image
         comboImage.drawBitmap(croppedImage, 0f, 0f, null);
-        comboImage.drawBitmap(bmpClimbInfo, 0f, 0f, null);
 
+        // Draw Climb Info layer image
+        comboImage.drawBitmap(
+            bmpClimbInfo,
+            new Rect(0, 0, ssClimbInfoImageView, ssClimbInfoImageView),
+            new Rect(0, 0, ssRealImage, ssRealImage),
+            null);
+
+        // Garbage collect
+        croppedImage.recycle();
+        bmpClimbInfo.recycle();
+
+        //Save on disk
         FileOutputStream fos = new FileOutputStream(m_SessionImg.getCroppedImageFilePathName());
-
-//        croppedImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-//        croppedImage.recycle();
         cs.compress(Bitmap.CompressFormat.JPEG, 90, fos);
         cs.recycle();
-
         fos.close();
 
+        // Show results
         Intent i = new Intent(CameraActivity.this, ShowCapture.class);
         i.putExtra(Helpers.Const.EXTRA_CAPTURED_IMG_PATH, m_SessionImg.getCroppedImageFilePathName());
         View tf = findViewById(R.id.top_frame);

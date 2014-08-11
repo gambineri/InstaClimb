@@ -20,6 +20,8 @@ public class ClimbInfoView extends ImageView {
     return m_Measured;
   }
 
+  public int getSquareSide() { return m_SquareSide; }
+
   public void setSquareSide(int ss) {
 //    setLeft(left);
 //    setTop(top);

@@ -146,30 +146,29 @@ public class CameraActivity extends Activity {
       vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
-          //At this point the layout is complete and the
-          //dimensions of myView and any child views are known.
-          FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-          View bf = findViewById(R.id.bottom_frame);
-          View tf = findViewById(R.id.top_frame);
-          if (preview != null && bf != null && tf != null) {
-            bf.setTop(preview.getWidth() + tf.getHeight());
+        //At this point the layout is complete and the dimensions of myView and any child views are known.
+        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        View bf = findViewById(R.id.bottom_frame);
+        View tf = findViewById(R.id.top_frame);
+        if (preview != null && bf != null && tf != null) {
+          bf.setTop(preview.getWidth() + tf.getHeight());
 
-            //calculate coordinates of capture rect as if (0, 0) is in the top-left corner (portrait mode)
-            m_CaptureRect.left = 0;
-            m_CaptureRect.top = tf.getHeight()*(m_ImgDimInverted ? m_BestRes.width : m_BestRes.height)/m_Preview.getHeight();
-            m_CaptureRect.right = (m_ImgDimInverted ? m_BestRes.height : m_BestRes.width);
-            m_CaptureRect.bottom = m_CaptureRect.top +m_CaptureRect.right;
+          //calculate coordinates of capture rect as if (0, 0) is in the top-left corner (portrait mode)
+          m_CaptureRect.left = 0;
+          m_CaptureRect.top = tf.getHeight()*(m_ImgDimInverted ? m_BestRes.width : m_BestRes.height)/m_Preview.getHeight();
+          m_CaptureRect.right = (m_ImgDimInverted ? m_BestRes.height : m_BestRes.width);
+          m_CaptureRect.bottom = m_CaptureRect.top +m_CaptureRect.right;
 
-            m_ClimbInfoView.setLeft(0);
-            m_ClimbInfoView.setRight(preview.getWidth());
-            m_ClimbInfoView.setTop(tf.getHeight());
-            m_ClimbInfoView.setBottom(preview.getWidth() + tf.getHeight());
+          m_ClimbInfoView.setLeft(0);
+          m_ClimbInfoView.setRight(preview.getWidth());
+          m_ClimbInfoView.setTop(tf.getHeight());
+          m_ClimbInfoView.setBottom(preview.getWidth() + tf.getHeight());
 
-            m_ClimbInfoView.setSquareSide(preview.getWidth());
+          m_ClimbInfoView.setSquareSide(preview.getWidth());
 
-            preview.removeView(m_ClimbInfoView);
-            preview.addView(m_ClimbInfoView);
-          }
+          preview.removeView(m_ClimbInfoView);
+          preview.addView(m_ClimbInfoView);
+        }
         }
       });
     }

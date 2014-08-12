@@ -139,6 +139,7 @@ public class CameraActivity extends Activity {
 
     m_ClimbInfoView = new ClimbInfoView(this);
     m_ClimbInfoView.setDrawingCacheEnabled(true);
+    m_ClimbInfoView.setVisibility(View.INVISIBLE);
 
     ViewTreeObserver vto = preview.getViewTreeObserver();
     if (vto != null) {

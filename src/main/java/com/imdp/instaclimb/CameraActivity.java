@@ -8,6 +8,7 @@ import android.graphics.*;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -140,6 +141,9 @@ public class CameraActivity extends Activity {
     m_ClimbInfoView = new ClimbInfoView(this);
     m_ClimbInfoView.setDrawingCacheEnabled(true);
     m_ClimbInfoView.setVisibility(View.INVISIBLE);
+    m_ClimbInfoView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+    m_ClimbInfoView.layout(0, 0, m_ClimbInfoView.getMeasuredWidth(), m_ClimbInfoView.getMeasuredHeight());
 
     ViewTreeObserver vto = preview.getViewTreeObserver();
     if (vto != null) {
@@ -208,53 +212,8 @@ public class CameraActivity extends Activity {
   private PictureCallback m_Picture = new PictureCallback() {
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
-      try {
-        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-        Bitmap bmpRotated = rotBMP(bitmap);
-        bitmap.recycle();
-        Bitmap croppedImage = cropImage(bmpRotated, m_CaptureRect, true);
-        bmpRotated.recycle();
 
-        // Merge with ClimbInfoView bitmap
-        int ssClimbInfoImageView = m_ClimbInfoView.getSquareSide();
-        int ssRealImage = croppedImage.getWidth();//m_CaptureRect.height();
-
-        Bitmap bmpClimbInfo = Bitmap.createBitmap(m_ClimbInfoView.getDrawingCache());
-        Bitmap cs = Bitmap.createBitmap(ssRealImage, ssRealImage, Bitmap.Config.ARGB_8888);
-        Canvas comboImage = new Canvas(cs);
-
-        // Draw picture shot layer image
-        comboImage.drawBitmap(croppedImage, 0f, 0f, null);
-
-        // Draw Climb Info layer image
-        comboImage.drawBitmap(
-            bmpClimbInfo,
-            new Rect(0, 0, ssClimbInfoImageView, ssClimbInfoImageView),
-            new Rect(0, 0, ssRealImage, ssRealImage),
-            null);
-
-        // Garbage collect
-        croppedImage.recycle();
-        bmpClimbInfo.recycle();
-
-        //Save on disk
-        FileOutputStream fos = new FileOutputStream(m_SessionImg.getCroppedImageFilePathName());
-        cs.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-        cs.recycle();
-        fos.close();
-
-        // Show results
-        Intent i = new Intent(CameraActivity.this, ShowCapture.class);
-        i.putExtra(Helpers.Const.EXTRA_CAPTURED_IMG_PATH, m_SessionImg.getCroppedImageFilePathName());
-        View tf = findViewById(R.id.top_frame);
-        i.putExtra(Helpers.Const.EXTRA_TOP_FRAME_W, tf.getHeight());
-        CameraActivity.this.startActivity(i);
-      }
-      catch (FileNotFoundException e) {
-        Log.d(Helpers.Const.DBGTAG, "File not found: " + e.getMessage());
-      } catch (IOException e) {
-        Log.d(Helpers.Const.DBGTAG, "Error accessing file: " + e.getMessage());
-      }
+      new InstaJob().execute(data);
     }
   };
 
@@ -461,4 +420,74 @@ public class CameraActivity extends Activity {
       }
     }
   } // *** class CameraPreview
+
+  private class InstaJob extends AsyncTask<byte[], String, Void> {
+
+    private void drawInstaClimbInfo(Canvas canvas, int ss) {
+      RectF rf = new RectF(0, 0, 0, 0);
+      rf.set(20, ss-120, ss-20, ss-20);
+      Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+      p.setColor(Color.GRAY);
+      p.setAlpha(128);
+      canvas.drawRoundRect(rf, 10, 10, p);
+
+      p.setColor(Color.WHITE);
+      p.setTextSize(94);
+
+      p.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+      p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
+
+//      canvas.drawText(m_AscentName, 100, 100, p);
+      canvas.drawText("Feels like 7b+", rf.left + 20, rf.top + 20, p);
+    }
+
+    @Override
+    protected Void doInBackground(byte[]... data) {
+      try {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(data[0], 0, data[0].length);
+        Bitmap bmpRotated = rotBMP(bitmap);
+        bitmap.recycle();
+        Bitmap croppedImage = cropImage(bmpRotated, m_CaptureRect, true);
+        bmpRotated.recycle();
+
+        int ssRealImage = croppedImage.getWidth();
+        Bitmap cs = Bitmap.createBitmap(ssRealImage, ssRealImage, Bitmap.Config.ARGB_8888);
+        Canvas comboImage = new Canvas(cs);
+
+        // Draw picture shot layer image
+        comboImage.drawBitmap(croppedImage, 0f, 0f, null);
+        drawInstaClimbInfo(comboImage, ssRealImage);
+
+        // Garbage collect
+        croppedImage.recycle();
+
+        //Save on disk
+        FileOutputStream fos = new FileOutputStream(m_SessionImg.getCroppedImageFilePathName());
+        cs.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+        cs.recycle();
+        fos.close();
+
+        // Show results
+        Intent i = new Intent(CameraActivity.this, ShowCapture.class);
+        i.putExtra(Helpers.Const.EXTRA_CAPTURED_IMG_PATH, m_SessionImg.getCroppedImageFilePathName());
+        View tf = findViewById(R.id.top_frame);
+        i.putExtra(Helpers.Const.EXTRA_TOP_FRAME_W, tf.getHeight());
+        CameraActivity.this.startActivity(i);
+      }
+      catch (FileNotFoundException e) {
+        Log.d(Helpers.Const.DBGTAG, "File not found: " + e.getMessage());
+      } catch (IOException e) {
+        Log.d(Helpers.Const.DBGTAG, "Error accessing file: " + e.getMessage());
+      }
+      return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+      super.onPostExecute(aVoid);
+
+
+    }
+  } // *** class InstaJob
+
 } // *** class CameraActivity

@@ -1,6 +1,7 @@
 package com.imdp.instaclimb;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -421,7 +422,12 @@ public class CameraActivity extends Activity {
     }
   } // *** class CameraPreview
 
+  /**
+   * The InstaJob class
+   * */
   private class InstaJob extends AsyncTask<byte[], String, Void> {
+
+    ProgressDialog m_ProgressDlg = null;
 
     private void drawInstaClimbInfo(Canvas canvas, int ss) {
       RectF rf = new RectF(0, 0, 0, 0);
@@ -442,6 +448,17 @@ public class CameraActivity extends Activity {
     }
 
     @Override
+    protected void onPreExecute() {
+      super.onPreExecute();
+
+      m_ProgressDlg = new ProgressDialog(CameraActivity.this);
+      m_ProgressDlg.setCancelable(true);
+      m_ProgressDlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+      m_ProgressDlg.setTitle("InstaClimbing right now...");
+      m_ProgressDlg.show();
+    }
+
+    @Override
     protected Void doInBackground(byte[]... data) {
       try {
         Bitmap bitmap = BitmapFactory.decodeByteArray(data[0], 0, data[0].length);
@@ -450,13 +467,20 @@ public class CameraActivity extends Activity {
         Bitmap croppedImage = cropImage(bmpRotated, m_CaptureRect, true);
         bmpRotated.recycle();
 
+//        publishProgress("Calculating...");
+//        m_ProgressDlg.setMessage("Rotating /  Cropping...");
+
         int ssRealImage = croppedImage.getWidth();
         Bitmap cs = Bitmap.createBitmap(ssRealImage, ssRealImage, Bitmap.Config.ARGB_8888);
         Canvas comboImage = new Canvas(cs);
 
+//        publishProgress("Drawing snapshot...");
+
         // Draw picture shot layer image
         comboImage.drawBitmap(croppedImage, 0f, 0f, null);
         drawInstaClimbInfo(comboImage, ssRealImage);
+
+//        publishProgress("Grading...");
 
         // Garbage collect
         croppedImage.recycle();
@@ -467,12 +491,7 @@ public class CameraActivity extends Activity {
         cs.recycle();
         fos.close();
 
-        // Show results
-        Intent i = new Intent(CameraActivity.this, ShowCapture.class);
-        i.putExtra(Helpers.Const.EXTRA_CAPTURED_IMG_PATH, m_SessionImg.getCroppedImageFilePathName());
-        View tf = findViewById(R.id.top_frame);
-        i.putExtra(Helpers.Const.EXTRA_TOP_FRAME_W, tf.getHeight());
-        CameraActivity.this.startActivity(i);
+//        publishProgress("Done.");
       }
       catch (FileNotFoundException e) {
         Log.d(Helpers.Const.DBGTAG, "File not found: " + e.getMessage());
@@ -486,6 +505,19 @@ public class CameraActivity extends Activity {
     protected void onPostExecute(Void aVoid) {
       super.onPostExecute(aVoid);
 
+      // Show results
+      Intent i = new Intent(CameraActivity.this, ShowCapture.class);
+      i.putExtra(Helpers.Const.EXTRA_CAPTURED_IMG_PATH, m_SessionImg.getCroppedImageFilePathName());
+      View tf = findViewById(R.id.top_frame);
+      i.putExtra(Helpers.Const.EXTRA_TOP_FRAME_W, tf.getHeight());
+      CameraActivity.this.startActivity(i);
+
+      m_ProgressDlg.dismiss();
+    }
+
+    @Override
+    protected void onProgressUpdate(String... values) {
+      super.onProgressUpdate(values);
 
     }
   } // *** class InstaJob

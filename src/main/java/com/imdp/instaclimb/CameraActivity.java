@@ -469,7 +469,8 @@ public class CameraActivity extends Activity {
       layout.measure(ss, ss);
 
       //7. Now we apply the measures so that it embiggens to the correct size before drawing.
-      layout.layout(0, 0, layout.getMeasuredWidth(), layout.getMeasuredHeight());
+//      layout.layout(0, 0, layout.getMeasuredWidth(), layout.getMeasuredHeight());
+      layout.layout(0, 0, ss, ss);
 
       layout.draw(canvas);
     }

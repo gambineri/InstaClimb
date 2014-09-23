@@ -459,22 +459,6 @@ public class CameraActivity extends Activity {
 
     }
 
-    private void drawInflatedLayout(Canvas canvas, int ss, int insta_layout) {
-      LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      View layout = inflater.inflate(insta_layout, null);
-
-      //6. Tell the layout how big it should be. In this case we are using the full size of the canvas.
-//      layout.measure(View.MeasureSpec.makeMeasureSpec(canvas.getWidth(), View.MeasureSpec.EXACTLY),
-//                     View.MeasureSpec.makeMeasureSpec(canvas.getHeight(), View.MeasureSpec.EXACTLY));
-      layout.measure(ss, ss);
-
-      //7. Now we apply the measures so that it embiggens to the correct size before drawing.
-//      layout.layout(0, 0, layout.getMeasuredWidth(), layout.getMeasuredHeight());
-      layout.layout(0, 0, ss, ss);
-
-      layout.draw(canvas);
-    }
-
     @Override
     protected Void doInBackground(byte[]... data) {
       try {
@@ -495,8 +479,7 @@ public class CameraActivity extends Activity {
 
         // Draw picture shot layer image
         comboImage.drawBitmap(croppedImage, 0f, 0f, null);
-//        drawInstaClimbInfo(comboImage, ssRealImage);
-        drawInflatedLayout(comboImage, ssRealImage, R.layout.insta_01);
+        drawInstaClimbInfo(comboImage, ssRealImage);
 
 //        publishProgress("Grading...");
 

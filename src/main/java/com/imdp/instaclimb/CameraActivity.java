@@ -430,23 +430,44 @@ public class CameraActivity extends Activity {
     ProgressDialog m_ProgressDlg = null;
 
     private void drawInstaClimbInfo(Canvas canvas, int ss) {
-      RectF rf = new RectF(0, ss-200, ss, ss);
-//      rf.set(0, ss-200, ss, ss);
       Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+      // ---***--- Feels Like
+      RectF feelsLikeRect = new RectF(0, ss-300, ss, ss-150);
       p.setColor(Color.GRAY);
       p.setAlpha(128);
-      canvas.drawRoundRect(rf, 10, 10, p);
+      canvas.drawRoundRect(feelsLikeRect, 10, 10, p);
 
+      Typeface feelsLikeFont = Typeface.createFromAsset(getAssets(), "Khand-Light.ttf");//"ArchitectsDaughter.ttf");
+      p.setTypeface(feelsLikeFont);
       p.setColor(Color.WHITE);
-      p.setTextSize(94);
-
-      Typeface instafont = Typeface.createFromAsset(getAssets(), "ArchitectsDaughter.ttf");
-      p.setTypeface(instafont);
+      p.setTextSize(80);
       p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
 
-      String feelsLike = "Feels like 7b+";
+      String feelsLike = "Feels like: 7b+";
       int feelsLikeLen = (int)p.measureText(feelsLike);
-      canvas.drawText(feelsLike, rf.right - feelsLikeLen - feelsLikeLen/10, rf.top + 130, p);
+      canvas.drawText(feelsLike, feelsLikeRect.right - feelsLikeLen - feelsLikeLen/10, feelsLikeRect.top + 100, p);
+
+      // Date
+      Typeface instafont = Typeface.createFromAsset(getAssets(), "Khand-Light.ttf");
+//      p.setTypeface(instafont);
+      p.setColor(Color.WHITE);
+      p.setTextSize(75);
+      p.setShadowLayer(7f, 7f, 7f, Color.BLACK);
+      String datestr = "12 Dic 2014 - 11.27 AM";
+      canvas.drawText(datestr, 50, 100, p);
+
+      // Spot
+      String spotname = "Secret Spot";
+      int spotnameLen = (int)p.measureText(feelsLike);
+      canvas.drawText(spotname, ss - spotnameLen - spotnameLen/10, 200, p);
+
+      // Ascent name and Insta grade...
+      String instaGrade = "C'e` vita oltre la fregna?  7c+";
+      p.setColor(Color.WHITE);
+      p.setTextSize(110);
+      p.setShadowLayer(2f, 2f, 2f, Color.BLACK);
+      canvas.drawText(instaGrade, 50, feelsLikeRect.top - 70, p);
     }
 
     @Override

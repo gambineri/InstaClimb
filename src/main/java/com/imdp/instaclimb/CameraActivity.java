@@ -430,8 +430,8 @@ public class CameraActivity extends Activity {
     ProgressDialog m_ProgressDlg = null;
 
     private void drawInstaClimbInfo(Canvas canvas, int ss) {
-      RectF rf = new RectF(0, 0, 0, 0);
-      rf.set(20, ss-120, ss-20, ss-20);
+      RectF rf = new RectF(0, ss-200, ss, ss);
+//      rf.set(0, ss-200, ss, ss);
       Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
       p.setColor(Color.GRAY);
       p.setAlpha(128);
@@ -440,11 +440,13 @@ public class CameraActivity extends Activity {
       p.setColor(Color.WHITE);
       p.setTextSize(94);
 
-      p.setTypeface(Typeface.create("sans-serif", Typeface.BOLD_ITALIC));
+      Typeface instafont = Typeface.createFromAsset(getAssets(), "ArchitectsDaughter.ttf");
+      p.setTypeface(instafont);
       p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
 
-//      canvas.drawText(m_AscentName, 100, 100, p);
-      canvas.drawText("Feels like 7b+", rf.left + 20, rf.top + 20, p);
+      String feelsLike = "Feels like 7b+";
+      int feelsLikeLen = (int)p.measureText(feelsLike);
+      canvas.drawText(feelsLike, rf.right - feelsLikeLen - feelsLikeLen/10, rf.top + 130, p);
     }
 
     @Override

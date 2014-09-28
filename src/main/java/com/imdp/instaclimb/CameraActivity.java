@@ -11,6 +11,7 @@ import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.EditorInfo;
@@ -433,7 +434,7 @@ public class CameraActivity extends Activity {
       Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
 
       // ---***--- Feels Like
-      RectF feelsLikeRect = new RectF(0, ss-300, ss, ss-150);
+      RectF feelsLikeRect = new RectF(0, ss-350, ss, ss);
       p.setColor(Color.GRAY);
       p.setAlpha(128);
       canvas.drawRoundRect(feelsLikeRect, 10, 10, p);
@@ -441,33 +442,37 @@ public class CameraActivity extends Activity {
       Typeface feelsLikeFont = Typeface.createFromAsset(getAssets(), "Khand-Light.ttf");//"ArchitectsDaughter.ttf");
       p.setTypeface(feelsLikeFont);
       p.setColor(Color.WHITE);
-      p.setTextSize(80);
+      p.setTextSize(70);
       p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
 
       String feelsLike = "Feels like: 7b+";
       int feelsLikeLen = (int)p.measureText(feelsLike);
-      canvas.drawText(feelsLike, feelsLikeRect.right - feelsLikeLen - feelsLikeLen/10, feelsLikeRect.top + 100, p);
+      canvas.drawText(feelsLike, feelsLikeRect.right - feelsLikeLen - feelsLikeLen/10, ss-70, p);
 
       // Date
       Typeface instafont = Typeface.createFromAsset(getAssets(), "Khand-Light.ttf");
 //      p.setTypeface(instafont);
       p.setColor(Color.WHITE);
-      p.setTextSize(75);
-      p.setShadowLayer(7f, 7f, 7f, Color.BLACK);
-      String datestr = "12 Dic 2014 - 11.27 AM";
+      p.setTextSize(60);
+      p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
+
+      Time now = new Time();
+      now.setToNow();
+      String datestr = now.format("%d.%m.%Y - %H:%M");
       canvas.drawText(datestr, 50, 100, p);
 
       // Spot
       String spotname = "Secret Spot";
       int spotnameLen = (int)p.measureText(feelsLike);
-      canvas.drawText(spotname, ss - spotnameLen - spotnameLen/10, 200, p);
+      p.setTextSize(80);
+      canvas.drawText(spotname, 50, 200, p);
 
       // Ascent name and Insta grade...
-      String instaGrade = "C'e` vita oltre la fregna?  7c+";
+      String instaGrade = "ZMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMZ 7c+";
       p.setColor(Color.WHITE);
       p.setTextSize(110);
       p.setShadowLayer(2f, 2f, 2f, Color.BLACK);
-      canvas.drawText(instaGrade, 50, feelsLikeRect.top - 70, p);
+      canvas.drawText(instaGrade, 50, ss-200, p);
     }
 
     @Override

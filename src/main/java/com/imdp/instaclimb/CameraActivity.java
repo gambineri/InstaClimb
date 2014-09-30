@@ -24,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Random;
 
 public class CameraActivity extends Activity {
 
@@ -430,6 +431,18 @@ public class CameraActivity extends Activity {
 
     ProgressDialog m_ProgressDlg = null;
 
+    private String generateGrade() {
+      String gradeNum[] = {"5", "6", "7", "8", "9"};
+      String gradeAbc[] = {"a", "b", "c"};
+      String gradePlus[] = {"", "+"};
+
+      Random r = new Random();
+      return new StringBuffer(gradeNum[r.nextInt(5)])
+                    .append(gradeAbc[r.nextInt(3)])
+                    .append(gradePlus[r.nextInt(2)])
+                    .toString();
+    }
+
     private void drawInstaClimbInfo(Canvas canvas, int ss) {
       Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
 
@@ -445,7 +458,7 @@ public class CameraActivity extends Activity {
       p.setTextSize(70);
       p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
 
-      String feelsLike = "Feels like: 7b+";
+      String feelsLike = "Feels like: " + generateGrade();
       int feelsLikeLen = (int)p.measureText(feelsLike);
       canvas.drawText(feelsLike, feelsLikeRect.right - feelsLikeLen - feelsLikeLen/10, ss-70, p);
 
@@ -468,7 +481,7 @@ public class CameraActivity extends Activity {
       canvas.drawText(spotname, 50, 200, p);
 
       // Ascent name and Insta grade...
-      String instaGrade = "ZMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMZ 7c+";
+      String instaGrade = "Permanent Flebo " + generateGrade();
       p.setColor(Color.WHITE);
       p.setTextSize(110);
       p.setShadowLayer(2f, 2f, 2f, Color.BLACK);

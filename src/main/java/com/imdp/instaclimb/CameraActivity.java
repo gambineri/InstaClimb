@@ -443,7 +443,21 @@ public class CameraActivity extends Activity {
                     .toString();
     }
 
+    private int bestFontSizePerWidth(String txt, int maxwidth,  int startsize, Paint p) {
+      int curwidth = (int)p.measureText(txt);
+      int cursize = startsize;
+
+      while (curwidth > maxwidth) {
+        cursize--;
+        p.setTextSize(cursize);
+        curwidth = (int)p.measureText(txt);
+      }
+
+      return cursize;
+    }
+
     private void drawInstaClimbInfo(Canvas canvas, int ss) {
+      int leftMargin = 50;
       Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
 
       // ---***--- Feels Like
@@ -463,7 +477,7 @@ public class CameraActivity extends Activity {
       canvas.drawText(feelsLike, feelsLikeRect.right - feelsLikeLen - feelsLikeLen/10, ss-70, p);
 
       // Date
-      Typeface instafont = Typeface.createFromAsset(getAssets(), "Khand-Light.ttf");
+//      Typeface instafont = Typeface.createFromAsset(getAssets(), "Khand-Light.ttf");
 //      p.setTypeface(instafont);
       p.setColor(Color.WHITE);
       p.setTextSize(60);
@@ -472,20 +486,20 @@ public class CameraActivity extends Activity {
       Time now = new Time();
       now.setToNow();
       String datestr = now.format("%d.%m.%Y - %H:%M");
-      canvas.drawText(datestr, 50, 100, p);
+//      canvas.drawText(datestr, ss-leftMargin-(int)p.measureText(datestr), 100, p);  //right align
+      canvas.drawText(datestr, leftMargin, 100, p);
 
       // Spot
       String spotname = "Secret Spot";
-      int spotnameLen = (int)p.measureText(feelsLike);
-      p.setTextSize(80);
-      canvas.drawText(spotname, 50, 200, p);
+      p.setTextSize(bestFontSizePerWidth(spotname, ss-leftMargin*2, 130, p));
+      canvas.drawText(spotname, leftMargin, 230, p);
 
       // Ascent name and Insta grade...
-      String instaGrade = "Permanent Flebo " + generateGrade();
+      String instaGrade = "Startak " + generateGrade();
       p.setColor(Color.WHITE);
-      p.setTextSize(110);
+      p.setTextSize(bestFontSizePerWidth(instaGrade, ss-leftMargin*2, 180, p));
       p.setShadowLayer(2f, 2f, 2f, Color.BLACK);
-      canvas.drawText(instaGrade, 50, ss-200, p);
+      canvas.drawText(instaGrade, leftMargin, ss-200, p);
     }
 
     @Override

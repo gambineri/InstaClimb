@@ -513,9 +513,9 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
       m_ProgressDlg = new ProgressDialog(CameraActivity.this);
       m_ProgressDlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
       m_ProgressDlg.setCancelable(true);
-      m_ProgressDlg.setTitle("InstaClimbing right now...");
+      m_ProgressDlg.setTitle("Insta-Climbing...");
+//      m_ProgressDlg.setIndeterminate(true);
       m_ProgressDlg.show();
-
     }
 
     @Override
@@ -527,20 +527,19 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
         Bitmap croppedImage = cropImage(bmpRotated, m_CaptureRect, true);
         bmpRotated.recycle();
 
-//        publishProgress("Calculating...");
-//        m_ProgressDlg.setMessage("Rotating /  Cropping...");
+        publishProgress("Rotating and cropping...");
 
         int ssRealImage = croppedImage.getWidth();
         Bitmap cs = Bitmap.createBitmap(ssRealImage, ssRealImage, Bitmap.Config.ARGB_8888);
         Canvas comboImage = new Canvas(cs);
 
-//        publishProgress("Drawing snapshot...");
+        publishProgress("Drawing snapshot...");
 
         // Draw picture shot layer image
         comboImage.drawBitmap(croppedImage, 0f, 0f, null);
         drawInstaClimbInfo(comboImage, ssRealImage);
 
-//        publishProgress("Grading...");
+        publishProgress("Grading...");
 
         // Garbage collect
         croppedImage.recycle();
@@ -551,7 +550,7 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
         cs.recycle();
         fos.close();
 
-//        publishProgress("Done.");
+        publishProgress("Done!");
       }
       catch (FileNotFoundException e) {
         Log.d(Helpers.Const.DBGTAG, "File not found: " + e.getMessage());
@@ -578,7 +577,6 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
     @Override
     protected void onProgressUpdate(String... values) {
       super.onProgressUpdate(values);
-
     }
   } // *** class InstaJob
 

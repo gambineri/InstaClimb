@@ -10,8 +10,8 @@ import android.widget.ImageView;
 public class ClimbInfoView extends ImageView {
 
   private Paint   m_Paint = null;
-  private String  m_AscentName = "";
-  private String  m_Location = "";
+  private String  m_AscentName = "No Name";
+  private String  m_Location = "Secret Spot";
   private RectF   m_FeelsLikeRect = new RectF(0, 0, 0, 0);
   private int     m_SquareSide = 0;
   private boolean m_Measured = false;
@@ -40,6 +40,10 @@ public class ClimbInfoView extends ImageView {
   public void setLocation(String m_Location) {
     this.m_Location = m_Location;
   }
+
+  public String getAscentName() {return m_AscentName; }
+
+  public String getLocation() { return m_Location; }
 
   public ClimbInfoView(Context context) {
     super(context);

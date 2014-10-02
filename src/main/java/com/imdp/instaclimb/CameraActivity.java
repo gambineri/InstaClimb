@@ -34,6 +34,8 @@ public class CameraActivity extends Activity {
   private SessionImage  m_SessionImg      = null;
   ClimbInfoView         m_ClimbInfoView   = null;
   private boolean       m_AscNameTouched  = false;
+  private String        m_AscentName = "";
+  private String        m_Location = "";
 
   // Best resolution for the camera hardware on the current device
   private Camera.Size   m_BestRes         = null;
@@ -143,7 +145,11 @@ public class CameraActivity extends Activity {
 
     m_ClimbInfoView = new ClimbInfoView(this);
     m_ClimbInfoView.setDrawingCacheEnabled(true);
-    m_ClimbInfoView.setVisibility(View.INVISIBLE);
+/*
+TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer insta PRIMA dello scatto e sara` reso visibile
+*/
+    m_ClimbInfoView.setVisibility(View.INVISIBLE); // da rimuovere
+
     m_ClimbInfoView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
     m_ClimbInfoView.layout(0, 0, m_ClimbInfoView.getMeasuredWidth(), m_ClimbInfoView.getMeasuredHeight());
@@ -215,7 +221,6 @@ public class CameraActivity extends Activity {
   private PictureCallback m_Picture = new PictureCallback() {
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
-
       new InstaJob().execute(data);
     }
   };
@@ -241,7 +246,7 @@ public class CameraActivity extends Activity {
       croppedImage = Bitmap.createBitmap(srcW, srcH, Bitmap.Config.RGB_565);
       Canvas canvas = new Canvas(croppedImage);
 
-      Rect dstRect = new Rect(0, 0,srcW, srcH);
+      Rect dstRect = new Rect(0, 0, srcW, srcH);
 
       // Draw the cropped bitmap in the center
       canvas.drawBitmap(srcBitmap, srcRect, dstRect, null);
@@ -356,7 +361,6 @@ public class CameraActivity extends Activity {
           m_BestRes = tmp;
       }
     }
-
   }
 
   /**
@@ -490,12 +494,12 @@ public class CameraActivity extends Activity {
       canvas.drawText(datestr, leftMargin, 100, p);
 
       // Spot
-      String spotname = "Secret Spot";
+      String spotname = m_ClimbInfoView.getLocation();
       p.setTextSize(bestFontSizePerWidth(spotname, ss-leftMargin*2, 130, p));
       canvas.drawText(spotname, leftMargin, 230, p);
 
       // Ascent name and Insta grade...
-      String instaGrade = "Startak " + generateGrade();
+      String instaGrade = m_ClimbInfoView.getAscentName() + " " + generateGrade();
       p.setColor(Color.WHITE);
       p.setTextSize(bestFontSizePerWidth(instaGrade, ss-leftMargin*2, 180, p));
       p.setShadowLayer(2f, 2f, 2f, Color.BLACK);

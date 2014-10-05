@@ -446,16 +446,16 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
 
     private int m_ProgressStatus = 0;
 
-    private void updPBar() {
+    private void updateProgressBar(int ps_val) {
       // Update the progress bar
+
+      m_ProgressStatus = ps_val;
       m_Handler.post(new Runnable() {
         public void run() {
-          int curps = m_Progress.getProgress();
-          if (curps < m_ProgressStatus)
-            for (int i = curps; i <= m_ProgressStatus; i++)
-              m_Progress.setProgress(i);
+          m_Progress.setProgress(m_ProgressStatus);
         }
       });
+
     }
 
     private String generateGrade() {
@@ -539,8 +539,7 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
     @Override
     protected Void doInBackground(byte[]... data) {
       try {
-        m_ProgressStatus = 30;
-        updPBar();
+        updateProgressBar(15);
 
         Bitmap bitmap = BitmapFactory.decodeByteArray(data[0], 0, data[0].length);
         Bitmap bmpRotated = rotBMP(bitmap);
@@ -548,22 +547,19 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
         Bitmap croppedImage = cropImage(bmpRotated, m_CaptureRect, true);
         bmpRotated.recycle();
 
-        m_ProgressStatus = 30;
-        updPBar();
+        updateProgressBar(30);
 
         int ssRealImage = croppedImage.getWidth();
         Bitmap cs = Bitmap.createBitmap(ssRealImage, ssRealImage, Bitmap.Config.ARGB_8888);
         Canvas comboImage = new Canvas(cs);
 
-        m_ProgressStatus = 50;
-        updPBar();
+        updateProgressBar(50);
 
         // Draw picture shot layer image
         comboImage.drawBitmap(croppedImage, 0f, 0f, null);
         drawInstaClimbInfo(comboImage, ssRealImage);
 
-        m_ProgressStatus = 70;
-        updPBar();
+        updateProgressBar(70);
 
         // Garbage collect
         croppedImage.recycle();
@@ -574,8 +570,7 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
         cs.recycle();
         fos.close();
 
-        m_ProgressStatus = 100;
-        updPBar();
+        updateProgressBar(100);
       }
       catch (FileNotFoundException e) {
         Log.d(Helpers.Const.DBGTAG, "File not found: " + e.getMessage());

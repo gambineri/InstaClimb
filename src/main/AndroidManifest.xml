@@ -24,18 +24,16 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Declare the bundled CropImage Activity -->
-        <activity android:name="com.android.camera.CropImage" />
+        <!-- Show Capture insta-climbed Activity -->
         <activity
             android:name="com.imdp.instaclimb.ShowCapture"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_show_capture"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 

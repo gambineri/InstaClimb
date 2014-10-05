@@ -1,7 +1,6 @@
 package com.imdp.instaclimb;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,12 +10,14 @@ import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.*;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.FileNotFoundException;
@@ -34,8 +35,8 @@ public class CameraActivity extends Activity {
   private SessionImage  m_SessionImg      = null;
   ClimbInfoView         m_ClimbInfoView   = null;
   private boolean       m_AscNameTouched  = false;
-  private String        m_AscentName = "";
-  private String        m_Location = "";
+  private String        m_AscentName      = "";
+  private String        m_Location        = "";
 
   // Best resolution for the camera hardware on the current device
   private Camera.Size   m_BestRes         = null;
@@ -51,6 +52,12 @@ public class CameraActivity extends Activity {
   // Coordinates of crop area (crop rect) with respect to a cartesian system
   // having the origin in the top-left corner of the (portrait) screen
   private Rect          m_CaptureRect     = new Rect(0, 0, 0, 0);
+
+  // Handler to this thread to visually update the progress bar
+  private Handler       m_Handler         = new Handler();
+
+  // Progress bar for insta transformations
+  private ProgressBar   m_Progress        = null;
 
   private void setUpCamera() {
     if (!checkCameraHardware(this)) {
@@ -181,6 +188,10 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
 
           preview.removeView(m_ClimbInfoView);
           preview.addView(m_ClimbInfoView);
+
+          m_Progress = (ProgressBar) findViewById(R.id.progressBar);
+          preview.removeView(m_Progress);
+          preview.addView(m_Progress);
         }
         }
       });
@@ -431,9 +442,21 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
   /**
    * The InstaJob class
    * */
-  private class InstaJob extends AsyncTask<byte[], String, Void> {
+  private class InstaJob extends AsyncTask<byte[], Void, Void> {
 
-    ProgressDialog m_ProgressDlg = null;
+    private int m_ProgressStatus = 0;
+
+    private void updPBar() {
+      // Update the progress bar
+      m_Handler.post(new Runnable() {
+        public void run() {
+          int curps = m_Progress.getProgress();
+          if (curps < m_ProgressStatus)
+            for (int i = curps; i <= m_ProgressStatus; i++)
+              m_Progress.setProgress(i);
+        }
+      });
+    }
 
     private String generateGrade() {
       String gradeNum[] = {"5", "6", "7", "8", "9"};
@@ -510,36 +533,37 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
     protected void onPreExecute() {
       super.onPreExecute();
 
-      m_ProgressDlg = new ProgressDialog(CameraActivity.this);
-      m_ProgressDlg.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-      m_ProgressDlg.setCancelable(true);
-      m_ProgressDlg.setTitle("Insta-Climbing...");
-//      m_ProgressDlg.setIndeterminate(true);
-      m_ProgressDlg.show();
+      m_Progress.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected Void doInBackground(byte[]... data) {
       try {
+        m_ProgressStatus = 30;
+        updPBar();
+
         Bitmap bitmap = BitmapFactory.decodeByteArray(data[0], 0, data[0].length);
         Bitmap bmpRotated = rotBMP(bitmap);
         bitmap.recycle();
         Bitmap croppedImage = cropImage(bmpRotated, m_CaptureRect, true);
         bmpRotated.recycle();
 
-        publishProgress("Rotating and cropping...");
+        m_ProgressStatus = 30;
+        updPBar();
 
         int ssRealImage = croppedImage.getWidth();
         Bitmap cs = Bitmap.createBitmap(ssRealImage, ssRealImage, Bitmap.Config.ARGB_8888);
         Canvas comboImage = new Canvas(cs);
 
-        publishProgress("Drawing snapshot...");
+        m_ProgressStatus = 50;
+        updPBar();
 
         // Draw picture shot layer image
         comboImage.drawBitmap(croppedImage, 0f, 0f, null);
         drawInstaClimbInfo(comboImage, ssRealImage);
 
-        publishProgress("Grading...");
+        m_ProgressStatus = 70;
+        updPBar();
 
         // Garbage collect
         croppedImage.recycle();
@@ -550,7 +574,8 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
         cs.recycle();
         fos.close();
 
-        publishProgress("Done!");
+        m_ProgressStatus = 100;
+        updPBar();
       }
       catch (FileNotFoundException e) {
         Log.d(Helpers.Const.DBGTAG, "File not found: " + e.getMessage());
@@ -571,13 +596,10 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
       i.putExtra(Helpers.Const.EXTRA_TOP_FRAME_W, tf.getHeight());
       CameraActivity.this.startActivity(i);
 
-      m_ProgressDlg.dismiss();
+      m_Progress.setVisibility(View.VISIBLE);
+      m_ProgressStatus = 0;
     }
 
-    @Override
-    protected void onProgressUpdate(String... values) {
-      super.onProgressUpdate(values);
-    }
   } // *** class InstaJob
 
 } // *** class CameraActivity

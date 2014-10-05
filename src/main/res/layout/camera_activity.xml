@@ -10,4 +10,9 @@
         android:layout_alignParentTop="true"
         android:background="#123456" android:focusable="true">
 
+  <ProgressBar
+      style="?android:attr/progressBarStyleHorizontal"
+      android:layout_width="242dp"
+      android:layout_height="wrap_content"
+      android:id="@+id/progressBar" android:layout_gravity="center" android:visibility="invisible"/>
 </FrameLayout>

@@ -1,6 +1,7 @@
 package com.imdp.instaclimb;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
-public class CameraActivity extends Activity {
+public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgListener {
 
   private Camera        m_Camera          = null;
   private int           m_CameraId        = -1;
@@ -207,7 +208,11 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
       }
     });
     captureButton.requestFocus();
-  }
+
+    UserDataDlg uddlg = new UserDataDlg();
+    uddlg.show(getFragmentManager(), "zot");
+
+  } // onCreate
 
   @Override
   protected void onPause() {
@@ -374,6 +379,12 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
     }
   }
 
+  @Override
+  public void onDialogPositiveClick(DialogFragment dialog) {
+    m_AscentName  = ((UserDataDlg)dialog).getAscentName();
+    m_Location    = ((UserDataDlg)dialog).getLocation();
+  }
+
   /**
    * The Camera Preview class
    * */
@@ -517,12 +528,12 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
       canvas.drawText(datestr, leftMargin, 100, p);
 
       // Spot
-      String spotname = m_ClimbInfoView.getLocation();
+      String spotname = m_Location;
       p.setTextSize(bestFontSizePerWidth(spotname, ss-leftMargin*2, 130, p));
       canvas.drawText(spotname, leftMargin, 230, p);
 
       // Ascent name and Insta grade...
-      String instaGrade = m_ClimbInfoView.getAscentName() + " " + generateGrade();
+      String instaGrade = m_AscentName + " " + generateGrade();
       p.setColor(Color.WHITE);
       p.setTextSize(bestFontSizePerWidth(instaGrade, ss-leftMargin*2, 180, p));
       p.setShadowLayer(2f, 2f, 2f, Color.BLACK);
@@ -532,7 +543,6 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
     @Override
     protected void onPreExecute() {
       super.onPreExecute();
-
       m_Progress.setVisibility(View.VISIBLE);
     }
 

@@ -18,7 +18,20 @@ public final class Helpers {
     public static final String EXTRA_CAPTURED_IMG_PATH  = "capturedImgPath";
     public static final String EXTRA_TOP_FRAME_W        = "topFrameWidth";
   }
-	
+
+  public static String toCamelCase(String input, String separator, String replacement) {
+    if (replacement == null)
+      replacement = separator;
+
+    String[] words = input.toLowerCase().split(java.util.regex.Pattern.quote(separator));
+    StringBuilder ret = new StringBuilder();
+
+    for (String word : words)
+      ret.append(word.substring(0, 1).toUpperCase()).append(word.substring(1)).append(replacement);
+
+    return ret.toString().substring(0, ret.toString().length() - replacement.length());
+  }
+
 	public final static class Do {
 		public static void msgBox(Activity activity, String msg) {
 			// 1. Instantiate an AlertDialog.Builder with its constructor

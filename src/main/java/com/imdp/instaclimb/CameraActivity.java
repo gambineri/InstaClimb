@@ -528,12 +528,12 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
       canvas.drawText(datestr, leftMargin, 100, p);
 
       // Spot
-      String spotname = m_Location;
+      String spotname = Helpers.toCamelCase(m_Location, " ", null);
       p.setTextSize(bestFontSizePerWidth(spotname, ss-leftMargin*2, 130, p));
       canvas.drawText(spotname, leftMargin, 230, p);
 
       // Ascent name and Insta grade...
-      String instaGrade = m_AscentName + " " + generateGrade();
+      String instaGrade = Helpers.toCamelCase(m_AscentName, " ", null) + "  " + generateGrade();
       p.setColor(Color.WHITE);
       p.setTextSize(bestFontSizePerWidth(instaGrade, ss-leftMargin*2, 180, p));
       p.setShadowLayer(2f, 2f, 2f, Color.BLACK);

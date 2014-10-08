@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
   <item android:id="@+id/my_bg">
     <shape>
-      <corners android:radius="20dip"/>
+      <corners android:radius="15dip"/>
       <gradient android:startColor="#C0C0C0" android:centerColor="#F8F8FF"
                 android:centerY="0.75" android:endColor="#ffffff" android:angle="90"/>
       <stroke android:width="1dp" android:color="#00aa00"/>

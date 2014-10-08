@@ -601,7 +601,7 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
       i.putExtra(Helpers.Const.EXTRA_TOP_FRAME_W, tf.getHeight());
       CameraActivity.this.startActivity(i);
 
-      m_Progress.setVisibility(View.VISIBLE);
+      m_Progress.setVisibility(View.INVISIBLE);
       m_ProgressStatus = 0;
     }
 

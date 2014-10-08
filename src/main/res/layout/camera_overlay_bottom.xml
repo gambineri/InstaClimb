@@ -8,12 +8,12 @@
 
   <Button
       android:id="@+id/button_capture"
-      android:layout_width="154dp"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"
       android:layout_centerHorizontal="true"
-      android:text="@string/capture"
       android:focusable="true" android:focusableInTouchMode="true"
-      android:layout_gravity="center_horizontal|bottom" android:visibility="visible"/>
+      android:layout_gravity="center_horizontal|bottom" android:visibility="visible"
+      android:background="@drawable/btn_camera"/>
 
 </LinearLayout>

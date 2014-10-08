@@ -20,6 +20,9 @@ public final class Helpers {
   }
 
   public static String toCamelCase(String input, String separator, String replacement) {
+    if (input == null || input.length() <= 0)
+      return "";
+
     if (replacement == null)
       replacement = separator;
 

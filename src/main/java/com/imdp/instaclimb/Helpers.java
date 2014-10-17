@@ -30,7 +30,8 @@ public final class Helpers {
     StringBuilder ret = new StringBuilder();
 
     for (String word : words)
-      ret.append(word.substring(0, 1).toUpperCase()).append(word.substring(1)).append(replacement);
+      if (word != null && word.length() > 0)
+        ret.append(word.substring(0, 1).toUpperCase()).append(word.substring(1)).append(replacement);
 
     return ret.toString().substring(0, ret.toString().length() - replacement.length());
   }

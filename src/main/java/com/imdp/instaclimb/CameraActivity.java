@@ -84,9 +84,9 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
         Parameters pars = m_Camera.getParameters();
 
         pars.setPictureFormat(ImageFormat.JPEG);
-        findBestCameraResolution();
+        if (!findFirstCameraResolution(1000, 1000))
+          findBestCameraResolution();
         pars.setPictureSize(m_BestRes.width, m_BestRes.height);
-//        pars.setPreviewSize(1280, 720);
 
         m_Camera.setParameters(pars);
       } catch (RuntimeException re) {
@@ -377,6 +377,30 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
           m_BestRes = tmp;
       }
     }
+  }
+
+  private boolean findFirstCameraResolution(int basew, int baseh) {
+    if (m_Camera == null)
+      return false;
+
+    m_BestRes = m_Camera.new Size(basew, baseh);
+    Parameters pars = m_Camera.getParameters();
+    List<Camera.Size> sizes;
+    ListIterator<Camera.Size> li;
+    Camera.Size tmp;
+
+    if ((sizes = pars.getSupportedPictureSizes()) != null) {
+      li = sizes.listIterator();
+      while (li.hasNext()) {
+        tmp = li.next();
+        if (tmp.width >= m_BestRes.width && tmp.height >= m_BestRes.height) {
+          m_BestRes = tmp;
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   @Override

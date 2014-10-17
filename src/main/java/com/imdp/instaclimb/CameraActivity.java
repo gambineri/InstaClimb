@@ -519,49 +519,49 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
     }
 
     private void drawInstaClimbInfo(Canvas canvas, int ss) {
-      int leftMargin = 50;
+      int marginBox = (int)ss*1/100;
+      int marginTextL = 3*marginBox;
+      int marginTextT = 5*marginBox;
+      int grayRectW = ss - 2*marginBox;
+      int grayRectH = ss/4;
+      int grayRectVPad = grayRectH/10;
+
       Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-      // ---***--- Feels Like
-      RectF feelsLikeRect = new RectF(0, ss-350, ss, ss);
+      // Gray rectangle with ascent and feelings
+      RectF grayRect = new RectF(marginBox, ss-marginBox-grayRectH, ss-marginBox, ss-marginBox);
       p.setColor(Color.GRAY);
       p.setAlpha(128);
-      canvas.drawRoundRect(feelsLikeRect, 10, 10, p);
+      canvas.drawRoundRect(grayRect, 10, 10, p);
 
+      p.setColor(Color.WHITE);
       Typeface feelsLikeFont = Typeface.createFromAsset(getAssets(), "Khand-Light.ttf");//"ArchitectsDaughter.ttf");
       p.setTypeface(feelsLikeFont);
-      p.setColor(Color.WHITE);
       p.setTextSize(70);
       p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
-
       String feelsLike = "Feels like: " + generateGrade();
       int feelsLikeLen = (int)p.measureText(feelsLike);
-      canvas.drawText(feelsLike, feelsLikeRect.right - feelsLikeLen - feelsLikeLen/10, ss-70, p);
+      canvas.drawText(feelsLike, grayRect.right - feelsLikeLen - feelsLikeLen/10, ss-marginBox-grayRectVPad, p);
 
       // Date
-//      Typeface instafont = Typeface.createFromAsset(getAssets(), "Khand-Light.ttf");
-//      p.setTypeface(instafont);
-      p.setColor(Color.WHITE);
       p.setTextSize(60);
       p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
-
       Time now = new Time();
       now.setToNow();
       String datestr = now.format("%d.%m.%Y - %H:%M");
-//      canvas.drawText(datestr, ss-leftMargin-(int)p.measureText(datestr), 100, p);  //right align
-      canvas.drawText(datestr, leftMargin, 100, p);
+      canvas.drawText(datestr, marginTextL, marginTextT, p);
 
+      //todo: bestFontSizePerWidth problem for long spotname
       // Spot
       String spotname = Helpers.toCamelCase(m_Location, " ", null);
-      p.setTextSize(bestFontSizePerWidth(spotname, ss-leftMargin*2, 130, p));
-      canvas.drawText(spotname, leftMargin, 230, p);
+      p.setTextSize(bestFontSizePerWidth(spotname, ss-marginTextL*2, 130, p));
+      canvas.drawText(spotname, marginTextL, marginTextT*(float)3.5, p);
 
       // Ascent name and Insta grade...
-      String instaGrade = Helpers.toCamelCase(m_AscentName, " ", null) + "  " + generateGrade();
-      p.setColor(Color.WHITE);
-      p.setTextSize(bestFontSizePerWidth(instaGrade, ss-leftMargin*2, 180, p));
       p.setShadowLayer(2f, 2f, 2f, Color.BLACK);
-      canvas.drawText(instaGrade, leftMargin, ss-200, p);
+      String instaGrade = Helpers.toCamelCase(m_AscentName, " ", null) + "  " + generateGrade();
+      p.setTextSize(bestFontSizePerWidth(instaGrade, ss-marginTextL*2, 180, p));
+      canvas.drawText(instaGrade, marginTextL, ss-marginBox-grayRectH/2, p);
     }
 
     @Override

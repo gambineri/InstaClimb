@@ -506,6 +506,8 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
     }
 
     private int bestFontSizePerWidth(String txt, int maxwidth,  int startsize, Paint p) {
+      p.setTextSize(startsize);
+
       int curwidth = (int)p.measureText(txt);
       int cursize = startsize;
 
@@ -551,8 +553,7 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
       String datestr = now.format("%d.%m.%Y - %H:%M");
       canvas.drawText(datestr, marginTextL, marginTextT, p);
 
-      //todo: bestFontSizePerWidth problem for long spotname
-      // Spot
+      // Spot name
       String spotname = Helpers.toCamelCase(m_Location, " ", null);
       p.setTextSize(bestFontSizePerWidth(spotname, ss-marginTextL*2, 130, p));
       canvas.drawText(spotname, marginTextL, marginTextT*(float)3.5, p);

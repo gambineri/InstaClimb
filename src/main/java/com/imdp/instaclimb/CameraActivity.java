@@ -14,12 +14,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.Time;
 import android.util.Log;
-import android.view.*;
-import android.view.inputmethod.EditorInfo;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -124,33 +125,6 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
     if (bottomOverlay != null)
       preview.addView(bottomOverlay);
 
-    TextView ascentname =(TextView)findViewById(R.id.EditAscentName);
-    ascentname.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-      @Override
-      public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (actionId == EditorInfo.IME_ACTION_DONE) {
-
-          if (m_ClimbInfoView != null) {
-            m_ClimbInfoView.setAscentName((String) v.getText());
-            m_ClimbInfoView.postInvalidate();
-          }
-          return true;
-        }
-        return false;
-      }
-    });
-
-    ascentname.setOnTouchListener(new TextView.OnTouchListener() {
-      @Override
-      public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (!m_AscNameTouched) {
-          m_AscNameTouched = true;
-          ((TextView)view).setText("");
-        }
-        return false;
-      }
-    });
-
     m_ClimbInfoView = new ClimbInfoView(this);
     m_ClimbInfoView.setDrawingCacheEnabled(true);
 /*
@@ -171,14 +145,20 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         View bf = findViewById(R.id.bottom_frame);
         View tf = findViewById(R.id.top_frame);
-        if (preview != null && bf != null && tf != null) {
-          bf.setTop(preview.getWidth() + tf.getHeight());
 
+        if (preview != null && bf != null && tf != null) {
           //calculate coordinates of capture rect as if (0, 0) is in the top-left corner (portrait mode)
           m_CaptureRect.left = 0;
           m_CaptureRect.top = tf.getHeight()*(m_ImgDimInverted ? m_BestRes.width : m_BestRes.height)/m_Preview.getHeight();
           m_CaptureRect.right = (m_ImgDimInverted ? m_BestRes.height : m_BestRes.width);
           m_CaptureRect.bottom = m_CaptureRect.top +m_CaptureRect.right;
+
+          // set height for top and bottom frame
+          tf.setBottom((preview.getHeight() - preview.getWidth()) / 2);
+          bf.setTop(preview.getWidth() + tf.getHeight());
+
+          // TODO center logo vertically
+          View logo = findViewById(R.id.instaLogo);
 
           m_ClimbInfoView.setLeft(0);
           m_ClimbInfoView.setRight(preview.getWidth());
@@ -210,7 +190,7 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
     captureButton.requestFocus();
 
     UserDataDlg uddlg = new UserDataDlg();
-    uddlg.show(getFragmentManager(), "zot");
+    uddlg.show(getFragmentManager(), "UNUSED_TAG");
 
   } // onCreate
 
@@ -407,6 +387,12 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
   public void onDialogPositiveClick(DialogFragment dialog) {
     m_AscentName  = ((UserDataDlg)dialog).getAscentName();
     m_Location    = ((UserDataDlg)dialog).getLocation();
+
+    if (m_ClimbInfoView != null) {
+      m_ClimbInfoView.setAscentName((String) m_AscentName);
+      m_ClimbInfoView.setLocation((String) m_Location);
+      m_ClimbInfoView.postInvalidate();
+    }
   }
 
   /**

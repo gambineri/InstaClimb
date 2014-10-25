@@ -11,19 +11,7 @@
   <ImageView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:id="@+id/imageView" android:layout_gravity="center_horizontal" android:src="@drawable/instaclimb"
-      android:cropToPadding="false"/>
-  <EditText android:id="@+id/EditAscentName" android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/optional_name_of_the_boulder_route" android:ems="10"
-            android:inputType="text" android:maxLines="1" android:layout_gravity="center_horizontal"
-            android:autoText="false" android:text="Ascent Name" android:textColor="@android:color/darker_gray"
-            android:layout_marginLeft="10dp" android:layout_marginRight="10dp"/>
-  <EditText android:id="@+id/EditLocation" android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/optional_location_of_the_boulder_route" android:ems="10"
-            android:inputType="text" android:maxLines="1" android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
-            android:textColor="@android:color/darker_gray" android:text="Location"/>
+      android:id="@+id/instaLogo" android:src="@drawable/instaclimb"
+      android:cropToPadding="false" android:layout_gravity="center"/>
 
 </LinearLayout>

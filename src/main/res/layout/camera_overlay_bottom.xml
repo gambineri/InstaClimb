@@ -14,6 +14,6 @@
       android:layout_centerHorizontal="true"
       android:focusable="true" android:focusableInTouchMode="true"
       android:layout_gravity="center_horizontal|bottom" android:visibility="visible"
-      android:background="@drawable/btn_camera_48"/>
+      android:background="@drawable/btn_camera"/>
 
 </LinearLayout>

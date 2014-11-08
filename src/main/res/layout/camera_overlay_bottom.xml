@@ -2,19 +2,49 @@
 
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content"
+  android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="150dp"
   android:layout_gravity="bottom" android:background="@color/overlay_bg"
-  android:id="@+id/bottom_frame" android:visibility="visible" android:alpha="0.9" android:gravity="center_horizontal">
+  android:id="@+id/bottom_frame" android:visibility="visible" android:alpha="0.9" android:gravity="center_horizontal"
+  android:weightSum="1">
 
-  <Button
-      android:id="@+id/button_capture"
-      android:layout_width="100dp"
-      android:layout_height="100dp"
-      android:layout_alignParentBottom="true"
-      android:layout_centerHorizontal="true"
-      android:focusable="true" android:focusableInTouchMode="true"
-      android:visibility="visible"
-      android:background="@drawable/shoot"
-      android:layout_row="0" android:layout_column="0"/>
+  <Space
+      android:layout_width="fill_parent"
+      android:layout_height="60px"
+      android:id="@+id/paddingtop"/>
+  <LinearLayout
+      android:orientation="horizontal"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent" android:layout_weight="1" android:layout_gravity="center">
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="New Button"
+          android:id="@+id/button"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent" android:layout_weight="1" android:layout_gravity="center">
+      <Button
+          android:id="@+id/button_capture"
+          android:layout_width="72dp"
+          android:layout_height="72dp"
+          android:focusable="true" android:focusableInTouchMode="true"
+          android:visibility="visible"
+          android:background="@drawable/shoot"
+          android:layout_gravity="center"/>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent" android:layout_weight="1" android:layout_gravity="center">
+      <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Button"
+              android:id="@+id/button2"/>
+    </LinearLayout>
+  </LinearLayout>
 
 </LinearLayout>

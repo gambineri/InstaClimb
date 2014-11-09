@@ -35,7 +35,7 @@
           android:layout_height="72dp"
           android:focusable="true" android:focusableInTouchMode="true"
           android:visibility="visible"
-          android:background="@drawable/btn_camera"
+          android:background="@drawable/btn_shoot"
           android:layout_gravity="center"/>
     </LinearLayout>
     <LinearLayout

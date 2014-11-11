@@ -124,16 +124,15 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
     if (bottomOverlay != null)
       preview.addView(bottomOverlay);
 
-    m_ClimbInfoView = new ClimbInfoView(this);
-    m_ClimbInfoView.setDrawingCacheEnabled(true);
 /*
 TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer insta PRIMA dello scatto e sara` reso visibile
 */
-    m_ClimbInfoView.setVisibility(View.INVISIBLE); // da rimuovere
-
-    m_ClimbInfoView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-    m_ClimbInfoView.layout(0, 0, m_ClimbInfoView.getMeasuredWidth(), m_ClimbInfoView.getMeasuredHeight());
+    m_ClimbInfoView = new ClimbInfoView(this);
+//    m_ClimbInfoView.setDrawingCacheEnabled(true);
+//    m_ClimbInfoView.setVisibility(View.INVISIBLE); // da rimuovere
+//    m_ClimbInfoView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+//                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+//    m_ClimbInfoView.layout(0, 0, m_ClimbInfoView.getMeasuredWidth(), m_ClimbInfoView.getMeasuredHeight());
 
     ViewTreeObserver vto = preview.getViewTreeObserver();
     if (vto != null) {
@@ -156,12 +155,11 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
           tf.setBottom((preview.getHeight() - preview.getWidth()) / 2);
           bf.setTop(preview.getWidth() + tf.getHeight());
 
-          m_ClimbInfoView.setLeft(0);
-          m_ClimbInfoView.setRight(preview.getWidth());
-          m_ClimbInfoView.setTop(tf.getHeight());
-          m_ClimbInfoView.setBottom(preview.getWidth() + tf.getHeight());
-
-          m_ClimbInfoView.setSquareSide(preview.getWidth());
+//          m_ClimbInfoView.setLeft(0);
+//          m_ClimbInfoView.setRight(preview.getWidth());
+//          m_ClimbInfoView.setTop(tf.getHeight());
+//          m_ClimbInfoView.setBottom(preview.getWidth() + tf.getHeight());
+//          m_ClimbInfoView.setSquareSide(preview.getWidth());
 
           preview.removeView(m_ClimbInfoView);
           preview.addView(m_ClimbInfoView);

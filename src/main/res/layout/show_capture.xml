@@ -14,7 +14,7 @@
       android:layout_width="match_parent"
       android:layout_height="100dp" android:background="@color/overlay_bg" android:id="@+id/sc_top_frame"
       android:gravity="center_horizontal" android:paddingTop="5dp" android:paddingBottom="5dp">
-    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/imageView"
+    <ImageView android:layout_width="fill_parent" android:layout_height="96dp" android:id="@+id/imageView"
                android:src="@drawable/instaclimb"
                android:cropToPadding="false"/>
   </LinearLayout>

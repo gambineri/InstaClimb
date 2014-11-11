@@ -193,6 +193,15 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
       }
     });
 
+    //Add a listener to the Refresh button
+    Button settingsButton = (Button) findViewById(R.id.button_settings);
+    settingsButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Helpers.Do.msgBox(CameraActivity.this, "Nel dubbio sgrada.");
+      }
+    });
+
     showUserDataDialog();
   } // onCreate
 

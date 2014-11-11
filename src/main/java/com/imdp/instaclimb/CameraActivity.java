@@ -36,7 +36,6 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   private CameraPreview m_Preview         = null;
   private SessionImage  m_SessionImg      = null;
   ClimbInfoView         m_ClimbInfoView   = null;
-  private boolean       m_AscNameTouched  = false;
   private String        m_AscentName      = "";
   private String        m_Location        = "";
 
@@ -157,9 +156,6 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
           tf.setBottom((preview.getHeight() - preview.getWidth()) / 2);
           bf.setTop(preview.getWidth() + tf.getHeight());
 
-          // TODO center logo vertically
-          View logo = findViewById(R.id.instaLogo);
-
           m_ClimbInfoView.setLeft(0);
           m_ClimbInfoView.setRight(preview.getWidth());
           m_ClimbInfoView.setTop(tf.getHeight());
@@ -187,11 +183,17 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
         m_Camera.takePicture(null, null, m_Picture);
       }
     });
-    captureButton.requestFocus();
 
-    UserDataDlg uddlg = new UserDataDlg();
-    uddlg.show(getFragmentManager(), "UNUSED_TAG");
+    //Add a listener to the Refresh button
+    Button refreshButton = (Button) findViewById(R.id.button_refresh);
+    refreshButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        showUserDataDialog();
+      }
+    });
 
+    showUserDataDialog();
   } // onCreate
 
   @Override
@@ -204,6 +206,11 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
   protected void onResume() {
     super.onResume();
     setUpCamera();
+  }
+
+  private void showUserDataDialog() {
+    UserDataDlg uddlg = new UserDataDlg();
+    uddlg.show(getFragmentManager(), "UNUSED_TAG");
   }
 
   private void releaseCamera() {

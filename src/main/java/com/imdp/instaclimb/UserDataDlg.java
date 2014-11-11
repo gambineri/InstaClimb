@@ -63,6 +63,9 @@ public class UserDataDlg extends DialogFragment {
             m_AscentName = ((EditText) (dlgLayout.findViewById(R.id.ascent_name))).getText().toString();
             m_Location = ((EditText) (dlgLayout.findViewById(R.id.location))).getText().toString();
 
+// this is to set focus on startup - not used at moment
+//            dlgLayout.findViewById(R.id.ascent_name).requestFocus();
+
             // Send the positive button event back to the host activity
             mListener.onDialogPositiveClick(UserDataDlg.this);
           }

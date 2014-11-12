@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +13,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.io.File;
+
 public class ShowCapture extends Activity {
+
+  // The file path name of the insta-enriched image to be shared
+  private String m_ImgFilePathName = "";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +59,9 @@ public class ShowCapture extends Activity {
 //                rootView.getWidth(), tf.getHeight()));
 //            Log.v(Helpers.Const.DBGTAG, String.format("%d %d %d %d",
 //                bf.getLeft(), bf.getTop(), bf.getRight(), bf.getBottom()));
-            Bitmap bmp = BitmapFactory.decodeFile(bundle.getString(Helpers.Const.EXTRA_CAPTURED_IMG_PATH));
+
+            m_ImgFilePathName = bundle.getString(Helpers.Const.EXTRA_CAPTURED_IMG_PATH);
+            Bitmap bmp = BitmapFactory.decodeFile(m_ImgFilePathName);
             iv.setImageBitmap(bmp);
           }
         }
@@ -69,5 +77,22 @@ public class ShowCapture extends Activity {
       }
     });
 
+    //Add a listener to the Share button
+    Button shareButton = (Button) findViewById(R.id.button_share);
+    shareButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        // Generic sharing support through app chooser
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("image/*");
+
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(m_ImgFilePathName)));
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        Intent openInChooser = new Intent(intent);
+        startActivity(openInChooser);
+      }
+    });
   }
 }

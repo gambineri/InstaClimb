@@ -60,9 +60,13 @@ public class ShowCapture extends Activity {
 //            Log.v(Helpers.Const.DBGTAG, String.format("%d %d %d %d",
 //                bf.getLeft(), bf.getTop(), bf.getRight(), bf.getBottom()));
 
-            m_ImgFilePathName = bundle.getString(Helpers.Const.EXTRA_CAPTURED_IMG_PATH);
-            Bitmap bmp = BitmapFactory.decodeFile(m_ImgFilePathName);
-            iv.setImageBitmap(bmp);
+            if (bundle != null) {
+              m_ImgFilePathName = bundle.getString(Helpers.Const.EXTRA_CAPTURED_IMG_PATH);
+              Bitmap bmp = BitmapFactory.decodeFile(m_ImgFilePathName);
+              iv.setImageBitmap(bmp);
+            } else {
+              Helpers.Do.msgBox(ShowCapture.this, "Ooops. No image found.");
+            }
           }
         }
       });
@@ -92,6 +96,15 @@ public class ShowCapture extends Activity {
 
         Intent openInChooser = new Intent(intent);
         startActivity(openInChooser);
+      }
+    });
+
+    //Add a listener to the Settings button
+    Button settingsButton = (Button) findViewById(R.id.button_settings);
+    settingsButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Helpers.Do.msgBox(ShowCapture.this, "Nel dubbio sgrada.");
       }
     });
   }

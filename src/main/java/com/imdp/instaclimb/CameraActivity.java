@@ -60,44 +60,6 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   // Progress bar for insta transformations
   private ProgressBar   m_Progress        = null;
 
-  private void setUpCamera() {
-    if (!checkCameraHardware(this)) {
-      Helpers.Do.msgBox(this, "Wow, no camera available -00-. Don't be SO lousy, buy yourself a better device...");
-      return;
-    }
-
-    if (m_Camera != null)
-      releaseCamera();
-
-    if ((m_Camera = getCameraInstance()) != null) {
-      try {
-        // Because we want a portrait app, calculate rotation respect to natural device orientation
-        m_DevRotation = Helpers.Do.getRotationRelativeToNaturalOrientaton(this, m_CameraId, m_Camera);
-
-        // In case the device natural orientation is not portrait (or multiple thereof)
-        // let's save the bool to know if picture dimensions need to be considered as inverted
-        // (W in place of H and viceversa)
-        m_ImgDimInverted = (m_DevRotation == 90 || m_DevRotation == 270);
-
-//todo Log calls to be removed with ProGuard when publishing
-        Log.v(Helpers.Const.DBGTAG, getCurrentCameraInfo());
-        Parameters pars = m_Camera.getParameters();
-
-        pars.setPictureFormat(ImageFormat.JPEG);
-        if (!findFirstCameraResolution(1000, 1000))
-          findBestCameraResolution();
-        pars.setPictureSize(m_BestRes.width, m_BestRes.height);
-
-        m_Camera.setParameters(pars);
-      } catch (RuntimeException re) {
-        Log.e(Helpers.Const.DBGTAG, re.getMessage());
-      }
-
-      //Create image wrapper obj for this session
-      m_SessionImg = new SessionImage(getResources().getString(R.string.app_name));
-    }
-  }
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -218,6 +180,44 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
   private void showUserDataDialog() {
     UserDataDlg uddlg = new UserDataDlg();
     uddlg.show(getFragmentManager(), "UNUSED_TAG");
+  }
+
+  private void setUpCamera() {
+    if (!checkCameraHardware(this)) {
+      Helpers.Do.msgBox(this, "Wow, no camera available -00-. Don't be SO lousy, buy yourself a better device...");
+      return;
+    }
+
+    if (m_Camera != null)
+      releaseCamera();
+
+    if ((m_Camera = getCameraInstance()) != null) {
+      try {
+        // Because we want a portrait app, calculate rotation respect to natural device orientation
+        m_DevRotation = Helpers.Do.getRotationRelativeToNaturalOrientaton(this, m_CameraId, m_Camera);
+
+        // In case the device natural orientation is not portrait (or multiple thereof)
+        // let's save the bool to know if picture dimensions need to be considered as inverted
+        // (W in place of H and viceversa)
+        m_ImgDimInverted = (m_DevRotation == 90 || m_DevRotation == 270);
+
+//todo Log calls to be removed with ProGuard when publishing
+//        Log.v(Helpers.Const.DBGTAG, getCurrentCameraInfo());
+        Parameters pars = m_Camera.getParameters();
+
+        pars.setPictureFormat(ImageFormat.JPEG);
+        if (!findFirstCameraResolution(1000, 1000))
+          findBestCameraResolution();
+        pars.setPictureSize(m_BestRes.width, m_BestRes.height);
+
+        m_Camera.setParameters(pars);
+      } catch (RuntimeException re) {
+        Log.e(Helpers.Const.DBGTAG, re.getMessage());
+      }
+
+      //Create image wrapper obj for this session
+      m_SessionImg = new SessionImage(getResources().getString(R.string.app_name));
+    }
   }
 
   private void releaseCamera() {

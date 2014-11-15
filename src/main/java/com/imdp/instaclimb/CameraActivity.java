@@ -423,8 +423,10 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
     public void surfaceCreated(SurfaceHolder holder) {
       // The Surface has been created, now tell the camera where to draw the preview.
       try {
-        m_Camera.setPreviewDisplay(holder);
-        m_Camera.startPreview();
+        if (m_Camera != null) {
+          m_Camera.setPreviewDisplay(holder);
+          m_Camera.startPreview();
+        }
       } catch (IOException e) {
         Log.d(Helpers.Const.DBGTAG, "Error setting camera preview: " + e.getMessage());
       }

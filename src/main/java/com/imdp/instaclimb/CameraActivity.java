@@ -18,7 +18,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -63,106 +62,6 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    setContentView(R.layout.camera_activity);
-
-    // Create our Preview view and set it as the content of our activity.
-    m_Preview = new CameraPreview(this);
-    FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-    preview.addView(m_Preview); //adds SurfaceView on top of everything
-
-    /* Inflate the top and bottom camera overlays:
-       it must be done here and cannot be merged into the main camera_activity.xml because of
-       previous line of code, **preview.addView(m_Preview);** which would add the SurfaceView
-       (the camera preview container) on top of everything, thus hiding the overlays. */
-
-    //** Inflate the top camera overlay
-    final View topOverlay = getLayoutInflater().inflate(R.layout.camera_overlay_top, preview, false);
-    if (topOverlay != null)
-      preview.addView(topOverlay);
-
-    //** Inflate the bottom camera overlay
-    View bottomOverlay = getLayoutInflater().inflate(R.layout.camera_overlay_bottom, preview, false);
-    if (bottomOverlay != null)
-      preview.addView(bottomOverlay);
-
-/*
-TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer insta PRIMA dello scatto e sara` reso visibile
-*/
-    m_ClimbInfoView = new ClimbInfoView(this);
-//    m_ClimbInfoView.setDrawingCacheEnabled(true);
-//    m_ClimbInfoView.setVisibility(View.INVISIBLE); // da rimuovere
-//    m_ClimbInfoView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-//                            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-//    m_ClimbInfoView.layout(0, 0, m_ClimbInfoView.getMeasuredWidth(), m_ClimbInfoView.getMeasuredHeight());
-
-    ViewTreeObserver vto = preview.getViewTreeObserver();
-    if (vto != null) {
-      vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override
-        public void onGlobalLayout() {
-        //At this point the layout is complete and the dimensions of myView and any child views are known.
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-        View bf = findViewById(R.id.bottom_frame);
-        View tf = findViewById(R.id.top_frame);
-
-        if (preview != null && bf != null && tf != null) {
-          //calculate coordinates of capture rect as if (0, 0) is in the top-left corner (portrait mode)
-          m_CaptureRect.left = 0;
-          m_CaptureRect.top = tf.getHeight()*(m_ImgDimInverted ? m_BestRes.width : m_BestRes.height)/m_Preview.getHeight();
-          m_CaptureRect.right = (m_ImgDimInverted ? m_BestRes.height : m_BestRes.width);
-          m_CaptureRect.bottom = m_CaptureRect.top +m_CaptureRect.right;
-
-          // set height for top and bottom frame
-          tf.setBottom((preview.getHeight() - preview.getWidth()) / 2);
-          bf.setTop(preview.getWidth() + tf.getHeight());
-
-//          m_ClimbInfoView.setLeft(0);
-//          m_ClimbInfoView.setRight(preview.getWidth());
-//          m_ClimbInfoView.setTop(tf.getHeight());
-//          m_ClimbInfoView.setBottom(preview.getWidth() + tf.getHeight());
-//          m_ClimbInfoView.setSquareSide(preview.getWidth());
-
-          preview.removeView(m_ClimbInfoView);
-          preview.addView(m_ClimbInfoView);
-
-          m_Progress = (ProgressBar) findViewById(R.id.progressBar);
-          preview.removeView(m_Progress);
-          preview.addView(m_Progress);
-        }
-        }
-      });
-    }
-
-    //Add a listener to the Capture button
-    Button captureButton = (Button) findViewById(R.id.button_capture);
-    captureButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        // get an image from the camera
-        m_Camera.takePicture(null, null, m_Picture);
-      }
-    });
-
-    //Add a listener to the Refresh button
-    Button refreshButton = (Button) findViewById(R.id.button_refresh);
-    refreshButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        showUserDataDialog();
-      }
-    });
-
-    //Add a listener to the Settings button
-    Button settingsButton = (Button) findViewById(R.id.button_settings);
-    settingsButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Helpers.Do.msgBox(CameraActivity.this, "Nel dubbio sgrada.");
-      }
-    });
-
-    showUserDataDialog();
   } // onCreate
 
   @Override
@@ -174,7 +73,93 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
   @Override
   protected void onResume() {
     super.onResume();
-    setUpCamera();
+    (new CameraSetup()).execute();
+  }
+
+  private class CameraSetup extends AsyncTask<Void, Void, Boolean> {
+    @Override
+    protected Boolean doInBackground(Void...p) {
+      return setUpCamera();
+    }
+
+    @Override
+    protected void onPostExecute(Boolean doInBgRetVal) {
+
+      if (!doInBgRetVal)
+        return;
+
+      setContentView(R.layout.camera_activity);
+
+      // Create our Preview view and set it as the content of our activity.
+      m_Preview = new CameraPreview(CameraActivity.this);
+      FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+      preview.addView(m_Preview); //adds SurfaceView on top of everything
+
+    /* Inflate the top and bottom camera overlays:
+       it must be done here and cannot be merged into the main camera_activity.xml because of
+       previous line of code, **preview.addView(m_Preview);** which would add the SurfaceView
+       (the camera preview container) on top of everything, thus hiding the overlays. */
+
+      //** Inflate the top camera overlay
+      final View topOverlay = getLayoutInflater().inflate(R.layout.camera_overlay_top, preview, false);
+      if (topOverlay != null)
+        preview.addView(topOverlay);
+
+      //** Inflate the bottom camera overlay
+      View bottomOverlay = getLayoutInflater().inflate(R.layout.camera_overlay_bottom, preview, false);
+      if (bottomOverlay != null)
+        preview.addView(bottomOverlay);
+
+      /*
+      TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer insta PRIMA dello scatto e sara` reso visibile
+      */
+      m_ClimbInfoView = new ClimbInfoView(CameraActivity.this);
+
+      ViewTreeObserver vto = preview.getViewTreeObserver();
+      if (vto != null) {
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+          @Override
+          public void onGlobalLayout() {
+            FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+
+            //At this point the layout is complete and the dimensions of myView and any child views are known.
+            View bf = findViewById(R.id.bottom_frame);
+            View tf = findViewById(R.id.top_frame);
+
+            if (preview != null && bf != null && tf != null) {
+              //calculate coordinates of capture rect as if (0, 0) is in the top-left corner (portrait mode)
+              m_CaptureRect.left = 0;
+              m_CaptureRect.top = tf.getHeight()*(m_ImgDimInverted ? m_BestRes.width : m_BestRes.height)/m_Preview.getHeight();
+              m_CaptureRect.right = (m_ImgDimInverted ? m_BestRes.height : m_BestRes.width);
+              m_CaptureRect.bottom = m_CaptureRect.top +m_CaptureRect.right;
+
+              // set height for top and bottom frame
+              tf.setBottom((preview.getHeight() - preview.getWidth()) / 2);
+              bf.setTop(preview.getWidth() + tf.getHeight());
+
+              m_Progress = (ProgressBar) findViewById(R.id.progressBar);
+              m_Progress.bringToFront();
+            }
+          }
+        });
+      }
+
+      showUserDataDialog();
+    }
+  }
+
+
+  public void onCapture(View v) {
+    // get an image from the camera
+    m_Camera.takePicture(null, null, m_Picture);
+  }
+
+  public void onRefresh(View v) {
+    showUserDataDialog();
+  }
+
+  public void onSettings(View v) {
+    Helpers.Do.msgBox(CameraActivity.this, "Nel dubbio sgrada.");
   }
 
   private void showUserDataDialog() {
@@ -182,10 +167,10 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
     uddlg.show(getFragmentManager(), "UNUSED_TAG");
   }
 
-  private void setUpCamera() {
+  private Boolean setUpCamera() {
     if (!checkCameraHardware(this)) {
       Helpers.Do.msgBox(this, "Wow, no camera available -00-. Don't be SO lousy, buy yourself a better device...");
-      return;
+      return false;
     }
 
     if (m_Camera != null)
@@ -213,11 +198,14 @@ TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer ins
         m_Camera.setParameters(pars);
       } catch (RuntimeException re) {
         Log.e(Helpers.Const.DBGTAG, re.getMessage());
+        return false;
       }
 
       //Create image wrapper obj for this session
       m_SessionImg = new SessionImage(getResources().getString(R.string.app_name));
     }
+
+    return true;
   }
 
   private void releaseCamera() {

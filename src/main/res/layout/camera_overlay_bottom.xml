@@ -24,7 +24,7 @@
           android:layout_width="48dp"
           android:layout_height="48dp"
           android:id="@+id/button_settings" android:background="@drawable/btn_settings"
-          android:layout_gravity="center"/>
+          android:layout_gravity="center" android:onClick="onSettings"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
@@ -37,7 +37,7 @@
           android:focusable="true" android:focusableInTouchMode="true"
           android:visibility="visible"
           android:background="@drawable/btn_shoot"
-          android:layout_gravity="center"/>
+          android:layout_gravity="center" android:onClick="onCapture"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
@@ -45,7 +45,7 @@
         android:layout_height="fill_parent" android:layout_weight="1" android:layout_gravity="center"
         android:paddingTop="12dp">
       <Button android:layout_width="48dp" android:layout_height="48dp" android:id="@+id/button_refresh"
-              android:background="@drawable/btn_refresh" android:layout_gravity="center"/>
+              android:background="@drawable/btn_refresh" android:layout_gravity="center" android:onClick="onRefresh"/>
     </LinearLayout>
   </LinearLayout>
 

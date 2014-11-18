@@ -159,7 +159,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   }
 
   public void onSettings(View v) {
-    Helpers.Do.msgBox(CameraActivity.this, "Nel dubbio sgrada.");
+    Helpers.Do.msgBox(CameraActivity.this, "When in doubt, downgrade it.");
   }
 
   private void showUserDataDialog() {

@@ -145,6 +145,9 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
       }
 
       showUserDataDialog();
+
+//      if (SplashScreen.m_SplashScreenActivity != null)
+//        SplashScreen.m_SplashScreenActivity.finish();
     }
   }
 
@@ -159,7 +162,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   }
 
   public void onSettings(View v) {
-    Helpers.Do.msgBox(CameraActivity.this, "When in doubt, downgrade it.");
+    Helpers.Do.msgBox(CameraActivity.this, "When in doubt, keep it open.");
   }
 
   private void showUserDataDialog() {

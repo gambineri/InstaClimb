@@ -88,6 +88,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
       if (!doInBgRetVal)
         return;
 
+//      getWindow().setBackgroundDrawable(null);
       setContentView(R.layout.camera_activity);
 
       // Create our Preview view and set it as the content of our activity.
@@ -162,7 +163,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   }
 
   public void onSettings(View v) {
-    Helpers.Do.msgBox(CameraActivity.this, "When in doubt, keep it open.");
+    Helpers.Do.msgBox(CameraActivity.this, "0.1.0\n\nYou don't need settings. Go get a beast-maker instead.");
   }
 
   private void showUserDataDialog() {

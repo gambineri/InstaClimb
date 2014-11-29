@@ -8,7 +8,7 @@
         android:measureAllChildren="false"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
-        android:background="#123456" android:focusable="true">
+        android:background="#ff56dd31" android:focusable="true">
 
   <ProgressBar
       style="?android:attr/progressBarStyleHorizontal"

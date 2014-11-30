@@ -515,7 +515,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
     }
 
     private void drawInstaClimbInfo(Canvas canvas, int ss) {
-      int marginBox = (int)ss*1/100;
+      int marginBox = (int) ss /90;
       int marginTextL = 3*marginBox;
       int marginTextT = 5*marginBox;
       int grayRectW = ss - 2*marginBox;
@@ -540,11 +540,11 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
       canvas.drawText(feelsLike, grayRect.right - feelsLikeLen - feelsLikeLen/10, ss-marginBox-grayRectVPad, p);
 
       // Date
-      p.setTextSize(60);
+      p.setTextSize(70);
       p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
       Time now = new Time();
       now.setToNow();
-      String datestr = now.format("%d.%m.%Y - %H:%M");
+      String datestr = now.format("%d/%m/%Y - %H:%M");
       canvas.drawText(datestr, marginTextL, marginTextT, p);
 
       // Spot name

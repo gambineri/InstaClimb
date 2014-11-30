@@ -557,6 +557,15 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
       String instaGrade = Helpers.toCamelCase(m_AscentName, " ", null) + "  " + generateGrade();
       p.setTextSize(bestFontSizePerWidth(instaGrade, ss-marginTextL*2, 180, p));
       canvas.drawText(instaGrade, marginTextL, ss-marginBox-grayRectH/2, p);
+
+      canvas.save();
+//      p.setTypeface(Typeface.create("Droid Sans", Typeface.BOLD));
+      Typeface instaFont = Typeface.createFromAsset(getAssets(), "ArchitectsDaughter.ttf");
+      p.setTypeface(instaFont);
+      p.setTextSize(60);
+      canvas.rotate((float) 90, ss-5*marginBox, ss/3);
+      canvas.drawText("InstaClimb", ss-5*marginBox, ss/3, p);
+      canvas.restore();
     }
 
     @Override

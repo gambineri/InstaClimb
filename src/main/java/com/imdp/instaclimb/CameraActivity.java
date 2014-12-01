@@ -163,7 +163,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   }
 
   public void onSettings(View v) {
-    Helpers.Do.msgBox(CameraActivity.this, "0.1.0\n\nYou don't need settings. Go get a beast-maker instead.");
+    Helpers.Do.msgBox(CameraActivity.this, "InstaClimb 0.1.0\n\nThe one and only serious approach to grading.");
   }
 
   private void showUserDataDialog() {

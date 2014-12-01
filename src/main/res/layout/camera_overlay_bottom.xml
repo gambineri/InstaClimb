@@ -31,13 +31,10 @@
         android:layout_width="0dp"
         android:layout_height="fill_parent" android:layout_weight="1" android:layout_gravity="center">
       <Button
-          android:id="@+id/button_capture"
           android:layout_width="72dp"
           android:layout_height="72dp"
-          android:focusable="true" android:focusableInTouchMode="true"
-          android:visibility="visible"
-          android:background="@drawable/btn_shoot"
-          android:layout_gravity="center" android:onClick="onCapture"/>
+          android:id="@+id/button_capture" android:onClick="onCapture" android:background="@drawable/btn_shoot"
+          android:layout_gravity="center"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"

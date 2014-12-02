@@ -163,7 +163,15 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   }
 
   public void onSettings(View v) {
-    Helpers.Do.msgBox(CameraActivity.this, "InstaClimb 0.1.0\n\nThe one and only serious approach to grading.");
+    String versionname = "";
+    try {
+      versionname = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+    } catch (PackageManager.NameNotFoundException e) {
+      e.printStackTrace();
+    }
+    Helpers.Do.msgBox(CameraActivity.this, "InstaClimb " +
+                      versionname +
+                      "\n\nThe one and only serious approach to grading.");
   }
 
   private void showUserDataDialog() {

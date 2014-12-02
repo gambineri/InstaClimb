@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.imdp.instaclimb"
   android:versionCode="1"
-  android:versionName="1.0" >
+  android:versionName="0.1.0" >
 
   <uses-sdk
       android:minSdkVersion="16"
@@ -23,8 +23,7 @@
       <activity
           android:name="com.imdp.instaclimb.SplashScreen"
           android:label="@string/app_name"
-          android:screenOrientation="portrait" >
-      </activity>
+          android:screenOrientation="portrait" />
 
     <!-- CameraActivity Activity-->
       <activity
@@ -41,8 +40,7 @@
           android:name="com.imdp.instaclimb.ShowCapture"
           android:screenOrientation="portrait"
           android:label="@string/title_activity_show_capture"
-          android:theme="@style/AppTheme">
-      </activity>
+          android:theme="@style/AppTheme"/>
   </application>
 
 </manifest>

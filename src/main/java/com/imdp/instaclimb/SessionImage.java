@@ -13,7 +13,7 @@ import java.util.Date;
  * Wrapper class for the captured image I/O mgmt.
  *
  */
-public class SessionImage {
+class SessionImage {
 
   private String  m_CapturedImgFilePathName = null;
   private File    m_CapturedImgFile         = null;

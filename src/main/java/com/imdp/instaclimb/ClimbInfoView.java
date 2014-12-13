@@ -7,14 +7,14 @@ import android.widget.ImageView;
 /**
  * Created by massimo on 6/25/14.
  */
-public class ClimbInfoView extends ImageView {
+class ClimbInfoView extends ImageView {
 
-  private Paint   m_Paint = null;
-  private String  m_AscentName = "No Name";
-  private String  m_Location = "Secret Spot";
-  private RectF   m_FeelsLikeRect = new RectF(0, 0, 0, 0);
-  private int     m_SquareSide = 0;
-  private boolean m_Measured = false;
+  private       Paint   m_Paint = null;
+  private       String  m_AscentName = "No Name";
+  private       String  m_Location = "Secret Spot";
+  private       int     m_SquareSide = 0;
+  private       boolean m_Measured = false;
+  private final RectF   m_FeelsLikeRect = new RectF(0, 0, 0, 0);
 
   public boolean isMeasured() {
     return m_Measured;

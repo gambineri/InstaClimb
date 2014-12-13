@@ -29,7 +29,7 @@ public class UserDataDlg extends DialogFragment {
   }
 
   // Use this instance of the interface to deliver action events
-  UserDataDlgListener mListener;
+  private UserDataDlgListener mListener;
 
   // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
   @Override

@@ -10,7 +10,6 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.Time;
 import android.util.Log;
@@ -34,7 +33,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   private int           m_CameraId        = -1;
   private CameraPreview m_Preview         = null;
   private SessionImage  m_SessionImg      = null;
-  ClimbInfoView         m_ClimbInfoView   = null;
+  private ClimbInfoView m_ClimbInfoView   = null;
   private String        m_AscentName      = "";
   private String        m_Location        = "";
 
@@ -51,18 +50,13 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
 
   // Coordinates of crop area (crop rect) with respect to a cartesian system
   // having the origin in the top-left corner of the (portrait) screen
-  private Rect          m_CaptureRect     = new Rect(0, 0, 0, 0);
+  private final Rect    m_CaptureRect     = new Rect(0, 0, 0, 0);
 
   // Handler to this thread to visually update the progress bar
-  private Handler       m_Handler         = new Handler();
+  private final Handler m_Handler         = new Handler();
 
   // Progress bar for insta transformations
   private ProgressBar   m_Progress        = null;
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-  } // onCreate
 
   @Override
   protected void onPause() {
@@ -227,7 +221,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
     }
   }
 
-  private PictureCallback m_Picture = new PictureCallback() {
+  private final PictureCallback m_Picture = new PictureCallback() {
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
       new InstaJob().execute(data);
@@ -240,7 +234,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
     return Bitmap.createBitmap(srcBmp, 0, 0, srcBmp.getWidth(), srcBmp.getHeight(), matrix, false);
   }
 
-  private Bitmap cropImage(Bitmap srcBitmap, Rect srcRect, boolean scaleUpIfNeeded) {
+  private Bitmap cropImage(Bitmap srcBitmap, Rect srcRect) {
 
     int srcW = srcRect.width();
     int srcH = srcRect.height();
@@ -249,7 +243,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
 
     // If the output is required to a specific size, create an new image
     // with the cropped image in the center and the extra space filled.
-    if (srcW != 0 && srcH != 0 && scaleUpIfNeeded) {
+    if (srcW != 0 && srcH != 0) {
 
       // Don't scale the image but instead fill it so it's the required dimension
       croppedImage = Bitmap.createBitmap(srcW, srcH, Bitmap.Config.RGB_565);
@@ -414,7 +408,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
     private   SurfaceHolder m_Holder = null;
-    protected Activity      m_Activity = null;
+    Activity                m_Activity = null;
 
     public CameraPreview(Context context) {
       super(context);
@@ -500,10 +494,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
       String gradePlus[] = {"", "+"};
 
       Random r = new Random();
-      return new StringBuffer(gradeNum[r.nextInt(5)])
-                    .append(gradeAbc[r.nextInt(3)])
-                    .append(gradePlus[r.nextInt(2)])
-                    .toString();
+      return gradeNum[r.nextInt(5)] + gradeAbc[r.nextInt(3)] + gradePlus[r.nextInt(2)];
     }
 
     private int bestFontSizePerWidth(String txt, int maxwidth,  int startsize, Paint p) {
@@ -525,7 +516,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
       int marginBox = ss /90;
       int marginTextL = 3*marginBox;
       int marginTextT = 5*marginBox;
-      int grayRectW = ss - 2*marginBox;
+//      int grayRectW = ss - 2*marginBox;
       int grayRectH = ss/4;
       int grayRectVPad = grayRectH/10;
 
@@ -589,7 +580,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
         Bitmap bitmap = BitmapFactory.decodeByteArray(data[0], 0, data[0].length);
         Bitmap bmpRotated = rotBMP(bitmap);
         bitmap.recycle();
-        Bitmap croppedImage = cropImage(bmpRotated, m_CaptureRect, true);
+        Bitmap croppedImage = cropImage(bmpRotated, m_CaptureRect);
         bmpRotated.recycle();
 
         updateProgressBar(30);

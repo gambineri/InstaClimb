@@ -10,7 +10,7 @@ import android.os.Handler;
  */
 public class SplashScreen extends Activity {
 
-  public static Activity m_SplashScreenActivity;
+  private static Activity m_SplashScreenActivity;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

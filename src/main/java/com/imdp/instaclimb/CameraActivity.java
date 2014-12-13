@@ -191,7 +191,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
     if ((m_Camera = getCameraInstance()) != null) {
       try {
         // Because we want a portrait app, calculate rotation respect to natural device orientation
-        m_DevRotation = Helpers.Do.getRotationRelativeToNaturalOrientaton(this, m_CameraId, m_Camera);
+        m_DevRotation = Helpers.Do.getRotationRelativeToNaturalOrientaton(this, m_CameraId);
 
         // In case the device natural orientation is not portrait (or multiple thereof)
         // let's save the bool to know if picture dimensions need to be considered as inverted
@@ -403,8 +403,8 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
     m_Location    = ((UserDataDlg)dialog).getLocation();
 
     if (m_ClimbInfoView != null) {
-      m_ClimbInfoView.setAscentName((String) m_AscentName);
-      m_ClimbInfoView.setLocation((String) m_Location);
+      m_ClimbInfoView.setAscentName(m_AscentName);
+      m_ClimbInfoView.setLocation(m_Location);
       m_ClimbInfoView.postInvalidate();
     }
   }
@@ -523,7 +523,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
     }
 
     private void drawInstaClimbInfo(Canvas canvas, int ss) {
-      int marginBox = (int) ss /90;
+      int marginBox = ss /90;
       int marginTextL = 3*marginBox;
       int marginTextT = 5*marginBox;
       int grayRectW = ss - 2*marginBox;

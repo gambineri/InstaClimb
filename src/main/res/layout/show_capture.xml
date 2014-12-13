@@ -29,7 +29,7 @@
       android:layout_height="200dp" android:background="@color/overlay_bg" android:id="@+id/sc_bottom_frame">
     <Space android:layout_width="fill_parent" android:layout_height="60px" android:id="@+id/space"/>
     <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                  android:layout_height="wrap_content" android:id="@+id/linearLayout">
+                  android:layout_height="wrap_content" android:id="@+id/linearLayout" android:baselineAligned="false">
       <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_height="fill_parent"
                     android:layout_weight="1" android:layout_gravity="center" android:paddingTop="14dp">
         <Button android:layout_width="48dp" android:layout_height="48dp"

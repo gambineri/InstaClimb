@@ -11,8 +11,6 @@ public final class Helpers {
 	public final static class Const {
     public static final String DBGTAG = "IMDP";
 		public static final String CAPTURED_IMG_PREFIX = "CAPTUREDIMG_";
-		public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int CROP_IMAGE_REQUEST_CODE = 321;
 
     //Bundles extras
     public static final String EXTRA_CAPTURED_IMG_PATH  = "capturedImgPath";
@@ -58,12 +56,10 @@ public final class Helpers {
     }
 
     public static void setCameraDisplayOrientation(Activity activity, int cameraId, android.hardware.Camera camera) {
-      camera.setDisplayOrientation(getRotationRelativeToNaturalOrientaton(activity, cameraId, camera));
+      camera.setDisplayOrientation(getRotationRelativeToNaturalOrientaton(activity, cameraId));
     }
 
-    public static int getRotationRelativeToNaturalOrientaton(Activity activity,
-                                                             int cameraId,
-                                                             android.hardware.Camera camera) {
+    public static int getRotationRelativeToNaturalOrientaton(Activity activity, int cameraId) {
       Camera.CameraInfo info = new Camera.CameraInfo();
       Camera.getCameraInfo(cameraId, info);
       int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();

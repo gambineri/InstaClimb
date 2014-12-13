@@ -1,14 +1,14 @@
 buildscript {
-    repositories {
-        mavenCentral()
-    }
+  repositories {
+    mavenCentral()
+  }
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.13.0'
-    }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:0.13.0'
+  }
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 dependencies {
 
@@ -19,20 +19,29 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 18
-    buildToolsVersion '19.1.0'
+  compileSdkVersion 18
+//    buildToolsVersion '19.1.0'
+  buildToolsVersion '21.1.1'
 
-/*    sourceSets {
+/*
+sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
         }
     }
 */
 
+    buildTypes {
+        release {
+//            runProguard true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), \
+//            'proguard-rules.txt'
+        }
+    }
 }
 
 task launchDebug(type:Exec, dependsOn: 'installDebug'){
-    commandLine '/home/massimo/android-sdks/platform-tools/adb', 'shell', 'am', 'start', '-c', 'android.intent.category.LAUNCHER', '-n', 'com.imdp.instaclimb/.CameraActivity'
+    commandLine '/home/massimo/android-sdk-linux/platform-tools/adb', 'shell', 'am', 'start', '-c', 'android.intent.category.LAUNCHER', '-n', 'com.imdp.instaclimb/.CameraActivity'
 }
 
 /*

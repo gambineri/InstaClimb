@@ -33,11 +33,11 @@ public class ShowCapture extends Activity {
       vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
-          LinearLayout rootView = (LinearLayout)findViewById(R.id.sc_root_frame);
-          View tf               = findViewById(R.id.sc_top_frame);
-          ImageView iv          = (ImageView)findViewById(R.id.sc_img_view);
-          View bf               = findViewById(R.id.sc_bottom_frame);
-          int topFrameW         = 50;
+          LinearLayout  rootView  = (LinearLayout)findViewById(R.id.sc_root_frame);
+          View          tf        = findViewById(R.id.sc_top_frame);
+          ImageView     iv        = (ImageView)findViewById(R.id.sc_img_view);
+          View          bf        = findViewById(R.id.sc_bottom_frame);
+          int           topFrameW = 50;
 
           if (rootView != null && bf != null && tf != null && iv != null) {
             Bundle bundle = getIntent().getExtras();

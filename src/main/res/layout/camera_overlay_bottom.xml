@@ -2,19 +2,15 @@
 
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="150dp"
+  android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="120dp"
   android:layout_gravity="bottom" android:background="@color/overlay_bg"
-  android:id="@+id/bottom_frame" android:visibility="visible" android:alpha="0.9" android:gravity="center_horizontal"
+  android:id="@+id/bottom_frame" android:visibility="visible" android:alpha="0.9" android:gravity="center_vertical|center_horizontal"
   android:weightSum="1">
 
-  <Space
-      android:layout_width="fill_parent"
-      android:layout_height="60px"
-      android:id="@+id/paddingtop"/>
   <LinearLayout
       android:orientation="horizontal"
       android:layout_width="fill_parent"
-      android:layout_height="wrap_content">
+      android:layout_height="wrap_content" android:baselineAligned="false">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dp"

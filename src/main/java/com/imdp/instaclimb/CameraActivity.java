@@ -121,11 +121,11 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
           @Override
           public void onGlobalLayout() {
-            FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
 
             //At this point the layout is complete and the dimensions of myView and any child views are known.
-            View bf = findViewById(R.id.bottom_frame);
-            View tf = findViewById(R.id.top_frame);
+            FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+            View        bf      = findViewById(R.id.bottom_frame);
+            View        tf      = findViewById(R.id.top_frame);
 
             if (preview != null && bf != null && tf != null) {
               //calculate coordinates of capture rect as if (0, 0) is in the top-left corner (portrait mode)
@@ -135,8 +135,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
               m_CaptureRect.bottom = m_CaptureRect.top +m_CaptureRect.right;
 
               // set height for top and bottom frame
-              tf.setBottom((preview.getHeight() - preview.getWidth()) / 2);
-              bf.setTop(preview.getWidth() + tf.getHeight());
+              tf.setBottom(preview.getHeight() - preview.getWidth() - bf.getHeight());
 
               m_Progress = (ProgressBar) findViewById(R.id.progressBar);
               m_Progress.bringToFront();

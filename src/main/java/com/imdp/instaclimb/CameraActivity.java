@@ -29,13 +29,12 @@ import java.util.Random;
 
 public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgListener {
 
-  private Camera        m_Camera          = null;
-  private int           m_CameraId        = -1;
-  private CameraPreview m_Preview         = null;
-  private SessionImage  m_SessionImg      = null;
-  private ClimbInfoView m_ClimbInfoView   = null;
-  private String        m_AscentName      = "";
-  private String        m_Location        = "";
+  private Camera            m_Camera          = null;
+  private int               m_CameraId        = -1;
+  private CameraPreview     m_Preview         = null;
+  private SessionImage      m_SessionImg      = null;
+  private String            m_AscentName      = "";
+  private String            m_Location        = "";
 
   // Best resolution for the camera hardware on the current device
   private Camera.Size   m_BestRes         = null;
@@ -104,11 +103,6 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
       View bottomOverlay = getLayoutInflater().inflate(R.layout.camera_overlay_bottom, preview, false);
       if (bottomOverlay != null)
         preview.addView(bottomOverlay);
-
-      /*
-      TODO ClimbInfoView dovra` diventare InstaPreview e fare la preview del layer insta PRIMA dello scatto e sara` reso visibile
-      */
-      m_ClimbInfoView = new ClimbInfoView(CameraActivity.this);
 
       ViewTreeObserver vto = preview.getViewTreeObserver();
       if (vto != null) {
@@ -391,12 +385,6 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   public void onDialogPositiveClick(DialogFragment dialog) {
     m_AscentName  = ((UserDataDlg)dialog).getAscentName();
     m_Location    = ((UserDataDlg)dialog).getLocation();
-
-    if (m_ClimbInfoView != null) {
-      m_ClimbInfoView.setAscentName(m_AscentName);
-      m_ClimbInfoView.setLocation(m_Location);
-      m_ClimbInfoView.postInvalidate();
-    }
   }
 
   /**

@@ -139,9 +139,6 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
       }
 
       showUserDataDialog();
-
-//      if (SplashScreen.m_SplashScreenActivity != null)
-//        SplashScreen.m_SplashScreenActivity.finish();
     }
   }
 

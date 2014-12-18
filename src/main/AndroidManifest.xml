@@ -19,12 +19,6 @@
       android:label="@string/app_name"
       android:theme="@style/AppTheme" >
 
-    <!-- Splash Screen Activity-->
-      <activity
-          android:name="com.imdp.instaclimb.SplashScreen"
-          android:label="@string/app_name"
-          android:screenOrientation="portrait" />
-
     <!-- CameraActivity Activity-->
       <activity
           android:name="com.imdp.instaclimb.CameraActivity"

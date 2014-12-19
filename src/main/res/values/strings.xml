@@ -2,7 +2,9 @@
 <resources>
 
     <string name="app_name">InstaClimb</string>
-    <string name="action_settings">Settings</string>
+    <string name="show_settings">Settings</string>
+    <string name="show_about">About this App</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="ascent_name">Ascent Name</string>
     <string name="location">Location</string>
@@ -12,6 +14,7 @@
     <string name="title_activity_show_capture">ShowCapture</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-  <string name="showCaptureContentDescr">Shows the captured image</string>
+    <string name="showCaptureContentDescr">Shows the captured image</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 
 </resources>

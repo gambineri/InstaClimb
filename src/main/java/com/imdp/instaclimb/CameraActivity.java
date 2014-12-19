@@ -13,10 +13,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.text.format.Time;
 import android.util.Log;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -56,6 +53,30 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
 
   // Progress bar for insta transformations
   private ProgressBar   m_Progress        = null;
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.main, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle item selection
+    switch (item.getItemId()) {
+      case R.id.show_settings:
+        Intent i = new Intent(CameraActivity.this, SettingsActivity.class);
+        CameraActivity.this.startActivity(i);
+      return true;
+
+      case R.id.show_about:
+        showAboutDlg();
+      return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
 
   @Override
   protected void onPause() {
@@ -147,6 +168,13 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   }
 
   public void onSettings(View v) {
+
+    CameraActivity.this.openOptionsMenu();
+
+
+  }
+
+  private void showAboutDlg() {
     String versionname = "";
     try {
       versionname = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
@@ -154,8 +182,8 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
       e.printStackTrace();
     }
     Helpers.Do.msgBox(CameraActivity.this, "InstaClimb " +
-                      versionname +
-                      "\n\nThe one and only serious approach to grading.");
+        versionname +
+        "\n\nThe one and only serious approach to grading.");
   }
 
   private void showUserDataDialog() {

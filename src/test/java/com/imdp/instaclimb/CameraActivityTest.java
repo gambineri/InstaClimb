@@ -1,9 +1,7 @@
-package java.com.imdp.instaclimb;
+package com.imdp.instaclimb;
 
 import android.app.Activity;
 import android.util.Log;
-import com.imdp.instaclimb.CameraActivity;
-import com.imdp.instaclimb.Helpers;
 
 public class CameraActivityTest extends android.test.ActivityInstrumentationTestCase2<CameraActivity> {
 
@@ -26,5 +24,15 @@ public class CameraActivityTest extends android.test.ActivityInstrumentationTest
     Log.d(Helpers.Const.DBGTAG, "finally inside test()...");
     Helpers.Do.msgBox(mActivity, "aaa");
     assertEquals("stocasio", "1", "2");
+  }
+
+  public void test_toCamelCase() {
+    System.out.println(">" + Helpers.toCamelCase("aaa bbb ccc", " ", null)+"<");
+    System.out.println(">" + Helpers.toCamelCase("aaa+bbb+ccc", "+", null)+"<");
+    System.out.println(">" + Helpers.toCamelCase("aaazbbbzccc", "z", " ")+"<");
+    System.out.println(">" + Helpers.toCamelCase("aaayzbbbyzccc", "yz", "-")+"<");
+    System.out.println(">" + Helpers.toCamelCase("aaaxyzbbbxyzccc", "xyz", " - ")+"<");
+    System.out.println(">" + Helpers.toCamelCase("aaa1bbb1ccc", "1", ".")+"<");
+    System.out.println(">" + Helpers.toCamelCase("aaa_bbb_ccc", "_", " * ")+"<");
   }
 }

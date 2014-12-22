@@ -433,7 +433,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
       m_Holder = getHolder();
       if (m_Holder != null) {
         m_Holder.addCallback(this);
-        // deprecated setting, but required on Android versions prior to 3.0
+        // deprecated settings, but required on Android versions prior to 3.0
         m_Holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
       } else throw new AssertionError("m_Holder is null in CameraPreview(Context context, Camera camera)");
     }
@@ -446,7 +446,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
           m_Camera.startPreview();
         }
       } catch (IOException e) {
-        Log.d(Helpers.Const.DBGTAG, "Error setting camera preview: " + e.getMessage());
+        Log.d(Helpers.Const.DBGTAG, "Error settings camera preview: " + e.getMessage());
       }
     }
 

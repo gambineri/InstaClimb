@@ -25,8 +25,8 @@ public class SettingsFragment extends PreferenceFragment {
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
-        if (m_Activity != null)
-            m_Activity.setContentView(R.layout.settings);
+//        if (m_Activity != null)
+//            m_Activity.setContentView(R.layout.settings);
 
 
     }

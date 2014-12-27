@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-  <CheckBoxPreference
+
+  <SwitchPreference
     android:defaultValue="false"
-    android:key="ecco_la_key"
-    android:summary="summary pref"
-    android:title="title pref" >
-  </CheckBoxPreference>
+    android:key="insta_mode"
+    android:title="Serious Mode"
+    android:summary="Disable automatic grading and other fancy addons."
+    android:switchTextOn="On"
+    android:switchTextOff="Off"
+    >
+  </SwitchPreference>
+
 </PreferenceScreen>

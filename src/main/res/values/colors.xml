@@ -3,5 +3,6 @@
   <color name="white">#FFFFFFFF</color>
   <color name="black_overlay">#BBDDAD02</color>
   <color name="overlay_bg">#BBDDAD02</color>
+  <color name="climbing_info_bg">#FFE59211</color>
 
 </resources>

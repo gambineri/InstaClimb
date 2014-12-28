@@ -13,6 +13,8 @@
 
     <uses-feature android:name="android.hardware.camera" />
 
+    <!--<android:uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/launcher_icon"
@@ -23,10 +25,6 @@
         <activity
             android:name="com.imdp.instaclimb.CameraActivity"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <!-- Show Capture Activity -->
@@ -41,6 +39,14 @@
             android:name="com.imdp.instaclimb.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/SettingsTheme" >
+        </activity>
+        <activity
+            android:name="com.imdp.instaclimb.ClimbingInfo"
+            android:label="@string/title_activity_climbing_info" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

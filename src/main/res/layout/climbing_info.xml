@@ -1,0 +1,123 @@
+<LinearLayout
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:background="@color/overlay_bg"
+  android:paddingLeft="15dp"
+  android:paddingRight="15dp"
+  android:gravity="center_vertical"
+  >
+
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageView"
+        android:src="@drawable/instaclimb"
+      android:contentDescription="@string/instaclimb_logo" />
+  </LinearLayout>
+
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1">
+
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:gravity="center_vertical">
+
+      <EditText
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/editText"
+          android:autoText="false"
+          android:background="@drawable/edit_bg"
+          android:layout_gravity="right"
+          android:inputType="text"
+        android:textSize="20sp"
+        android:hint="@string/routeboulder" />
+
+      <Space
+          android:layout_width="fill_parent"
+          android:layout_height="30dp" />
+
+      <EditText
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/editText2"
+          android:background="@drawable/edit_bg"
+          android:layout_gravity="right"
+          android:inputType="text"
+        android:textSize="20sp"
+        android:hint="@string/location" />
+
+    </LinearLayout>
+  </LinearLayout>
+
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
+    android:gravity="center_vertical"
+    android:baselineAligned="false">
+
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="0dp"
+      android:layout_height="fill_parent"
+      android:layout_weight="1"
+      android:gravity="center_vertical|center_horizontal">
+
+      <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/skip"
+        android:id="@+id/button"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="0dp"
+      android:layout_height="fill_parent"
+      android:layout_weight="1"
+      android:gravity="center_vertical|center_horizontal">
+
+      <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/clear"
+        android:id="@+id/button2"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="0dp"
+      android:layout_height="fill_parent"
+      android:layout_weight="1"
+      android:gravity="center_vertical|center_horizontal">
+
+      <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/done"
+        android:id="@+id/button3"
+        />
+    </LinearLayout>
+  </LinearLayout>
+
+</LinearLayout>
+
+

@@ -4,7 +4,6 @@
     <string name="app_name">InstaClimb</string>
     <string name="show_settings">Settings</string>
     <string name="show_about">About this App</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="ascent_name">Ascent Name</string>
     <string name="location">Location</string>
@@ -16,5 +15,12 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="showCaptureContentDescr">Shows the captured image</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_climbing_info">Climbing Info</string>
+    <string name="action_settings">Settings</string>
+    <string name="routeboulder">Route/Boulder</string>
+    <string name="instaclimb_logo">instaclimb logo</string>
+    <string name="skip">Skip</string>
+    <string name="clear">Clear</string>
+    <string name="done">Done</string>
 
 </resources>

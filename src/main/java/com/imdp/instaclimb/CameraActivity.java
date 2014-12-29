@@ -168,10 +168,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   }
 
   public void onSettings(View v) {
-
     CameraActivity.this.openOptionsMenu();
-
-
   }
 
   private void showAboutDlg() {

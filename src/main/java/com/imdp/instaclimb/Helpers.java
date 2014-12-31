@@ -15,6 +15,8 @@ public final class Helpers {
     //Bundles extras
     public static final String EXTRA_CAPTURED_IMG_PATH  = "capturedImgPath";
     public static final String EXTRA_TOP_FRAME_W        = "topFrameWidth";
+    public static final String EXTRA_ASCENT_NAME        = "ascentName";
+    public static final String EXTRA_LOCATION           = "location";
   }
 
   public static String toCamelCase(String input, String separator, String replacement) {

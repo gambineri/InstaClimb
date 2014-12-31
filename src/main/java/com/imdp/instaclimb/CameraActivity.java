@@ -10,6 +10,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Camera.PictureCallback;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.Time;
 import android.util.Log;
@@ -171,6 +172,17 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
     CameraActivity.this.openOptionsMenu();
   }
 
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    Bundle extras = getIntent().getExtras();
+    if (extras != null) {
+      m_AscentName = extras.getString(Helpers.Const.EXTRA_ASCENT_NAME);
+      m_Location   = extras.getString(Helpers.Const.EXTRA_LOCATION);
+    }
+  }
+
   private void showAboutDlg() {
     String versionname = "";
     try {
@@ -184,8 +196,8 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   }
 
   private void showUserDataDialog() {
-    UserDataDlg uddlg = new UserDataDlg();
-    uddlg.show(getFragmentManager(), "UNUSED_TAG");
+//    UserDataDlg uddlg = new UserDataDlg();
+//    uddlg.show(getFragmentManager(), "UNUSED_TAG");
   }
 
   private Boolean setUpCamera() {

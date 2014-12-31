@@ -41,7 +41,7 @@
       <EditText
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
-          android:id="@+id/editText"
+          android:id="@+id/ascentname"
           android:autoText="false"
           android:background="@drawable/edit_bg"
           android:layout_gravity="right"
@@ -56,7 +56,7 @@
       <EditText
           android:layout_width="fill_parent"
           android:layout_height="wrap_content"
-          android:id="@+id/editText2"
+          android:id="@+id/location"
           android:background="@drawable/edit_bg"
           android:layout_gravity="right"
           android:inputType="text"

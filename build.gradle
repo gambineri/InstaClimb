@@ -20,16 +20,7 @@ dependencies {
 
 android {
   compileSdkVersion 18
-//    buildToolsVersion '19.1.0'
   buildToolsVersion '21.1.1'
-
-/*
-sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-        }
-    }
-*/
 
     buildTypes {
         release {
@@ -39,21 +30,3 @@ sourceSets {
         }
     }
 }
-
-task launchDebug(type:Exec, dependsOn: 'installDebug'){
-    commandLine '/home/massimo/android-sdk-linux/platform-tools/adb', 'shell', 'am', 'start', '-c', 'android.intent.category.LAUNCHER', '-n', 'com.imdp.instaclimb/.CameraActivity'
-}
-
-/*
-android {
-    lintOptions {
-        abortOnError false
-    }
-}
-
-/*
-task appo {
-  println rootDir
-  println rootProject.projectDir
-}
-*/

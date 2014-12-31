@@ -38,11 +38,15 @@
         <activity
             android:name="com.imdp.instaclimb.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/SettingsTheme" >
+            android:theme="@style/SettingsTheme"
+            android:screenOrientation="portrait" >
         </activity>
+
+      <!-- Climbing Info Activity -->
         <activity
             android:name="com.imdp.instaclimb.ClimbingInfo"
-            android:label="@string/title_activity_climbing_info" >
+            android:label="@string/title_activity_climbing_info"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

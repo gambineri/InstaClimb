@@ -38,30 +38,29 @@
       android:background="#FFDDAD02"
       android:layout_margin="5dp">
 
-      <EditText
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:id="@+id/ascentname"
-          android:autoText="false"
-          android:background="@drawable/edit_bg"
-          android:layout_gravity="right"
-          android:inputType="text"
-        android:textSize="20sp"
-        android:hint="@string/routeboulder" />
+      <AutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ascentname"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/edit_bg"
+        android:inputType="text|textCapWords"
+        android:lines="1"
+        android:hint="@string/routeboulder"
+        android:editable="true"
+        android:imeOptions="actionNext" />
 
       <Space
           android:layout_width="fill_parent"
           android:layout_height="30dp" />
 
-      <EditText
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:id="@+id/location"
-          android:background="@drawable/edit_bg"
-          android:layout_gravity="right"
-          android:inputType="text"
-        android:textSize="20sp"
-        android:hint="@string/location" />
+      <AutoCompleteTextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/location"
+        android:inputType="text|textCapWords"
+        android:hint="@string/location"
+        android:background="@drawable/edit_bg" />
 
     </LinearLayout>
   </LinearLayout>

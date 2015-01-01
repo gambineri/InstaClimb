@@ -72,15 +72,6 @@ public class ShowCapture extends Activity {
       });
     }
 
-    //Add a listener to the Refresh button
-    Button refreshButton = (Button) findViewById(R.id.button_refresh);
-    refreshButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        startActivity(new Intent(ShowCapture.this, CameraActivity.class));
-      }
-    });
-
     //Add a listener to the Share button
     Button shareButton = (Button) findViewById(R.id.button_share);
     shareButton.setOnClickListener(new View.OnClickListener() {
@@ -107,5 +98,9 @@ public class ShowCapture extends Activity {
         Helpers.Do.msgBox(ShowCapture.this, "Nel dubbio sgrada.");
       }
     });
+  }
+
+  public void onRefresh(View v) {
+    startActivity(new Intent(ShowCapture.this, ClimbingInfo.class));
   }
 }

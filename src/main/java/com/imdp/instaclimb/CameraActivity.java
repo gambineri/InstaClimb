@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
-public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgListener {
+public class CameraActivity extends Activity {
 
   private Camera            m_Camera          = null;
   private int               m_CameraId        = -1;
@@ -153,8 +153,6 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
           }
         });
       }
-
-      showUserDataDialog();
     }
   }
 
@@ -165,7 +163,7 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
   }
 
   public void onRefresh(View v) {
-    showUserDataDialog();
+    startActivity(new Intent(CameraActivity.this, ClimbingInfo.class));
   }
 
   public void onSettings(View v) {
@@ -193,11 +191,6 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
     Helpers.Do.msgBox(CameraActivity.this, "InstaClimb " +
         versionname +
         "\n\nThe one and only serious approach to grading.");
-  }
-
-  private void showUserDataDialog() {
-//    UserDataDlg uddlg = new UserDataDlg();
-//    uddlg.show(getFragmentManager(), "UNUSED_TAG");
   }
 
   private Boolean setUpCamera() {
@@ -416,12 +409,6 @@ public class CameraActivity extends Activity implements UserDataDlg.UserDataDlgL
     }
 
     return false;
-  }
-
-  @Override
-  public void onDialogPositiveClick(DialogFragment dialog) {
-    m_AscentName  = ((UserDataDlg)dialog).getAscentName();
-    m_Location    = ((UserDataDlg)dialog).getLocation();
   }
 
   /**

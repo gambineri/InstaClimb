@@ -47,7 +47,8 @@
       <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_height="fill_parent"
                     android:layout_weight="1" android:layout_gravity="center" android:paddingTop="12dp">
         <Button android:layout_width="48dp" android:layout_height="48dp"
-                android:id="@+id/button_refresh" android:background="@drawable/btn_refresh" android:layout_gravity="center"/>
+                android:id="@+id/button_refresh" android:background="@drawable/btn_refresh" android:layout_gravity="center"
+          android:onClick="onRefresh" />
       </LinearLayout>
     </LinearLayout>
   </LinearLayout>

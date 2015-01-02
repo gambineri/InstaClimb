@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.*;
 import android.hardware.Camera;
@@ -12,6 +13,7 @@ import android.hardware.Camera.PictureCallback;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.*;
@@ -522,14 +524,16 @@ public class CameraActivity extends Activity {
     }
 
     private void drawInstaClimbInfo(Canvas canvas, int ss) {
-      int marginBox = ss /90;
-      int marginTextL = 3*marginBox;
-      int marginTextT = 5*marginBox;
-//      int grayRectW = ss - 2*marginBox;
-      int grayRectH = ss/4;
-      int grayRectVPad = grayRectH/10;
+      int marginBox     = ss /90;
+      int marginTextL   = 3*marginBox;
+      int marginTextT   = 5*marginBox;
+//      int grayRectW   = ss - 2*marginBox;
+      int grayRectH     = ss/4;
+      int grayRectVPad  = grayRectH/10;
+      Paint p           = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-      Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+      SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(CameraActivity.this);
+      boolean serious_mode = sp.getBoolean("serious_mode", false);
 
       // Gray rectangle with ascent and feelings
       RectF grayRect = new RectF(marginBox, ss-marginBox-grayRectH, ss-marginBox, ss-marginBox);
@@ -542,26 +546,28 @@ public class CameraActivity extends Activity {
       p.setTypeface(feelsLikeFont);
       p.setTextSize(70);
       p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
-      String feelsLike = "Feels like: " + generateGrade();
-      int feelsLikeLen = (int)p.measureText(feelsLike);
-      canvas.drawText(feelsLike, grayRect.right - feelsLikeLen - feelsLikeLen/10, ss-marginBox-grayRectVPad, p);
+
+      if (!serious_mode) {
+        String feelsLike = "Feels like: " + generateGrade();
+        int feelsLikeLen = (int) p.measureText(feelsLike);
+        canvas.drawText(feelsLike, grayRect.right - feelsLikeLen - feelsLikeLen / 10, ss - marginBox - grayRectVPad, p);
+      }
 
       // Date
-      p.setTextSize(70);
-      p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
       Time now = new Time();
       now.setToNow();
       String datestr = now.format("%d/%m/%Y - %H:%M");
       canvas.drawText(datestr, marginTextL, marginTextT, p);
 
       // Spot name
-      String spotname = Helpers.toCamelCase(m_Location, " ", null);
+      String spotname = Helpers.Do.toCamelCase(m_Location, " ", null);
       p.setTextSize(bestFontSizePerWidth(spotname, ss-marginTextL*2, 130, p));
       canvas.drawText(spotname, marginTextL, marginTextT*(float)3.5, p);
 
       // Ascent name and Insta grade...
       p.setShadowLayer(2f, 2f, 2f, Color.BLACK);
-      String instaGrade = Helpers.toCamelCase(m_AscentName, " ", null) + "  " + generateGrade();
+      String instaGrade = Helpers.Do.toCamelCase(m_AscentName, " ", null) +
+        (serious_mode ? "" : "  " + generateGrade());
       p.setTextSize(bestFontSizePerWidth(instaGrade, ss-marginTextL*2, 180, p));
       canvas.drawText(instaGrade, marginTextL, ss-marginBox-grayRectH/2, p);
 

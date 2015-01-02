@@ -4,7 +4,7 @@
 
   <SwitchPreference
     android:defaultValue="false"
-    android:key="insta_mode"
+    android:key="serious_mode"
     android:title="Serious Mode"
     android:summary="Disable automatic grading and other fancy addons."
     android:switchTextOn="On"

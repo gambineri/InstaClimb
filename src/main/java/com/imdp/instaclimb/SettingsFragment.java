@@ -6,8 +6,6 @@ import android.preference.PreferenceFragment;
 
 
 public class SettingsFragment extends PreferenceFragment {
-    private Activity m_Activity = null;
-
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -15,8 +13,6 @@ public class SettingsFragment extends PreferenceFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        m_Activity = activity;
     }
 
     @Override
@@ -25,9 +21,5 @@ public class SettingsFragment extends PreferenceFragment {
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
-//        if (m_Activity != null)
-//            m_Activity.setContentView(R.layout.settings);
-
-
     }
 }

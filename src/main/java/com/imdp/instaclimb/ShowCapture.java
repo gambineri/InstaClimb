@@ -89,18 +89,14 @@ public class ShowCapture extends Activity {
         startActivity(openInChooser);
       }
     });
-
-    //Add a listener to the Settings button
-    Button settingsButton = (Button) findViewById(R.id.button_settings);
-    settingsButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Helpers.Do.msgBox(ShowCapture.this, "Nel dubbio sgrada.");
-      }
-    });
   }
 
   public void onRefresh(View v) {
     startActivity(new Intent(ShowCapture.this, ClimbingInfo.class));
+  }
+
+  public void onSettings(View v) {
+//todo
+//    ShowCapture.this.openOptionsMenu();
   }
 }

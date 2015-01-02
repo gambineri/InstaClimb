@@ -42,13 +42,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ascentname"
-        android:layout_gravity="center_horizontal"
         android:background="@drawable/edit_bg"
         android:inputType="text|textCapWords"
         android:lines="1"
         android:hint="@string/routeboulder"
-        android:editable="true"
         android:imeOptions="actionNext" />
+      <!--android:editable="true"-->
 
       <Space
           android:layout_width="fill_parent"
@@ -60,7 +59,8 @@
         android:id="@+id/location"
         android:inputType="text|textCapWords"
         android:hint="@string/location"
-        android:background="@drawable/edit_bg" />
+        android:background="@drawable/edit_bg"
+        android:imeOptions="actionDone" />
 
     </LinearLayout>
   </LinearLayout>

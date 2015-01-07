@@ -1,7 +1,6 @@
 package com.imdp.instaclimb;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -157,7 +156,6 @@ public class CameraActivity extends Activity {
       }
     }
   }
-
 
   public void onCapture(View v) {
     // get an image from the camera
@@ -590,37 +588,36 @@ public class CameraActivity extends Activity {
     @Override
     protected Void doInBackground(byte[]... data) {
       try {
-        updateProgressBar(15);
-
+        updateProgressBar(10);
         Bitmap bitmap = BitmapFactory.decodeByteArray(data[0], 0, data[0].length);
+        updateProgressBar(20);
         Bitmap bmpRotated = rotBMP(bitmap);
         bitmap.recycle();
+        updateProgressBar(30);
         Bitmap croppedImage = cropImage(bmpRotated, m_CaptureRect);
         bmpRotated.recycle();
-
-        updateProgressBar(30);
-
+        updateProgressBar(40);
         int ssRealImage = croppedImage.getWidth();
         Bitmap cs = Bitmap.createBitmap(ssRealImage, ssRealImage, Bitmap.Config.ARGB_8888);
         Canvas comboImage = new Canvas(cs);
-
         updateProgressBar(50);
 
         // Draw picture shot layer image
         comboImage.drawBitmap(croppedImage, 0f, 0f, null);
+        updateProgressBar(60);
         drawInstaClimbInfo(comboImage, ssRealImage);
-
         updateProgressBar(70);
 
         // Garbage collect
         croppedImage.recycle();
+        updateProgressBar(80);
 
         //Save on disk
         FileOutputStream fos = new FileOutputStream(m_SessionImg.getCroppedImageFilePathName());
         cs.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+        updateProgressBar(90);
         cs.recycle();
         fos.close();
-
         updateProgressBar(100);
       }
       catch (FileNotFoundException e) {

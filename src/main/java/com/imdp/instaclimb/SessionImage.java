@@ -42,6 +42,10 @@ class SessionImage {
     }
   }
 
+  public File getCapturedImageDir() {
+    return m_MediaStorageDir;
+  }
+
   public String getCapturedImageFilePathName() {
     return m_CapturedImgFilePathName;
   }

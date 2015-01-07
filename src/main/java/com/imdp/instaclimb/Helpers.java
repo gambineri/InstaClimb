@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.view.Surface;
 import android.widget.ArrayAdapter;
@@ -129,6 +130,19 @@ public final class Helpers {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(ctx, android.R.layout.simple_dropdown_item_1line, history);
         autoComplete.setAdapter(adapter);
       }
+    }
+
+    public static void showAboutDlg(Context ctx) {
+      String versionname = "";
+      try {
+        versionname = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionName;
+      } catch (PackageManager.NameNotFoundException e) {
+        e.printStackTrace();
+      }
+      Helpers.Do.msgBox((Activity) ctx,
+        "InstaClimb " +
+          versionname +
+          "\n\nThe one and only serious approach to grading.");
     }
   }
 }

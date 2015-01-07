@@ -7,18 +7,26 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.io.File;
 
+import static com.imdp.instaclimb.Helpers.Do.showAboutDlg;
+
 public class ShowCapture extends Activity {
 
   // The file path name of the insta-enriched image to be shared
   private String m_ImgFilePathName = "";
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.main, menu);
+    return true;
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -91,12 +99,28 @@ public class ShowCapture extends Activity {
     });
   }
 
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle item selection
+    switch (item.getItemId()) {
+      case R.id.show_settings:
+        Intent i = new Intent(ShowCapture.this, SettingsActivity.class);
+        ShowCapture.this.startActivity(i);
+        return true;
+
+      case R.id.show_about:
+        showAboutDlg(ShowCapture.this);
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
   public void onRefresh(View v) {
     startActivity(new Intent(ShowCapture.this, ClimbingInfo.class));
   }
 
   public void onSettings(View v) {
-//todo
-//    ShowCapture.this.openOptionsMenu();
+    ShowCapture.this.openOptionsMenu();
   }
 }

@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
 
+import static com.imdp.instaclimb.Helpers.Do.showAboutDlg;
+
 public class CameraActivity extends Activity {
 
   private Camera            m_Camera          = null;
@@ -73,7 +75,7 @@ public class CameraActivity extends Activity {
       return true;
 
       case R.id.show_about:
-        showAboutDlg();
+        showAboutDlg(CameraActivity.this);
       return true;
       default:
         return super.onOptionsItemSelected(item);
@@ -179,18 +181,6 @@ public class CameraActivity extends Activity {
       m_AscentName = extras.getString(Helpers.Const.EXTRA_ASCENT_NAME);
       m_Location   = extras.getString(Helpers.Const.EXTRA_LOCATION);
     }
-  }
-
-  private void showAboutDlg() {
-    String versionname = "";
-    try {
-      versionname = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-    } catch (PackageManager.NameNotFoundException e) {
-      e.printStackTrace();
-    }
-    Helpers.Do.msgBox(CameraActivity.this, "InstaClimb " +
-        versionname +
-        "\n\nThe one and only serious approach to grading.");
   }
 
   private Boolean setUpCamera() {

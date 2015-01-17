@@ -25,13 +25,4 @@ public class CameraActivityTest extends android.test.ActivityInstrumentationTest
 //    assertEquals("stocasio", "1", "2");
   }
 
-  public void test_toCamelCase() {
-    System.out.println(">" + Helpers.Do.toCamelCase("aaa bbb ccc", " ", null)+"<");
-    System.out.println(">" + Helpers.Do.toCamelCase("aaa+bbb+ccc", "+", null)+"<");
-    System.out.println(">" + Helpers.Do.toCamelCase("aaazbbbzccc", "z", " ")+"<");
-    System.out.println(">" + Helpers.Do.toCamelCase("aaayzbbbyzccc", "yz", "-")+"<");
-    System.out.println(">" + Helpers.Do.toCamelCase("aaaxyzbbbxyzccc", "xyz", " - ")+"<");
-    System.out.println(">" + Helpers.Do.toCamelCase("aaa1bbb1ccc", "1", ".")+"<");
-    System.out.println(">" + Helpers.Do.toCamelCase("aaa_bbb_ccc", "_", " * ")+"<");
-  }
 }

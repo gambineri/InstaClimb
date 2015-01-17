@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.util.Log;
 import android.view.Surface;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -29,6 +30,11 @@ public final class Helpers {
   /* METHODS */
   public final static class Do {
 		public static void msgBox(Activity activity, String msg) {
+      if (activity == null) {
+        Log.e(Const.DBGTAG, "Cannot create AlertDialog to show a msgBox: passed in activity is null.");
+        return;
+      }
+
 			// 1. Instantiate an AlertDialog.Builder with its constructor
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 

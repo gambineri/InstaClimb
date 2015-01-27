@@ -1,6 +1,8 @@
 package com.imdp.instaclimb;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.test.UiThreadTest;
 import android.util.Log;
 
 public class CameraActivityTest extends android.test.ActivityInstrumentationTestCase2<CameraActivity> {
@@ -15,14 +17,21 @@ public class CameraActivityTest extends android.test.ActivityInstrumentationTest
   protected void setUp() throws Exception {
     super.setUp();
 
-    setActivityInitialTouchMode(false);
-    Activity mActivity = getActivity();
+    setActivityInitialTouchMode(true);
+
+//    Intent i = new Intent(, CameraActivity.class);
+//    i.putExtra(Helpers.Const.EXTRA_ASCENT_NAME, "Senza Penzieri");
+//    i.putExtra(Helpers.Const.EXTRA_LOCATION, "Bomarz");
+//    setActivityIntent(i);
+    mActivity = getActivity();
   }
 
-  public void test() {
+  @UiThreadTest
+  public void testCameraActivity() {
     Log.d(Helpers.Const.DBGTAG, "finally inside test()...");
     Helpers.Do.msgBox(mActivity, "aaa");
-//    assertEquals("stocasio", "1", "2");
+    assertEquals("stocasio", "1", "1");
+    assertNotNull(mActivity);
   }
 
 }

@@ -30,14 +30,12 @@
         <!-- Show Capture Activity -->
         <activity
             android:name="com.imdp.instaclimb.ShowCapture"
-            android:label="@string/title_activity_show_capture"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <!-- Settings Activity -->
         <activity
             android:name="com.imdp.instaclimb.SettingsActivity"
-            android:label="@string/title_activity_settings"
             android:theme="@style/SettingsTheme"
             android:screenOrientation="portrait" >
         </activity>
@@ -45,7 +43,6 @@
       <!-- Climbing Info Activity -->
         <activity
             android:name="com.imdp.instaclimb.ClimbingInfo"
-            android:label="@string/title_activity_climbing_info"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

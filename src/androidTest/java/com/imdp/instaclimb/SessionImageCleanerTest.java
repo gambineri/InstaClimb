@@ -1,5 +1,7 @@
 package com.imdp.instaclimb;
 
+import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import junit.framework.TestCase;
 import org.junit.After;
@@ -16,9 +18,7 @@ public class SessionImageCleanerTest extends TestCase {
 
   @Before
   public void setUp() throws Exception {
-//    SessionImage si = new SessionImage(getResources().getString(R.string.app_name));
-    SessionImage si = new SessionImage("instaclimb");
-    m_img_folder = si.getCapturedImageDir();
+    m_img_folder = SessionImage.getCapturedImageDir();
 
     for (int i=0; i<NUM_TEST_FILES; i++) {
       Log.d(Helpers.Const.DBGTAG, m_img_folder + "/file" + i + ".png");
@@ -34,7 +34,8 @@ public class SessionImageCleanerTest extends TestCase {
     t = (time.getTimeInMillis()/1000)*1000;
     for (int i=0; i<NUM_TEST_FILES/2; i++) {
       Log.d(Helpers.Const.DBGTAG, "t = " + t);
-      ret = files_to_del[i].setLastModified(t);
+      /* 2015.01.27 BUG - https://code.google.com/p/android/issues/detail?id=18624#c29 */
+      ret = files_to_del[i].setLastModified(t); // NOT WORKING!!!
       Log.d(Helpers.Const.DBGTAG, "" + Boolean.toString(ret));
     }
   }
@@ -48,7 +49,15 @@ public class SessionImageCleanerTest extends TestCase {
 
   @Test
   public void testDoInBackground() throws Exception {
-    SessionImageCleaner sic = new SessionImageCleaner(m_img_folder, 0);
-    sic.execute(sic.m_Params);
+    SessionImageCleaner sic = new SessionImageCleaner(0);
+//    sic.execute();
+
+    if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.HONEYCOMB)
+      sic.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    else
+      sic.execute();
+
+
+
   }
 }

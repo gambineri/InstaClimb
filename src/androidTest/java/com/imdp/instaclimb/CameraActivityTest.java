@@ -29,7 +29,7 @@ public class CameraActivityTest extends android.test.ActivityInstrumentationTest
   @UiThreadTest
   public void testCameraActivity() {
     Log.d(Helpers.Const.DBGTAG, "finally inside test()...");
-    Helpers.Do.msgBox(mActivity, "aaa");
+//    Helpers.Do.msgBox(mActivity, "aaa");
     assertEquals("stocasio", "1", "1");
     assertNotNull(mActivity);
   }

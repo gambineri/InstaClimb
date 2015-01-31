@@ -17,7 +17,7 @@ class SessionImage {
 
   private String  m_CapturedImgFilePathName = null;
   private File    m_CapturedImgFile         = null;
-  private File    m_MediaStorageDir         = null;
+  private static File    m_MediaStorageDir         = null;
   private String  m_CroppedImgFilePathName  = null;
 
   public SessionImage(String appname) {
@@ -42,7 +42,7 @@ class SessionImage {
     }
   }
 
-  public File getCapturedImageDir() {
+  public static File getCapturedImageDir() {
     return m_MediaStorageDir;
   }
 

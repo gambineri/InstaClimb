@@ -1,7 +1,5 @@
 package com.imdp.instaclimb;
 
-import android.os.AsyncTask;
-import android.os.Build;
 import android.util.Log;
 import junit.framework.TestCase;
 import org.junit.After;
@@ -18,7 +16,7 @@ public class SessionImageCleanerTest extends TestCase {
 
   @Before
   public void setUp() throws Exception {
-    m_img_folder = SessionImage.getCapturedImageDir();
+    m_img_folder = (new SessionImage("InstaClimb")).getCapturedImageDir();
 
     for (int i=0; i<NUM_TEST_FILES; i++) {
       Log.d(Helpers.Const.DBGTAG, m_img_folder + "/file" + i + ".png");
@@ -49,15 +47,12 @@ public class SessionImageCleanerTest extends TestCase {
 
   @Test
   public void testDoInBackground() throws Exception {
-    SessionImageCleaner sic = new SessionImageCleaner(0);
-//    sic.execute();
+    SessionImageCleaner sic = new SessionImageCleaner(0, m_img_folder);
+    sic.execute();
 
-    if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.HONEYCOMB)
-      sic.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    else
-      sic.execute();
-
-
-
+//    if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.HONEYCOMB)
+//      sic.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//    else
+//      sic.execute();
   }
 }

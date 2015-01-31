@@ -18,15 +18,15 @@ public class SessionImageCleaner extends AsyncTask<Void, Void, Void> {
   int  m_RetentionDays = -1;
   File m_Folder        = null;
 
-  public SessionImageCleaner(int retention_days) {
+  public SessionImageCleaner(int retention_days, File folder) {
     m_RetentionDays = retention_days;
-    m_Folder = SessionImage.getCapturedImageDir();
+    m_Folder = folder;
   }
 
   @Override
   protected Void doInBackground(Void...p) {
 
-    android.os.Debug.waitForDebugger();
+//    android.os.Debug.waitForDebugger();
 
     Log.d(Helpers.Const.DBGTAG, "------------------------ 0");
 
@@ -40,7 +40,7 @@ public class SessionImageCleaner extends AsyncTask<Void, Void, Void> {
     Calendar time = Calendar.getInstance();
     time.add(Calendar.DAY_OF_YEAR, -1*m_RetentionDays);
 
-    Log.d(Helpers.Const.DBGTAG, "------------------------ 2");
+    Log.d(Helpers.Const.DBGTAG, "------------------------ m_Folder = " + m_Folder.getAbsolutePath());
 
     File[] files = m_Folder.listFiles();
     for (File f : files) {
@@ -48,10 +48,12 @@ public class SessionImageCleaner extends AsyncTask<Void, Void, Void> {
         Date lastModified = new Date(f.lastModified());
         if(lastModified.before(time.getTime())) {
           f.delete(); //file is older than XX days
+          Log.d(Helpers.Const.DBGTAG, "------------------------ Deleted " + f.getAbsolutePath());
         }
       }
     }
 
+    Log.d(Helpers.Const.DBGTAG, "------------------------ End" );
     return null;
   }
 

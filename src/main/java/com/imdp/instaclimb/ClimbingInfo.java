@@ -2,11 +2,15 @@ package com.imdp.instaclimb;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+
+import java.io.File;
 
 public class ClimbingInfo extends Activity {
   AutoCompleteTextView m_AscNameCtl  = null;
@@ -25,6 +29,11 @@ public class ClimbingInfo extends Activity {
 
     Helpers.Do.loadPrefData(this, m_AscNameCtl, Helpers.Const.ASCENTNAME_HIST);
     Helpers.Do.loadPrefData(this, m_LocationCtl, Helpers.Const.LOCATION_HIST);
+
+    // clean up images older than 30 days
+    File img_folder = (new SessionImage("InstaClimb")).getCapturedImageDir();
+    SessionImageCleaner sic = new SessionImageCleaner(30, img_folder);
+    sic.execute();
   }
 
   public void onNext(View v) {

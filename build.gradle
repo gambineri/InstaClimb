@@ -1,66 +1,19 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 buildscript {
   repositories {
-    mavenCentral()
+    jcenter()
   }
-
   dependencies {
     classpath 'com.android.tools.build:gradle:1.1.1'
+
+    // NOTE: Do not place your application dependencies here; they belong
+    // in the individual module build.gradle files
   }
 }
 
-task wrapper(type: Wrapper) {
-  gradleVersion = '2.1'
-}
-
-apply plugin: 'com.android.application'
-
-dependencies {
+allprojects {
   repositories {
-    mavenCentral()
+    jcenter()
   }
 }
-
-sourceSets {
-  main {
-    java.srcDirs = ["src/main/java"]
-  }
-
-  androidTest {
-    java.srcDirs = ["src/androidTest/java"]
-  }
-}
-
-android {
-  compileSdkVersion 18
-  buildToolsVersion '21.1.1'
-
-  buildTypes {
-    release {
-      shrinkResources true
-      minifyEnabled true // will be deprecated in 1.0.0
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-    }
-  }
-
-  packagingOptions {
-    exclude 'LICENSE.txt'
-  }
-}
-
-task showSourceSets << {
-  sourceSets.each {
-    println it.name;
-    it.allSource.srcDirs.each {
-      println it.absolutePath
-    }
-  }
-}
-
-task showClasspath << {
-  buildscript.configurations.classpath.each { println it.name }
-}
-
-task showVersion << {
-  println buildscript.configurations.classpath.resolvedConfiguration.firstLevelModuleDependencies.moduleVersion
-}
-

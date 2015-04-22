@@ -519,28 +519,27 @@ public class CameraActivity extends Activity {
       int grayRectH     = ss/4;
       int grayRectVPad  = grayRectH/10;
       Paint p           = new Paint(Paint.ANTI_ALIAS_FLAG);
+      RectF grayRect    = new RectF(marginBox, ss-marginBox-grayRectH, ss-marginBox, ss-marginBox);
 
       SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(CameraActivity.this);
       boolean serious_mode = sp.getBoolean("serious_mode", false);
 
       if (!serious_mode) {
         // Gray rectangle with ascent and feelings
-        RectF grayRect = new RectF(marginBox, ss-marginBox-grayRectH, ss-marginBox, ss-marginBox);
         p.setColor(Color.GRAY);
         p.setAlpha(128);
         canvas.drawRoundRect(grayRect, 10, 10, p);
 
         // Feels like...
+        p.setColor(Color.WHITE);
+        Typeface feelsLikeFont = Typeface.createFromAsset(getAssets(), "Khand-Light.ttf");//"ArchitectsDaughter.ttf");
+        p.setTypeface(feelsLikeFont);
+        p.setTextSize(70);
+        p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
         String feelsLike = "Feels like: " + generateGrade();
         int feelsLikeLen = (int) p.measureText(feelsLike);
         canvas.drawText(feelsLike, grayRect.right - feelsLikeLen - feelsLikeLen / 10, ss - marginBox - grayRectVPad, p);
       }
-
-      p.setColor(Color.WHITE);
-      Typeface feelsLikeFont = Typeface.createFromAsset(getAssets(), "Khand-Light.ttf");//"ArchitectsDaughter.ttf");
-      p.setTypeface(feelsLikeFont);
-      p.setTextSize(70);
-      p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
 
       // Date
       Time now = new Time();
@@ -561,12 +560,10 @@ public class CameraActivity extends Activity {
       canvas.drawText(instaGrade, marginTextL, ss-marginBox-grayRectH/2, p);
 
       canvas.save();
-//      p.setTypeface(Typeface.create("Droid Sans", Typeface.BOLD));
-      Typeface instaFont = Typeface.createFromAsset(getAssets(), "ArchitectsDaughter.ttf");
+      Typeface instaFont = Typeface.createFromAsset(getAssets(), "Orbitron-Regular.ttf");
       p.setTypeface(instaFont);
-      p.setTextSize(60);
-      canvas.rotate((float) 90, ss-5*marginBox, ss/3);
-      canvas.drawText("InstaClimb", ss-5*marginBox, ss/3, p);
+      p.setTextSize(50);
+      canvas.drawText("/Insta/\\Climb/", ss-35*marginBox, marginTextT, p);
       canvas.restore();
     }
 

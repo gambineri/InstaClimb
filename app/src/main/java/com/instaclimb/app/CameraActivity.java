@@ -523,23 +523,24 @@ public class CameraActivity extends Activity {
       SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(CameraActivity.this);
       boolean serious_mode = sp.getBoolean("serious_mode", false);
 
-      // Gray rectangle with ascent and feelings
-      RectF grayRect = new RectF(marginBox, ss-marginBox-grayRectH, ss-marginBox, ss-marginBox);
-      p.setColor(Color.GRAY);
-      p.setAlpha(128);
-      canvas.drawRoundRect(grayRect, 10, 10, p);
+      if (!serious_mode) {
+        // Gray rectangle with ascent and feelings
+        RectF grayRect = new RectF(marginBox, ss-marginBox-grayRectH, ss-marginBox, ss-marginBox);
+        p.setColor(Color.GRAY);
+        p.setAlpha(128);
+        canvas.drawRoundRect(grayRect, 10, 10, p);
+
+        // Feels like...
+        String feelsLike = "Feels like: " + generateGrade();
+        int feelsLikeLen = (int) p.measureText(feelsLike);
+        canvas.drawText(feelsLike, grayRect.right - feelsLikeLen - feelsLikeLen / 10, ss - marginBox - grayRectVPad, p);
+      }
 
       p.setColor(Color.WHITE);
       Typeface feelsLikeFont = Typeface.createFromAsset(getAssets(), "Khand-Light.ttf");//"ArchitectsDaughter.ttf");
       p.setTypeface(feelsLikeFont);
       p.setTextSize(70);
       p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
-
-      if (!serious_mode) {
-        String feelsLike = "Feels like: " + generateGrade();
-        int feelsLikeLen = (int) p.measureText(feelsLike);
-        canvas.drawText(feelsLike, grayRect.right - feelsLikeLen - feelsLikeLen / 10, ss - marginBox - grayRectVPad, p);
-      }
 
       // Date
       Time now = new Time();

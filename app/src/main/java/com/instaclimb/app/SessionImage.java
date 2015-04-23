@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by massimo on 5/26/14.
@@ -59,7 +60,7 @@ class SessionImage {
   /** Creates a File for saving an image */
   private void buildOutputFile() {
     // Create a media file name
-    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
     m_CapturedImgFilePathName = m_MediaStorageDir.getPath() + File.separator +
         Helpers.Const.CAPTURED_IMG_PREFIX + timeStamp + ".jpg";
 

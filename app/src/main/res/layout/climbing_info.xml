@@ -80,15 +80,6 @@
       android:layout_weight="1"
       android:gravity="center_vertical|center_horizontal">
 
-    </LinearLayout>
-
-    <LinearLayout
-      android:orientation="vertical"
-      android:layout_width="0dp"
-      android:layout_height="fill_parent"
-      android:layout_weight="1"
-      android:gravity="center_vertical|center_horizontal">
-
       <Button
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -97,14 +88,6 @@
         android:background="@drawable/btn_next" />
     </LinearLayout>
 
-    <LinearLayout
-      android:orientation="vertical"
-      android:layout_width="0dp"
-      android:layout_height="fill_parent"
-      android:layout_weight="1"
-      android:gravity="center_vertical|center_horizontal">
-
-    </LinearLayout>
   </LinearLayout>
 
 </LinearLayout>

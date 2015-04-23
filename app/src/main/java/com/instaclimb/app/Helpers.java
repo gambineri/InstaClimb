@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 public final class Helpers {
   /* CONST */
 	public final static class Const {
@@ -57,12 +59,12 @@ public final class Helpers {
       if (replacement == null)
         replacement = separator;
 
-      String[] words = input.toLowerCase().split(java.util.regex.Pattern.quote(separator));
+      String[] words = input.toLowerCase(Locale.US).split(java.util.regex.Pattern.quote(separator));
       StringBuilder ret = new StringBuilder();
 
       for (String word : words)
         if (word != null && word.length() > 0)
-          ret.append(word.substring(0, 1).toUpperCase()).append(word.substring(1)).append(replacement);
+          ret.append(word.substring(0, 1).toUpperCase(Locale.US)).append(word.substring(1)).append(replacement);
 
       return ret.toString().substring(0, ret.toString().length() - replacement.length());
     }

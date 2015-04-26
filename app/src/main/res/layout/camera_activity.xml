@@ -4,7 +4,6 @@
         android:layout_height="match_parent"
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
-        android:layout_alignParentLeft="true"
         android:measureAllChildren="false"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"

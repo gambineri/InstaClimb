@@ -16,7 +16,10 @@
         android:layout_width="fill_parent"
         android:layout_height="48dp"
         android:id="@+id/instaLogo" android:src="@mipmap/instaclimb"
-        android:cropToPadding="false" android:layout_gravity="center"/>
+        android:cropToPadding="false" android:layout_gravity="center"
+      android:layout_marginLeft="10dp"
+      android:layout_marginRight="10dp"
+      android:contentDescription="@string/logo_string" />
   </LinearLayout>
 
 </LinearLayout>

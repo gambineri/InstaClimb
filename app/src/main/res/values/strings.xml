@@ -8,6 +8,6 @@
     <string name="showCaptureContentDescr">Shows the captured image</string>
     <string name="routeboulder">Route/Boulder</string>
     <string name="instaclimb_logo">instaclimb logo</string>
-  <string name="logo_string">/Insta/Climb/</string>
+    <string name="logo_string">/Insta/\Climb/</string>
 
 </resources>

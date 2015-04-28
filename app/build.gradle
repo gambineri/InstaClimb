@@ -28,10 +28,21 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_6
     targetCompatibility JavaVersion.VERSION_1_6
   }
+
+  signingConfigs {
+    release {
+      storeFile file(System.getenv("KEYSTORE_INSTACLIMB"))
+      storePassword System.getenv("KEYSTORE_PASSWORD")
+      keyAlias System.getenv("KEY_ALIAS")
+      keyPassword System.getenv("KEY_PASSWORD")
+    }
+  }
+
   buildTypes {
     release {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      signingConfig signingConfigs.release
     }
   }
 }

@@ -524,18 +524,22 @@ public class CameraActivity extends Activity {
       SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(CameraActivity.this);
       boolean serious_mode = sp.getBoolean("serious_mode", false);
 
-      if (!serious_mode) {
-        // Gray rectangle with ascent and feelings
-        p.setColor(Color.GRAY);
-        p.setAlpha(128);
-        canvas.drawRoundRect(grayRect, 10, 10, p);
+      p.setColor(Color.WHITE);
+      Typeface feelsLikeFont = Typeface.createFromAsset(getAssets(), "Khand-Light.ttf");//"ArchitectsDaughter.ttf");
+      p.setTypeface(feelsLikeFont);
+      p.setTextSize(70);
+      p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
 
+      if (m_AscentName.length() > 0 || !serious_mode) {
+        // Gray rectangle with ascent and feelings
+        Paint p1 = new Paint(p);
+        p1.setColor(Color.GRAY);
+        p1.setAlpha(100);
+        canvas.drawRoundRect(grayRect, 10, 10, p1);
+      }
+
+      if (!serious_mode) {
         // Feels like...
-        p.setColor(Color.WHITE);
-        Typeface feelsLikeFont = Typeface.createFromAsset(getAssets(), "Khand-Light.ttf");//"ArchitectsDaughter.ttf");
-        p.setTypeface(feelsLikeFont);
-        p.setTextSize(70);
-        p.setShadowLayer(5f, 5f, 5f, Color.BLACK);
         String feelsLike = "Feels like: " + generateGrade();
         int feelsLikeLen = (int) p.measureText(feelsLike);
         canvas.drawText(feelsLike, grayRect.right - feelsLikeLen - feelsLikeLen / 10, ss - marginBox - grayRectVPad, p);
@@ -559,6 +563,7 @@ public class CameraActivity extends Activity {
       p.setTextSize(bestFontSizePerWidth(instaGrade, ss-marginTextL*2, 180, p));
       canvas.drawText(instaGrade, marginTextL, ss-marginBox-grayRectH/2, p);
 
+      //top-right app-name logo
       canvas.save();
       Typeface instaFont = Typeface.createFromAsset(getAssets(), "Orbitron-Regular.ttf");
       p.setTypeface(instaFont);

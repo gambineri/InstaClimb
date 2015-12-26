@@ -148,9 +148,11 @@ public final class Helpers {
         e.printStackTrace();
       }
       Helpers.Do.msgBox((Activity) ctx,
-        "InstaClimb " +
-          versionname +
-          "\n\nThe one and only serious approach to grading.");
+        new StringBuilder()
+          .append("InstaClimb ")
+          .append(versionname).
+          append("\n\n")
+          .append(ctx.getResources().getString(R.string.about_msg)).toString());
     }
   }
 }

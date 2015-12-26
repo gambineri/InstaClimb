@@ -568,7 +568,7 @@ public class CameraActivity extends Activity {
       Typeface instaFont = Typeface.createFromAsset(getAssets(), "Orbitron-Regular.ttf");
       p.setTypeface(instaFont);
       p.setTextSize(50);
-      canvas.drawText("/Insta/\\Climb/", ss-35*marginBox, marginTextT, p);
+      canvas.drawText(getResources().getString(R.string.logo_string), ss-35*marginBox, marginTextT, p);
       canvas.restore();
     }
 

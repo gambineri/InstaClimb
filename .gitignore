@@ -41,3 +41,6 @@ proguard/
 #### Maven
 log/
 target/
+
+### MASSIMO
+graphics/

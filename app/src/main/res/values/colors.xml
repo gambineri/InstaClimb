@@ -1,6 +1,6 @@
 <resources>
 
   <color name="white">#FFFFFFFF</color>
-  <color name="overlay_bg">#BBDDAD02</color>
+  <color name="overlay_bg">#c5df9201</color>
 
 </resources>

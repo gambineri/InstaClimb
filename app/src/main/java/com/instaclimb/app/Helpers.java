@@ -148,11 +148,10 @@ public final class Helpers {
         e.printStackTrace();
       }
       Helpers.Do.msgBox((Activity) ctx,
-        new StringBuilder()
-          .append("InstaClimb ")
-          .append(versionname).
-          append("\n\n")
-          .append(ctx.getResources().getString(R.string.about_msg)).toString());
+        "InstaClimb " +
+          versionname +
+          "\n\n" +
+          ctx.getResources().getString(R.string.about_msg));
     }
   }
 }

@@ -9,8 +9,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 public class ClimbingInfo extends Activity {
-  AutoCompleteTextView m_AscNameCtl  = null;
-  AutoCompleteTextView m_LocationCtl = null;
+  private AutoCompleteTextView m_AscNameCtl  = null;
+  private AutoCompleteTextView m_LocationCtl = null;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

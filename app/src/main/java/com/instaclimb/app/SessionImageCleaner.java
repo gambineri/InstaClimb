@@ -10,13 +10,13 @@ import java.util.Date;
 /**
  * Created by massimo on 08/01/15.
  */
-public class SessionImageCleaner extends AsyncTask<Void, Void, Void> {
+class SessionImageCleaner extends AsyncTask<Void, Void, Void> {
 
   /* Num of milliseconds in 24 hours */
   private final static int MILLIS_PER_DAY = 86400000;
 
-  int  m_RetentionDays = -1;
-  File m_Folder        = null;
+  private int  m_RetentionDays = -1;
+  private File m_Folder        = null;
 
   public SessionImageCleaner(int retention_days, File folder) {
     m_RetentionDays = retention_days;

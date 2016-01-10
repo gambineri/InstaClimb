@@ -1,12 +1,10 @@
-buildscript {
-  repositories {
-    jcenter()
-  }
-  dependencies {
-    classpath 'com.android.tools.build:gradle:1.1.1'
-  }
-}
 apply plugin: 'com.android.application'
+
+dependencies {
+  compile fileTree(include: ['*.jar'], dir: 'libs')
+  compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+  compile 'com.android.support:support-v13:22.0.0'
+}
 
 repositories {
   jcenter()
@@ -45,8 +43,7 @@ android {
       signingConfig signingConfigs.release
     }
   }
-}
+} // android
 
-dependencies {
-  compile fileTree(include: ['*.jar'], dir: 'libs')
-}
+
+

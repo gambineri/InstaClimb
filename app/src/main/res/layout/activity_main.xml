@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="#AAAAAA">
+
+  <ImageView
+    android:layout_width="fill_parent"
+    android:layout_height="48dp"
+    android:id="@+id/instaLogo" android:src="@mipmap/instaclimb"
+    android:cropToPadding="false" android:layout_gravity="center"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:contentDescription="@string/logo_string"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp" />
+
+  <com.astuetz.PagerSlidingTabStrip
+  android:id="@+id/tabs"
+  android:layout_width="match_parent"
+  android:layout_height="48dip"
+  android:background="#AAAAAA"
+    />
+
+<android.support.v4.view.ViewPager
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/pager"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="#00FF00"/>
+
+  <!--<android.support.v4.view.ViewPager-->
+  <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+  <!--xmlns:tools="http://schemas.android.com/tools"-->
+  <!--android:id="@+id/pager"-->
+  <!--android:layout_width="match_parent"-->
+  <!--android:layout_height="match_parent"-->
+  <!--tools:context="com.instaclimb.app.MainActivity" />-->
+
+</LinearLayout>

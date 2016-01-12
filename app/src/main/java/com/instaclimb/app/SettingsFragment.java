@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 
-class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragment {
     public SettingsFragment() {
         // Required empty public constructor
     }

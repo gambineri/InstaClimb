@@ -32,5 +32,5 @@ notifications:
 
 sudo: false
 
-script: ./gradlew build check
+script: ./gradlew build
 #script: ./gradlew connectedAndroidTest

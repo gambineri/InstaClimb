@@ -32,5 +32,4 @@ notifications:
 
 sudo: false
 
-#script: ./gradlew build
-#script: ./gradlew connectedAndroidTest
+script: ./gradlew assembleDebug

@@ -32,4 +32,5 @@ notifications:
 
 sudo: false
 
-script: ./gradlew assembleDebug
+script: chmod +x ./gradlew
+        ./gradlew assembleDebug

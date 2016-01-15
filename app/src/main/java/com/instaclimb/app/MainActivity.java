@@ -89,11 +89,11 @@ public class MainActivity extends Activity {
       Fragment ret_frag = null;
       switch (position) {
         case 0:
-          ret_frag = PlaceholderFragment.newInstance(position + 1);
+          ret_frag = new ClimbingInfoFragment();
           break;
 
         case 1:
-          ret_frag = new ClimbingInfoFragment();
+          ret_frag = PlaceholderFragment.newInstance(position + 1);
           break;
 
         case 2:
@@ -158,4 +158,7 @@ public class MainActivity extends Activity {
     }
   }
 
+  public void onNext(View v) {
+    Helpers.Do.toast(this, "next clicked");
+  }
 }

@@ -99,7 +99,7 @@ public class MainActivity extends Activity implements CameraActivityFragment.OnF
           break;
 
         case 1:
-          ret_frag = CameraActivityFragment.newInstance("", "");
+          ret_frag = CameraActivityFragment.newInstance("");
   //        ret_frag = PlaceholderFragment.newInstance(position + 1);
           break;
 

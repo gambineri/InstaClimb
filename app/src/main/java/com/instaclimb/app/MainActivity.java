@@ -3,6 +3,7 @@ package com.instaclimb.app;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -11,7 +12,7 @@ import com.astuetz.PagerSlidingTabStrip;
 
 import java.util.Locale;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements CameraActivityFragment.OnFragmentInteractionListener {
 
   /**
    * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -70,6 +71,11 @@ public class MainActivity extends Activity {
     return super.onOptionsItemSelected(item);
   }
 
+  @Override
+  public void onFragmentInteraction(Uri uri) {
+
+  }
+
 
   /**
    * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -93,6 +99,7 @@ public class MainActivity extends Activity {
           break;
 
         case 1:
+//          ret_frag = CameraActivityFragment.newInstance("", "");
           ret_frag = PlaceholderFragment.newInstance(position + 1);
           break;
 

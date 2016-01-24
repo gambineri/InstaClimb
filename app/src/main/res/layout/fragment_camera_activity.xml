@@ -7,7 +7,7 @@ android:layout_width="match_parent"
 android:measureAllChildren="false"
 android:layout_alignParentBottom="true"
 android:layout_alignParentTop="true"
-android:background="#ff56dd31" android:focusable="true">
+android:background="#0086b3" android:focusable="true">
 
 <ProgressBar
   style="?android:attr/progressBarStyleHorizontal"

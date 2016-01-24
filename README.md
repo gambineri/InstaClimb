@@ -14,3 +14,4 @@ What others say:
 - The one and only serious approach to modern grading.
 - No-frills tool for the most effective grading.
 
+[![Travis branch](https://img.shields.io/travis/rust-lang/rust/master.svg?style=plastic)](https://github.com/gambineri/InstaClimb/tree/Slider)

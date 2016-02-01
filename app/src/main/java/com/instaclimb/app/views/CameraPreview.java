@@ -1,10 +1,12 @@
-package com.instaclimb.app;
+package com.instaclimb.app.views;
 
 import android.content.Context;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import com.instaclimb.app.Helpers;
+import com.instaclimb.app.activities.MainActivity;
 
 import java.io.IOException;
 

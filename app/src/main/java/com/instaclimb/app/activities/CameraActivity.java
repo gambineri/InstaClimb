@@ -1,4 +1,4 @@
-package com.instaclimb.app;
+package com.instaclimb.app.activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +18,9 @@ import android.util.Log;
 import android.view.*;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import com.instaclimb.app.Helpers;
+import com.instaclimb.app.R;
+import com.instaclimb.app.SessionImage;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -33,7 +36,7 @@ public class CameraActivity extends Activity {
   private Camera            m_Camera          = null;
   private int               m_CameraId        = -1;
   private CameraPreview     m_Preview         = null;
-  private SessionImage      m_SessionImg      = null;
+  private SessionImage m_SessionImg      = null;
   private String            m_AscentName      = "";
   private String            m_Location        = "";
 

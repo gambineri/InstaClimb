@@ -15,7 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import com.instaclimb.app.*;
+import com.instaclimb.app.Helpers;
+import com.instaclimb.app.R;
+import com.instaclimb.app.SessionImage;
+import com.instaclimb.app.activities.MainActivity;
+import com.instaclimb.app.views.CameraPreview;
 
 import java.util.List;
 import java.util.ListIterator;

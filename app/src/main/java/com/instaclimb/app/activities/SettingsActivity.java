@@ -1,4 +1,4 @@
-package com.instaclimb.app;
+package com.instaclimb.app.activities;
 
 import android.app.Activity;
 import android.os.Bundle;

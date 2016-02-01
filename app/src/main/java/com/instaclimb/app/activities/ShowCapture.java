@@ -1,4 +1,4 @@
-package com.instaclimb.app;
+package com.instaclimb.app.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import com.instaclimb.app.Helpers;
+import com.instaclimb.app.R;
 
 import java.io.File;
 

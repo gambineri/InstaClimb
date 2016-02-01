@@ -18,31 +18,31 @@
 
         <!-- CameraActivity Activity -->
         <activity
-            android:name=".CameraActivity"
+            android:name=".activities.CameraActivity"
             android:screenOrientation="portrait" >
         </activity>
 
         <!-- Show Capture Activity -->
         <activity
-            android:name=".ShowCapture"
+            android:name=".activities.ShowCapture"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <!-- Settings Activity -->
 
         <!-- Climbing Info Activity -->       <activity
-      android:name=".SettingsActivity"
+      android:name=".activities.SettingsActivity"
       android:screenOrientation="portrait"
       android:theme="@style/SettingsTheme" >
     </activity>
 
       <activity
-            android:name=".ClimbingInfo"
+            android:name=".activities.ClimbingInfo"
             android:screenOrientation="portrait" >
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" >
           <intent-filter>

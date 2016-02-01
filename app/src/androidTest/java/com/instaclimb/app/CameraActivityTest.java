@@ -1,9 +1,9 @@
 package com.instaclimb.app;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.test.UiThreadTest;
 import android.util.Log;
+import com.instaclimb.app.activities.CameraActivity;
 
 public class CameraActivityTest extends android.test.ActivityInstrumentationTestCase2<CameraActivity> {
 

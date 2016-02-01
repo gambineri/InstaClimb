@@ -1,4 +1,4 @@
-package com.instaclimb.app;
+package com.instaclimb.app.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,8 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import com.instaclimb.app.Helpers;
+import com.instaclimb.app.R;
 
 public class ClimbingInfo extends Activity {
   private AutoCompleteTextView m_AscNameCtl  = null;

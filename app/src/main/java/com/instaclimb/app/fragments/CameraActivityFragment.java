@@ -1,4 +1,4 @@
-package com.instaclimb.app;
+package com.instaclimb.app.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import com.instaclimb.app.*;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -38,7 +39,7 @@ public class CameraActivityFragment extends Fragment {
   private String mParam1;
   private String mParam2;
 
-  private SessionImage      m_SessionImg      = null;
+  private SessionImage m_SessionImg      = null;
   private String            m_AscentName      = "";
   private String            m_Location        = "";
   private int               m_CameraId        = -1;

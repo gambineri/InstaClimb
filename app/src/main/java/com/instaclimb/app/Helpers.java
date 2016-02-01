@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
-final class Helpers {
+public final class Helpers {
   /* CONST */
 	public final static class Const {
     public static final String DBGTAG = "IMDP";

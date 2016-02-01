@@ -2,6 +2,7 @@ package com.instaclimb.app;
 
 import android.app.Activity;
 import android.os.Bundle;
+import com.instaclimb.app.fragments.SettingsFragment;
 
 
 public class SettingsActivity extends Activity {

@@ -1,4 +1,4 @@
-package com.instaclimb.app;
+package com.instaclimb.app.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import com.instaclimb.app.R;
 
 /**
  * Created by massimo on 10/01/16.

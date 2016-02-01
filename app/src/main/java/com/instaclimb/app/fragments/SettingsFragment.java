@@ -1,8 +1,9 @@
-package com.instaclimb.app;
+package com.instaclimb.app.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+import com.instaclimb.app.R;
 
 
 public class SettingsFragment extends PreferenceFragment {

@@ -14,7 +14,7 @@ import java.util.Locale;
  * Wrapper class for the captured image I/O mgmt.
  *
  */
-class SessionImage {
+public class SessionImage {
 
   private String  m_CapturedImgFilePathName = null;
   private File    m_CapturedImgFile         = null;

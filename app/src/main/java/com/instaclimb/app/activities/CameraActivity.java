@@ -36,30 +36,30 @@ public class CameraActivity extends Activity {
   private Camera            m_Camera          = null;
   private int               m_CameraId        = -1;
   private CameraPreview     m_Preview         = null;
-  private SessionImage m_SessionImg      = null;
+  private SessionImage      m_SessionImg      = null;
   private String            m_AscentName      = "";
   private String            m_Location        = "";
 
   // Best resolution for the camera hardware on the current device
-  private Camera.Size   m_BestRes         = null;
+  private Camera.Size       m_BestRes         = null;
 
   // Degrees of rotation if the portrait mode is rotated (90 or 270)
   // with respect to the natural orientation of the device
-  private int           m_DevRotation     = 0;
+  private int               m_DevRotation     = 0;
 
   // True if the portrait mode is rotated (90 or 270) with respect
   // to the natural orientation of the device
-  private boolean       m_ImgDimInverted  = false;
+  private boolean           m_ImgDimInverted  = false;
 
   // Coordinates of crop area (crop rect) with respect to a cartesian system
   // having the origin in the top-left corner of the (portrait) screen
-  private final Rect    m_CaptureRect     = new Rect(0, 0, 0, 0);
+  private final Rect        m_CaptureRect     = new Rect(0, 0, 0, 0);
 
   // Handler to this thread to visually update the progress bar
   private final Handler m_Handler         = new Handler();
 
   // Progress bar for insta transformations
-  private ProgressBar   m_Progress        = null;
+  private ProgressBar       m_Progress        = null;
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {

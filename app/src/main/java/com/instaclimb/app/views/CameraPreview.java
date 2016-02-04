@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import com.instaclimb.app.Helpers;
-import com.instaclimb.app.activities.MainActivity;
 
 import java.io.IOException;
 
@@ -16,15 +15,14 @@ import java.io.IOException;
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
   private SurfaceHolder m_Holder      = null;
-  private MainActivity  m_Activity    = null;
   private Camera        m_Camera      = null;
   private int           m_DevRotation = 0;
 
-  public CameraPreview(Context context) {
+  public CameraPreview(Context context, Camera c, int dev_rot) {
     super(context);
 
-    m_Activity = (MainActivity)context;
-    m_Camera = m_Activity.m_Camera;
+    m_Camera = c;
+    m_DevRotation = dev_rot;
 
     // Install a SurfaceHolder.Callback so we get notified when the
     // underlying surface is created and destroyed.

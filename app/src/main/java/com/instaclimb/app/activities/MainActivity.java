@@ -1,7 +1,6 @@
 package com.instaclimb.app.activities;
 
 import android.app.Activity;
-import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -14,12 +13,8 @@ import com.instaclimb.app.Helpers;
 import com.instaclimb.app.R;
 import com.instaclimb.app.adapters.SectionsPagerAdapter;
 import com.instaclimb.app.fragments.CameraActivityFragment;
-import com.instaclimb.app.views.CameraPreview;
 
 public class MainActivity extends Activity implements CameraActivityFragment.OnFragmentInteractionListener {
-
-  public CameraPreview m_Preview = null;
-  public Camera        m_Camera  = null;
 
   /**
    * The {@link android.support.v4.view.PagerAdapter} that will provide

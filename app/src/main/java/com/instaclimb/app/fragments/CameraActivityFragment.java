@@ -7,12 +7,14 @@ import android.content.pm.PackageManager;
 import android.graphics.*;
 import android.hardware.Camera;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import com.instaclimb.app.Helpers;
@@ -36,6 +38,10 @@ import java.util.ListIterator;
 public class CameraActivityFragment extends Fragment {
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+  public CameraPreview m_Preview = null;
+  public Camera        m_Camera  = null;
+
   private static MainActivity m_Activity = null;
   private static final String ARG_PARAM2 = "param2";
 
@@ -94,6 +100,9 @@ public class CameraActivityFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+//    setUpCamera();
+
     if (getArguments() != null) {
       mParam2 = getArguments().getString(ARG_PARAM2);
     }
@@ -109,9 +118,9 @@ public class CameraActivityFragment extends Fragment {
     View fragment_layout_view = inflater.inflate(R.layout.fragment_camera_activity, container, false);
 
     // Create our Preview view and set it as the content of our activity.
-    m_Activity.m_Preview = new CameraPreview(m_Activity);
+    m_Preview = new CameraPreview(m_Activity, m_Camera, m_DevRotation);
     FrameLayout preview = (FrameLayout) fragment_layout_view.findViewById(R.id.camera_preview);
-    preview.addView(m_Activity.m_Preview); //adds SurfaceView on top of everything
+    preview.addView(m_Preview); //adds SurfaceView on top of everything
 
     //** Inflate the top camera overlay
     final View topOverlay = inflater.inflate(R.layout.camera_overlay_top, preview, false);
@@ -128,7 +137,7 @@ public class CameraActivityFragment extends Fragment {
       try {
         //calculate coordinates of capture rect as if (0, 0) is in the top-left corner (portrait mode)
         m_CaptureRect.left = 0;
-        m_CaptureRect.top = topOverlay.getHeight()*(m_ImgDimInverted ? m_BestRes.width : m_BestRes.height)/m_Activity.m_Preview.getHeight();
+        m_CaptureRect.top = topOverlay.getHeight()*(m_ImgDimInverted ? m_BestRes.width : m_BestRes.height)/m_Preview.getHeight();
         m_CaptureRect.right = (m_ImgDimInverted ? m_BestRes.height : m_BestRes.width);
         m_CaptureRect.bottom = m_CaptureRect.top +m_CaptureRect.right;
       } catch (Exception e) {
@@ -155,7 +164,7 @@ public class CameraActivityFragment extends Fragment {
   @Override
   public void onResume() {
     super.onResume();
-
+//    (new CameraSetup()).execute();
   }
 
   // TODO: Rename method, update argument and hook method into UI event
@@ -198,17 +207,80 @@ public class CameraActivityFragment extends Fragment {
     public void onFragmentInteraction(Uri uri);
   }
 
-//////////////////////////////////////////////////
+  private class CameraSetup extends AsyncTask<Void, Void, Boolean> {
+    @Override
+    protected Boolean doInBackground(Void...p) {
+//      return setUpCamera();
+      return true;
+    }
+
+    @Override
+    protected void onPostExecute(Boolean doInBgRetVal) {
+
+      if (!doInBgRetVal)
+        return;
+
+      // Create our Preview view and set it as the content of our activity.
+//      m_Preview = new CameraPreview(m_Activity);
+      FrameLayout preview = (FrameLayout) m_Activity.findViewById(R.id.camera_preview);
+//      preview.addView(m_Preview); //adds SurfaceView on top of everything
+
+    /* Inflate the top and bottom camera overlays:
+       it must be done here and cannot be merged into the main camera_activity.xml because of
+       previous line of code, **preview.addView(m_Preview);** which would add the SurfaceView
+       (the camera preview container) on top of everything, thus hiding the overlays. */
+
+      //** Inflate the top camera overlay
+      final View topOverlay = m_Activity.getLayoutInflater().inflate(R.layout.camera_overlay_top, preview, false);
+      if (topOverlay != null)
+        preview.addView(topOverlay);
+
+      //** Inflate the bottom camera overlay
+      View bottomOverlay = m_Activity.getLayoutInflater().inflate(R.layout.camera_overlay_bottom, preview, false);
+      if (bottomOverlay != null)
+        preview.addView(bottomOverlay);
+
+      ViewTreeObserver vto = preview.getViewTreeObserver();
+      if (vto != null) {
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+          @Override
+          public void onGlobalLayout() {
+
+            //At this point the layout is complete and the dimensions of myView and any child views are known.
+            FrameLayout preview = (FrameLayout) m_Activity.findViewById(R.id.camera_preview);
+            View        bf      = m_Activity.findViewById(R.id.bottom_frame);
+            View        tf      = m_Activity.findViewById(R.id.top_frame);
+
+            if (preview != null && bf != null && tf != null) {
+              //calculate coordinates of capture rect as if (0, 0) is in the top-left corner (portrait mode)
+              m_CaptureRect.left = 0;
+              m_CaptureRect.top = tf.getHeight()*(m_ImgDimInverted ? m_BestRes.width : m_BestRes.height)/m_Preview.getHeight();
+              m_CaptureRect.right = (m_ImgDimInverted ? m_BestRes.height : m_BestRes.width);
+              m_CaptureRect.bottom = m_CaptureRect.top +m_CaptureRect.right;
+
+              // set height for top and bottom frame
+              tf.setBottom(preview.getHeight() - preview.getWidth() - bf.getHeight());
+
+              m_Progress = (ProgressBar) m_Activity.findViewById(R.id.progressBar);
+              m_Progress.bringToFront();
+            }
+          }
+        });
+      }
+    }
+  }
+
   private Boolean setUpCamera() {
+
     if (!checkCameraHardware(m_Activity)) {
       Helpers.Do.msgBox(m_Activity, "Wow, no camera available -00-. Don't be SO lousy, buy yourself a better device...");
       return false;
     }
 
-    if (m_Activity.m_Camera != null)
+    if (m_Camera != null)
       releaseCamera();
 
-    if ((m_Activity.m_Camera = getCameraInstance()) != null) {
+    if ((m_Camera = getCameraInstance()) != null) {
       try {
         // Because we want a portrait app, calculate rotation respect to natural device orientation
         m_DevRotation = Helpers.Do.getRotationRelativeToNaturalOrientaton(m_Activity, m_CameraId);
@@ -220,14 +292,14 @@ public class CameraActivityFragment extends Fragment {
 
   //todo Log calls to be removed with ProGuard when publishing
   //        Log.v(Helpers.Const.DBGTAG, getCurrentCameraInfo());
-        Camera.Parameters pars = m_Activity.m_Camera.getParameters();
+        Camera.Parameters pars = m_Camera.getParameters();
 
         pars.setPictureFormat(ImageFormat.JPEG);
         if (!findFirstCameraResolution(1000, 1000))
           findBestCameraResolution();
         pars.setPictureSize(m_BestRes.width, m_BestRes.height);
 
-        m_Activity.m_Camera.setParameters(pars);
+        m_Camera.setParameters(pars);
       } catch (RuntimeException re) {
         Log.e(Helpers.Const.DBGTAG, re.getMessage());
         return false;
@@ -241,10 +313,10 @@ public class CameraActivityFragment extends Fragment {
   }
 
   private void releaseCamera() {
-    if (m_Activity.m_Camera != null) {
-      m_Activity.m_Camera.stopPreview();
-      m_Activity.m_Camera.release();        // release the camera for other applications
-      m_Activity.m_Camera = null;
+    if (m_Camera != null) {
+      m_Camera.stopPreview();
+      m_Camera.release();        // release the camera for other applications
+      m_Camera = null;
     }
   }
 
@@ -334,7 +406,7 @@ public class CameraActivityFragment extends Fragment {
     ListIterator<Camera.Size> li;
     Camera.Size tmp;
 
-    Camera.Parameters pars = m_Activity.m_Camera.getParameters();
+    Camera.Parameters pars = m_Camera.getParameters();
 
     ret += "Supported Picture Sizes:\n";
     if ((sizes = pars.getSupportedPictureSizes()) != null) {
@@ -357,14 +429,14 @@ public class CameraActivityFragment extends Fragment {
     Camera.Size cs = pars.getPictureSize();
     if (cs != null) {
       ret += "\nCurrent Picture Format and Size:\n";
-      ret += "Format: " + m_Activity.m_Camera.getParameters().getPictureFormat() + "; Size: " +
+      ret += "Format: " + m_Camera.getParameters().getPictureFormat() + "; Size: " +
         cs.width + "x" + cs.height + "\n";
     }
 
     Camera.Size ps = pars.getPreviewSize();
     if (ps != null) {
       ret += "\nCurrent Preview Format and Size:\n";
-      ret += "Format: " + m_Activity.m_Camera.getParameters().getPreviewFormat() + "; Size: " +
+      ret += "Format: " + m_Camera.getParameters().getPreviewFormat() + "; Size: " +
         ps.width + "x" + ps.height + "\n";
     }
 
@@ -372,16 +444,16 @@ public class CameraActivityFragment extends Fragment {
   }
 
   private void findBestCameraResolution() {
-    if (m_Activity.m_Camera == null)
+    if (m_Camera == null)
       return;
 
-    m_BestRes = m_Activity.m_Camera.new Size(0, 0);
+    m_BestRes = m_Camera.new Size(0, 0);
 
     List<Camera.Size> sizes;
     ListIterator<Camera.Size> li;
     Camera.Size tmp;
 
-    Camera.Parameters pars = m_Activity.m_Camera.getParameters();
+    Camera.Parameters pars = m_Camera.getParameters();
 
     if ((sizes = pars.getSupportedPictureSizes()) != null) {
       li = sizes.listIterator();
@@ -394,11 +466,11 @@ public class CameraActivityFragment extends Fragment {
   }
 
   private boolean findFirstCameraResolution(int basew, int baseh) {
-    if (m_Activity.m_Camera == null)
+    if (m_Camera == null)
       return false;
 
-    m_BestRes = m_Activity.m_Camera.new Size(basew, baseh);
-    Camera.Parameters pars = m_Activity.m_Camera.getParameters();
+    m_BestRes = m_Camera.new Size(basew, baseh);
+    Camera.Parameters pars = m_Camera.getParameters();
     List<Camera.Size> sizes;
     ListIterator<Camera.Size> li;
     Camera.Size tmp;

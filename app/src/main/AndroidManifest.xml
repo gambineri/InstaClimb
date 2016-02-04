@@ -31,7 +31,8 @@
 
         <!-- Settings Activity -->
 
-        <!-- Climbing Info Activity -->       <activity
+        <!-- Climbing Info Activity -->
+    <activity
       android:name=".activities.SettingsActivity"
       android:screenOrientation="portrait"
       android:theme="@style/SettingsTheme" >

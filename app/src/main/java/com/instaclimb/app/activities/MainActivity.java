@@ -3,7 +3,6 @@ package com.instaclimb.app.activities;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +15,7 @@ import com.instaclimb.app.fragments.CameraActivityFragment;
 
 public class MainActivity extends Activity implements CameraActivityFragment.OnFragmentInteractionListener {
 
-  /**
+  /*
    * The {@link android.support.v4.view.PagerAdapter} that will provide
    * fragments for each of the sections. We use a
    * {@link FragmentPagerAdapter} derivative, which will keep every
@@ -26,7 +25,7 @@ public class MainActivity extends Activity implements CameraActivityFragment.OnF
    */
   SectionsPagerAdapter m_SectionsPagerAdapter;
 
-  /**
+  /*
    * The {@link ViewPager} that will host the section contents.
    */
   ViewPager m_ViewPager;
@@ -76,8 +75,6 @@ public class MainActivity extends Activity implements CameraActivityFragment.OnF
   public void onFragmentInteraction(Uri uri) {
 
   }
-
-
 
   public void onNext(View v) {
     Helpers.Do.toast(this, "next clicked");

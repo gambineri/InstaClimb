@@ -38,21 +38,20 @@ import java.util.ListIterator;
 public class CameraActivityFragment extends Fragment {
   // TODO: Rename parameter arguments, choose names that match
   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-
-  public CameraPreview m_Preview = null;
-  public Camera        m_Camera  = null;
-
-  private static MainActivity m_Activity = null;
   private static final String ARG_PARAM2 = "param2";
 
   // TODO: Rename and change types of parameters
   private String mParam1;
   private String mParam2;
 
-  private SessionImage m_SessionImg      = null;
-  private String            m_AscentName      = "";
-  private String            m_Location        = "";
-  private int               m_CameraId        = -1;
+  private static MainActivity m_Activity = null;
+
+  public  CameraPreview m_Preview = null;
+  public  Camera        m_Camera  = null;
+  private SessionImage  m_SessionImg      = null;
+  private String        m_AscentName      = "";
+  private String        m_Location        = "";
+  private int           m_CameraId        = -1;
 
   // Best resolution for the camera hardware on the current device
   private Camera.Size   m_BestRes         = null;

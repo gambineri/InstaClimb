@@ -42,7 +42,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         m_Camera.startPreview();
       }
     } catch (IOException e) {
-      Log.d(Helpers.Const.DBGTAG, "Error settings camera preview: " + e.getMessage());
+      Log.d(Helpers.Const.DBGTAG, "surfaceCreated: Error settings camera preview: " + e.getMessage());
     }
   }
 
@@ -69,11 +69,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     // set preview size and make any resize, rotate or reformatting changes here
     // and start preview with new settings
     try {
+      Log.d(Helpers.Const.DBGTAG, "surfaceChanged: StartPreview");
       m_Camera.setDisplayOrientation(m_DevRotation);
       m_Camera.setPreviewDisplay(m_Holder);
       m_Camera.startPreview();
     } catch (Exception e){
-      Log.d(Helpers.Const.DBGTAG, "Error starting camera preview: " + e.getMessage());
+      Log.d(Helpers.Const.DBGTAG, "surfaceChanged: Error starting camera preview: " + e.getMessage());
     }
   }
 } // *** class CameraPreview

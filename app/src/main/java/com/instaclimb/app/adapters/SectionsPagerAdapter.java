@@ -35,12 +35,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     Fragment ret_frag = null;
     switch (position) {
       case 0:
-        ret_frag = new ClimbingInfoFragment();
+        ret_frag = ClimbingInfoFragment.newInstance();
         break;
 
       case 1:
-        ret_frag = CameraActivityFragment.newInstance("");
-        //        ret_frag = PlaceholderFragment.newInstance(position + 1);
+        ret_frag = CameraActivityFragment.newInstance();
         break;
 
       case 2:
@@ -53,8 +52,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
   @Override
   public int getCount() {
-    // Show 3 total pages.
-    return 3;
+    return 3; // Show 3 total pages
   }
 
   @Override

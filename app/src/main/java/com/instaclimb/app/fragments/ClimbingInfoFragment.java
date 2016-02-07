@@ -46,6 +46,11 @@ public class ClimbingInfoFragment extends Fragment {
     return inflater.inflate(R.layout.climbing_info, container, false);
   }
 
+  public static ClimbingInfoFragment newInstance() {
+    ClimbingInfoFragment fragment = new ClimbingInfoFragment();
+    return fragment;
+  }
+
   public void onNext(View v) {
     // va rivisto totalmente perche` non lancia un'altra activity!!!!!
   }

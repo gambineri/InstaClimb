@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 
-/**
+/*
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link CameraActivityFragment.OnFragmentInteractionListener} interface
@@ -36,22 +36,15 @@ import java.util.ListIterator;
  * create an instance of this fragment.
  */
 public class CameraActivityFragment extends Fragment {
-  // TODO: Rename parameter arguments, choose names that match
-  // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-  private static final String ARG_PARAM2 = "param2";
-
-  // TODO: Rename and change types of parameters
-  private String mParam1;
-  private String mParam2;
 
   private static MainActivity m_Activity = null;
 
   public  CameraPreview m_Preview = null;
-  public  Camera        m_Camera  = null;
   private SessionImage  m_SessionImg      = null;
   private String        m_AscentName      = "";
   private String        m_Location        = "";
-  private int           m_CameraId        = -1;
+  private int   m_CameraId = -1;
+  public Camera m_Camera   = null;
 
   // Best resolution for the camera hardware on the current device
   private Camera.Size   m_BestRes         = null;
@@ -76,19 +69,12 @@ public class CameraActivityFragment extends Fragment {
 
   private OnFragmentInteractionListener mListener;
 
-  /**
+  /*
    * Use this factory method to create a new instance of
    * this fragment using the provided parameters.
-   *
-   * @param param2 Parameter 2.
-   * @return A new instance of fragment CameraActivityFragment.
    */
-  // TODO: Rename and change types and number of parameters
-  public static CameraActivityFragment newInstance(String param2) {
+  public static CameraActivityFragment newInstance() {
     CameraActivityFragment fragment = new CameraActivityFragment();
-    Bundle args = new Bundle();
-    args.putString(ARG_PARAM2, param2);
-    fragment.setArguments(args);
     return fragment;
   }
 
@@ -100,11 +86,6 @@ public class CameraActivityFragment extends Fragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-//    setUpCamera();
-
-    if (getArguments() != null) {
-      mParam2 = getArguments().getString(ARG_PARAM2);
-    }
   }
 
   @Override
@@ -163,6 +144,8 @@ public class CameraActivityFragment extends Fragment {
   @Override
   public void onResume() {
     super.onResume();
+    startCamera();
+//    setUpCamera();
 //    (new CameraSetup()).execute();
   }
 
@@ -316,6 +299,12 @@ public class CameraActivityFragment extends Fragment {
       m_Camera.stopPreview();
       m_Camera.release();        // release the camera for other applications
       m_Camera = null;
+    }
+  }
+
+  private void startCamera() {
+    if (m_Camera != null) {
+      m_Camera.startPreview();
     }
   }
 

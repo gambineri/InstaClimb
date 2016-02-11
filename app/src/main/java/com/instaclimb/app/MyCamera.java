@@ -9,19 +9,16 @@ import android.util.Log;
 import java.util.List;
 import java.util.ListIterator;
 
-/**
- * Created by massimo on 07/02/16.
- */
 public enum MyCamera {
 
   INSTANCE;
 
-  private SessionImage  m_SessionImg      = null;
-  private Activity       m_Activity = null;
+  private SessionImage          m_SessionImg      = null;
+  private Activity              m_Activity        = null;
 
-  private int                   m_CameraId = -1;
+  private int                   m_CameraId        = -1;
 
-  private Camera                m_Camera   = null;
+  private Camera                m_Camera          = null;
 
   // Best resolution for the camera hardware on the current device
   private Camera.Size           m_BestRes         = null;
@@ -33,6 +30,7 @@ public enum MyCamera {
   // True if the portrait mode is rotated (90 or 270) with respect
   // to the natural orientation of the device
   private boolean               m_ImgDimInverted  = false;
+
 
   /**** Getters and Setters ****/
   public Camera getAndroidCamera() {
@@ -51,14 +49,19 @@ public enum MyCamera {
     return m_ImgDimInverted;
   }
 
-  // Static getter
   public static MyCamera getInstance() {
     return INSTANCE;
   }
 
+
   // Constructor (CAVEAT: You cannot invoke an enum constructor yourself)
-  MyCamera() {
-  }
+  MyCamera() {}
+
+
+
+  /*----------------------- Public Methods ----------------------*/
+
+  public boolean isOpen() {return (m_Camera != null);}
 
   public void setupMyCamera(Activity activity) {
 
@@ -119,11 +122,19 @@ public enum MyCamera {
 
     try {
       m_Camera = Camera.open(m_CameraId); // attempt to get a Camera instance
-    } catch (Exception e) {
+    } catch (RuntimeException re) {
       // Camera is not available (in use or does not exist)
-      Log.e(Helpers.Const.DBGTAG, "Exception in startCamera: Could not open camera (sanne scassate tutte ccose)\n" + e.getMessage());
+      Log.e(Helpers.Const.DBGTAG, "Exception in startCamera: Could not open camera (sanne scassate tutte ccose)\n" + re.getMessage());
+      m_Camera = null;
+      return;
     }
 
+    if (m_Camera != null) {
+      m_Camera.startPreview();
+    }
+  }
+
+  public void startCamera2() {
     if (m_Camera != null) {
       m_Camera.startPreview();
     }

@@ -1,11 +1,11 @@
 package com.instaclimb.app.views;
 
 import android.content.Context;
-import android.hardware.Camera;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import com.instaclimb.app.Helpers;
+import com.instaclimb.app.MyCamera;
 
 import java.io.IOException;
 
@@ -15,13 +15,13 @@ import java.io.IOException;
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
   private SurfaceHolder m_Holder      = null;
-  private Camera        m_Camera      = null;
+  private MyCamera      m_MyCamera = null;
   private int           m_DevRotation = 0;
 
-  public CameraPreview(Context context, Camera c, int dev_rot) {
+  public CameraPreview(Context context, MyCamera c, int dev_rot) {
     super(context);
 
-    m_Camera = c;
+    m_MyCamera = c;
     m_DevRotation = dev_rot;
 
     // Install a SurfaceHolder.Callback so we get notified when the
@@ -37,9 +37,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
   public void surfaceCreated(SurfaceHolder holder) {
     // The Surface has been created, now tell the camera where to draw the preview.
     try {
-      if (m_Camera != null) {
-        m_Camera.setPreviewDisplay(holder);
-        m_Camera.startPreview();
+      if (m_MyCamera.isOpen()) {
+        m_MyCamera.getAndroidCamera().setPreviewDisplay(holder);
+        m_MyCamera.getAndroidCamera().startPreview();
       }
     } catch (IOException e) {
       Log.d(Helpers.Const.DBGTAG, "surfaceCreated: Error settings camera preview: " + e.getMessage());
@@ -56,12 +56,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     if (m_Holder.getSurface() == null)
       return; // preview surface does not exist
 
-    if (m_Camera == null)
+    if (!m_MyCamera.isOpen())
       return;
 
     // stop preview before making changes
     try {
-      m_Camera.stopPreview();
+      m_MyCamera.getAndroidCamera().stopPreview();
     } catch (Exception e){
       // ignore: tried to stop a non-existent preview
     }
@@ -70,9 +70,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     // and start preview with new settings
     try {
       Log.d(Helpers.Const.DBGTAG, "surfaceChanged: StartPreview");
-      m_Camera.setDisplayOrientation(m_DevRotation);
-      m_Camera.setPreviewDisplay(m_Holder);
-      m_Camera.startPreview();
+      m_MyCamera.getAndroidCamera().setDisplayOrientation(m_DevRotation);
+      m_MyCamera.getAndroidCamera().setPreviewDisplay(m_Holder);
+      m_MyCamera.getAndroidCamera().startPreview();
     } catch (Exception e){
       Log.d(Helpers.Const.DBGTAG, "surfaceChanged: Error starting camera preview: " + e.getMessage());
     }

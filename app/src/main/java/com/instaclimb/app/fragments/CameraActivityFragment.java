@@ -34,14 +34,14 @@ public class CameraActivityFragment extends Fragment {
 
   private static MainActivity m_Activity = null;
 
-  public  CameraPreview m_Preview = null;
-  final   MyCamera      m_MyCamera = MyCamera.getInstance();;
+  public  CameraPreview m_Preview         = null;
+  final   MyCamera      m_MyCamera        = MyCamera.getInstance();
 
   private SessionImage  m_SessionImg      = null;
   private String        m_AscentName      = "";
   private String        m_Location        = "";
-  private int           m_CameraId = -1;
-  public Camera         m_Camera   = null;
+  private int           m_CameraId        = -1;
+  public  Camera        m_Camera          = null;
 
 
 
@@ -73,7 +73,6 @@ public class CameraActivityFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
     m_MyCamera.setupMyCamera(m_Activity);
   }
 
@@ -85,7 +84,7 @@ public class CameraActivityFragment extends Fragment {
     View fragment_layout_view = inflater.inflate(R.layout.fragment_camera_activity, container, false);
 
     // Create our Preview view and set it as the content of our activity.
-    m_Preview = new CameraPreview(m_Activity, m_MyCamera.getAndroidCamera(), m_MyCamera.getDeviceRotation());
+    m_Preview = new CameraPreview(m_Activity, m_MyCamera, m_MyCamera.getDeviceRotation());
     FrameLayout preview = (FrameLayout) fragment_layout_view.findViewById(R.id.camera_preview);
     preview.addView(m_Preview); //adds SurfaceView on top of everything
 
@@ -133,7 +132,9 @@ public class CameraActivityFragment extends Fragment {
   @Override
   public void onResume() {
     super.onResume();
-    m_MyCamera.startCamera();
+    if (!m_MyCamera.isOpen())
+      m_MyCamera.setupMyCamera(m_Activity);
+    m_MyCamera.startCamera2();
   }
 
   // TODO: Rename method, update argument and hook method into UI event

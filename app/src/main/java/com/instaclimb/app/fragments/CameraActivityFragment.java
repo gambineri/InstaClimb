@@ -73,7 +73,7 @@ public class CameraActivityFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    m_MyCamera.setupMyCamera(m_Activity);
+      m_MyCamera.setupMyCamera(m_Activity);
   }
 
   @Override
@@ -175,71 +175,6 @@ public class CameraActivityFragment extends Fragment {
     // TODO: Update argument type and name
     public void onFragmentInteraction(Uri uri);
   }
-
-
-//  private class CameraSetup extends AsyncTask<Void, Void, Boolean> {
-//    @Override
-//    protected Boolean doInBackground(Void...p) {
-////      return setUpCamera();
-//      return true;
-//    }
-//
-//    @Override
-//    protected void onPostExecute(Boolean doInBgRetVal) {
-//
-//      if (!doInBgRetVal)
-//        return;
-//
-//      // Create our Preview view and set it as the content of our activity.
-////      m_Preview = new CameraPreview(m_Activity);
-//      FrameLayout preview = (FrameLayout) m_Activity.findViewById(R.id.camera_preview);
-////      preview.addView(m_Preview); //adds SurfaceView on top of everything
-//
-//    /* Inflate the top and bottom camera overlays:
-//       it must be done here and cannot be merged into the main camera_activity.xml because of
-//       previous line of code, **preview.addView(m_Preview);** which would add the SurfaceView
-//       (the camera preview container) on top of everything, thus hiding the overlays. */
-//
-//      //** Inflate the top camera overlay
-//      final View topOverlay = m_Activity.getLayoutInflater().inflate(R.layout.camera_overlay_top, preview, false);
-//      if (topOverlay != null)
-//        preview.addView(topOverlay);
-//
-//      //** Inflate the bottom camera overlay
-//      View bottomOverlay = m_Activity.getLayoutInflater().inflate(R.layout.camera_overlay_bottom, preview, false);
-//      if (bottomOverlay != null)
-//        preview.addView(bottomOverlay);
-//
-//      ViewTreeObserver vto = preview.getViewTreeObserver();
-//      if (vto != null) {
-//        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//          @Override
-//          public void onGlobalLayout() {
-//
-//            //At this point the layout is complete and the dimensions of myView and any child views are known.
-//            FrameLayout preview = (FrameLayout) m_Activity.findViewById(R.id.camera_preview);
-//            View        bf      = m_Activity.findViewById(R.id.bottom_frame);
-//            View        tf      = m_Activity.findViewById(R.id.top_frame);
-//
-//            if (preview != null && bf != null && tf != null) {
-//              //calculate coordinates of capture rect as if (0, 0) is in the top-left corner (portrait mode)
-//              m_CaptureRect.left = 0;
-//              m_CaptureRect.top = tf.getHeight()*(m_ImgDimInverted ? m_BestRes.width : m_BestRes.height)/m_Preview.getHeight();
-//              m_CaptureRect.right = (m_ImgDimInverted ? m_BestRes.height : m_BestRes.width);
-//              m_CaptureRect.bottom = m_CaptureRect.top +m_CaptureRect.right;
-//
-//              // set height for top and bottom frame
-//              tf.setBottom(preview.getHeight() - preview.getWidth() - bf.getHeight());
-//
-//              m_Progress = (ProgressBar) m_Activity.findViewById(R.id.progressBar);
-//              m_Progress.bringToFront();
-//            }
-//          }
-//        });
-//      }
-//    }
-//  }
-
 
   private Bitmap rotBMP(Bitmap srcBmp) {
     Matrix matrix = new Matrix();

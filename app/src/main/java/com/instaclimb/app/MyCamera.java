@@ -116,37 +116,12 @@ public enum MyCamera {
     }
   }
 
-  public void startCamera() {
-    if (m_CameraId == -1)
-      return;
-
-    try {
-      m_Camera = Camera.open(m_CameraId); // attempt to get a Camera instance
-    } catch (RuntimeException re) {
-      // Camera is not available (in use or does not exist)
-      Log.e(Helpers.Const.DBGTAG, "Exception in startCamera: Could not open camera (sanne scassate tutte ccose)\n" + re.getMessage());
-      m_Camera = null;
-      return;
-    }
-
-    if (m_Camera != null) {
-      m_Camera.startPreview();
-    }
-  }
-
-  public void startCamera2() {
-    if (m_Camera != null) {
-      m_Camera.startPreview();
-    }
-  }
-
   private final Camera.PictureCallback m_Picture = new Camera.PictureCallback() {
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
 //      new InstaJob().execute(data);
     }
   };
-
 
   /**
    * Check if this device has a camera

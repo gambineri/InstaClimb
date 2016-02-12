@@ -134,7 +134,6 @@ public class CameraActivityFragment extends Fragment {
     super.onResume();
     if (!m_MyCamera.isOpen())
       m_MyCamera.setupMyCamera(m_Activity);
-    m_MyCamera.startCamera2();
   }
 
   // TODO: Rename method, update argument and hook method into UI event

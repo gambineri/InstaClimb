@@ -88,32 +88,24 @@ public class CameraActivityFragment extends Fragment {
     FrameLayout preview = (FrameLayout) fragment_layout_view.findViewById(R.id.camera_preview);
     preview.addView(m_Preview); //adds SurfaceView on top of everything
 
-    //** Inflate the top camera overlay
-    final View topOverlay = inflater.inflate(R.layout.camera_overlay_top, preview, false);
-    if (topOverlay != null)
-      preview.addView(topOverlay);
-
     //** Inflate the bottom camera overlay
     View bottomOverlay = inflater.inflate(R.layout.camera_overlay_bottom, preview, false);
     if (bottomOverlay != null)
       preview.addView(bottomOverlay);
 
-    if (preview != null && bottomOverlay != null && topOverlay != null) {
+    if (preview != null && bottomOverlay != null) {
 
       try {
         //calculate coordinates of capture rect as if (0, 0) is in the top-left corner (portrait mode)
         m_CaptureRect.left = 0;
-        m_CaptureRect.top = topOverlay.getHeight() *
-          (m_MyCamera.isImgDimInverted() ? m_MyCamera.getBestRes().width : m_MyCamera.getBestRes().height) /
-          m_Preview.getHeight();
+        m_CaptureRect.top = 0;
         m_CaptureRect.right = (m_MyCamera.isImgDimInverted() ? m_MyCamera.getBestRes().height : m_MyCamera.getBestRes().width);
-        m_CaptureRect.bottom = m_CaptureRect.top +m_CaptureRect.right;
+        m_CaptureRect.bottom = m_CaptureRect.top + m_CaptureRect.right;
+
       } catch (Exception e) {
         e.printStackTrace();
       }
 
-      // set height for top and bottom frame
-      topOverlay.setBottom(preview.getHeight() - preview.getWidth() - bottomOverlay.getHeight());
       /*
       m_Progress = (ProgressBar) findViewById(R.id.progressBar);
       m_Progress.bringToFront();

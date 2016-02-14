@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import com.instaclimb.app.Helpers;
 import com.instaclimb.app.MyCamera;
 import com.instaclimb.app.R;
 import com.instaclimb.app.SessionImage;
@@ -128,6 +129,21 @@ public class CameraActivityFragment extends Fragment {
       m_MyCamera.setupMyCamera(m_Activity);
   }
 
+  private final Camera.PictureCallback m_Picture = new Camera.PictureCallback() {
+    @Override
+    public void onPictureTaken(byte[] data, Camera camera) {
+//      new InstaJob().execute(data);
+      Helpers.Do.toast(m_Activity,"dentro onPictureTaken");
+    }
+  };
+
+  public void onCapture(View v) {
+    // get an image from the camera
+//    m_Camera.takePicture(null, null, m_Picture);
+
+    Helpers.Do.toast(m_Activity, "TakePicture clicked");
+  }
+
   // TODO: Rename method, update argument and hook method into UI event
   public void onButtonPressed(Uri uri) {
     if (mListener != null) {
@@ -137,7 +153,6 @@ public class CameraActivityFragment extends Fragment {
 
   @Override
   public void onAttach(Activity activity) {
-    m_Activity = (MainActivity) activity;
     super.onAttach(activity);
     try {
       mListener = (OnFragmentInteractionListener) activity;
@@ -145,6 +160,7 @@ public class CameraActivityFragment extends Fragment {
       throw new ClassCastException(activity.toString()
         + " must implement OnFragmentInteractionListener");
     }
+    m_Activity = (MainActivity) activity;
   }
 
   @Override

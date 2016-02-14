@@ -52,6 +52,6 @@ public class ClimbingInfoFragment extends Fragment {
   }
 
   public void onNext(View v) {
-    // va rivisto totalmente perche` non lancia un'altra activity!!!!!
+
   }
 }

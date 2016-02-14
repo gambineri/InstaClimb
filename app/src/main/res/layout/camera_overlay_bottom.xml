@@ -29,7 +29,9 @@
       <Button
           android:layout_width="72dp"
           android:layout_height="72dp"
-          android:id="@+id/button_capture" android:onClick="onCapture" android:background="@drawable/btn_shoot"
+          android:id="@+id/button_capture"
+          android:onClick="onCapture"
+          android:background="@drawable/btn_shoot"
           android:layout_gravity="center"/>
     </LinearLayout>
     <LinearLayout

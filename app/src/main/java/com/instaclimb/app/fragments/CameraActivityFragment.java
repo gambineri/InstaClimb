@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import com.instaclimb.app.Helpers;
 import com.instaclimb.app.MyCamera;
 import com.instaclimb.app.R;
 import com.instaclimb.app.SessionImage;
@@ -33,22 +31,17 @@ import com.instaclimb.app.views.CameraPreview;
  */
 public class CameraActivityFragment extends Fragment {
 
-  private static MainActivity m_Activity = null;
+  public final MyCamera      m_MyCamera         = MyCamera.getInstance();
 
-  public  CameraPreview m_Preview         = null;
-  final   MyCamera      m_MyCamera        = MyCamera.getInstance();
-
-  private SessionImage  m_SessionImg      = null;
-  private String        m_AscentName      = "";
-  private String        m_Location        = "";
-  private int           m_CameraId        = -1;
-  public  Camera        m_Camera          = null;
-
-
+  public MainActivity         m_Activity        = null;
+  public CameraPreview        m_Preview         = null;
+  public SessionImage         m_SessionImg      = null;
+  public String               m_AscentName      = "";
+  public String               m_Location        = "";
 
   // Coordinates of crop area (crop rect) with respect to a cartesian system
   // having the origin in the top-left corner of the (portrait) screen
-  private final Rect    m_CaptureRect     = new Rect(0, 0, 0, 0);
+  public final Rect    m_CaptureRect     = new Rect(0, 0, 0, 0);
 
   // Handler to this thread to visually update the progress bar
   private final Handler m_Handler         = new Handler();
@@ -127,21 +120,6 @@ public class CameraActivityFragment extends Fragment {
     super.onResume();
     if (!m_MyCamera.isOpen())
       m_MyCamera.setupMyCamera(m_Activity);
-  }
-
-  private final Camera.PictureCallback m_Picture = new Camera.PictureCallback() {
-    @Override
-    public void onPictureTaken(byte[] data, Camera camera) {
-//      new InstaJob().execute(data);
-      Helpers.Do.toast(m_Activity,"dentro onPictureTaken");
-    }
-  };
-
-  public void onCapture(View v) {
-    // get an image from the camera
-//    m_Camera.takePicture(null, null, m_Picture);
-
-    Helpers.Do.toast(m_Activity, "TakePicture clicked");
   }
 
   // TODO: Rename method, update argument and hook method into UI event

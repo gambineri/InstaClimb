@@ -1,6 +1,7 @@
 package com.instaclimb.app.activities;
 
 import android.app.Activity;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import com.astuetz.PagerSlidingTabStrip;
 import com.instaclimb.app.Helpers;
+import com.instaclimb.app.InstaJob;
 import com.instaclimb.app.R;
 import com.instaclimb.app.adapters.SectionsPagerAdapter;
 import com.instaclimb.app.fragments.CameraActivityFragment;
@@ -79,4 +81,23 @@ public class MainActivity extends Activity implements CameraActivityFragment.OnF
   public void onNext(View v) {
     Helpers.Do.toast(this, "next clicked");
   }
+
+  private final Camera.PictureCallback m_Picture = new Camera.PictureCallback() {
+    @Override
+    public void onPictureTaken(byte[] data, Camera camera) {
+      Helpers.Do.toast(getParent(),"dentro onPictureTaken");
+
+      CameraActivityFragment caf = (CameraActivityFragment)m_SectionsPagerAdapter.getItem(1);
+      new InstaJob(caf).execute(data);
+    }
+  };
+
+  public void onCapture(View v) {
+    // get an image from the camera
+//    m_Camera.takePicture(null, null, m_Picture);
+
+    Helpers.Do.toast(this, "TakePicture clicked");
+  }
+
+
 }

@@ -15,14 +15,12 @@ import java.io.IOException;
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
   private SurfaceHolder m_Holder      = null;
-  private MyCamera      m_MyCamera = null;
-  private int           m_DevRotation = 0;
+  private MyCamera      m_MyCamera    = null;
 
   public CameraPreview(Context context, MyCamera c, int dev_rot) {
     super(context);
 
     m_MyCamera = c;
-    m_DevRotation = dev_rot;
 
     // Install a SurfaceHolder.Callback so we get notified when the
     // underlying surface is created and destroyed.
@@ -70,7 +68,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     // and start preview with new settings
     try {
       Log.d(Helpers.Const.DBGTAG, "surfaceChanged: StartPreview");
-      m_MyCamera.getAndroidCamera().setDisplayOrientation(m_DevRotation);
+      m_MyCamera.getAndroidCamera().setDisplayOrientation(m_MyCamera.getDeviceRotation());
       m_MyCamera.getAndroidCamera().setPreviewDisplay(m_Holder);
       m_MyCamera.getAndroidCamera().startPreview();
     } catch (Exception e){

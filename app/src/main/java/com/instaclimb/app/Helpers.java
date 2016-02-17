@@ -5,6 +5,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Rect;
 import android.hardware.Camera;
 import android.util.Log;
 import android.view.Surface;
@@ -31,6 +35,7 @@ public final class Helpers {
 
   /* METHODS */
   public final static class Do {
+
 		public static void msgBox(Activity activity, String msg) {
       if (activity == null) {
         Log.e(Const.DBGTAG, "Cannot create AlertDialog to show a msgBox: passed in activity is null.");
@@ -153,5 +158,39 @@ public final class Helpers {
           "\n\n" +
           ctx.getResources().getString(R.string.about_msg));
     }
+
+    public static Bitmap rotBMP(Bitmap srcBmp, int dev_rotation) {
+      Matrix matrix = new Matrix();
+      matrix.setRotate(dev_rotation);
+      return Bitmap.createBitmap(srcBmp, 0, 0, srcBmp.getWidth(), srcBmp.getHeight(), matrix, false);
+    }
+
+    public static Bitmap cropImage(Bitmap srcBitmap, Rect srcRect) {
+
+      int srcW = srcRect.width();
+      int srcH = srcRect.height();
+
+      Bitmap croppedImage = null;
+
+      // If the output is required to a specific size, create an new image
+      // with the cropped image in the center and the extra space filled.
+      if (srcW != 0 && srcH != 0) {
+
+        // Don't scale the image but instead fill it so it's the required dimension
+        croppedImage = Bitmap.createBitmap(srcW, srcH, Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(croppedImage);
+
+        Rect dstRect = new Rect(0, 0, srcW, srcH);
+
+        // Draw the cropped bitmap in the center
+        canvas.drawBitmap(srcBitmap, srcRect, dstRect, null);
+
+        // Release bitmap memory as soon as possible
+        srcBitmap.recycle();
+      }
+
+      return croppedImage;
+    }
+
   }
 }

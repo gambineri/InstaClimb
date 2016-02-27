@@ -85,18 +85,21 @@ public class MainActivity extends Activity implements CameraActivityFragment.OnF
   private final Camera.PictureCallback m_Picture = new Camera.PictureCallback() {
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
-      Helpers.Do.toast(getParent(),"dentro onPictureTaken");
 
-      CameraActivityFragment caf = (CameraActivityFragment)m_SectionsPagerAdapter.getItem(1);
-      new InstaJob(caf).execute(data);
+//      CameraActivityFragment caf = (CameraActivityFragment)m_ViewPager.getAdapter().
+
+
+
+//      Helpers.Do.toast(caf.m_Activity,"dentro onPictureTaken");
+
+      new InstaJob((CameraActivityFragment)m_SectionsPagerAdapter.m_Fragments[1]).execute(data);
     }
   };
 
   public void onCapture(View v) {
+//    CameraActivityFragment caf = (CameraActivityFragment)m_SectionsPagerAdapter. getItem(1);
     // get an image from the camera
-//    m_Camera.takePicture(null, null, m_Picture);
-
-    Helpers.Do.toast(this, "TakePicture clicked");
+    ((CameraActivityFragment) m_SectionsPagerAdapter.m_Fragments[1]).m_MyCamera.getAndroidCamera().takePicture(null, null, m_Picture);
   }
 
 

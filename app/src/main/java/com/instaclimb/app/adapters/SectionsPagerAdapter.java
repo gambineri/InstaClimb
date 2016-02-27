@@ -21,6 +21,9 @@ import java.util.Locale;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
   Context m_Context = null;
+  public Fragment m_Fragments[] = new Fragment[3];
+
+
 
   public SectionsPagerAdapter(Context ctx, FragmentManager fm) {
     super(fm);
@@ -69,6 +72,28 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     return null;
   }
 
+  // Here we can finally safely save a reference to the created
+  // Fragment, no matter where it came from (either getItem() or
+  // FragmentManger). Simply save the returned Fragment from
+  // super.instantiateItem() into an appropriate reference depending
+  // on the ViewPager position.
+  @Override
+  public Object instantiateItem(ViewGroup container, int position) {
+    Fragment createdFragment = (Fragment) super.instantiateItem(container, position);
+    // save the appropriate reference depending on position
+    switch (position) {
+      case 0:
+        m_Fragments[0] = createdFragment;
+        break;
+      case 1:
+        m_Fragments[1] = createdFragment;
+        break;
+      case 2:
+        m_Fragments[2] = createdFragment;
+        break;
+    }
+    return createdFragment;
+  }
 
   /**
    * A placeholder fragment containing a simple view.

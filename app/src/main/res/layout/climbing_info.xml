@@ -13,14 +13,6 @@
     android:layout_weight="1"
     android:gravity="center_vertical">
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/imageView"
-        android:src="@mipmap/instaclimb"
-      android:contentDescription="@string/instaclimb_logo"
-      android:layout_marginLeft="10dp"
-      android:layout_marginRight="10dp" />
   </LinearLayout>
 
   <LinearLayout

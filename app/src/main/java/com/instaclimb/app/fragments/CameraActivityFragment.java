@@ -67,7 +67,13 @@ public class CameraActivityFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-      m_MyCamera.setupMyCamera(m_Activity);
+
+    // setup camera device
+    m_MyCamera.setupMyCamera(m_Activity);
+
+    //Create image wrapper obj for this session
+    m_SessionImg = new SessionImage(getResources().getString(R.string.app_name));
+
   }
 
   @Override
